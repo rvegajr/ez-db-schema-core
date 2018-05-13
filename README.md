@@ -15,8 +15,17 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 You will need MSSQL with some database installed.  If you need a sample database,  feel free to look for the [World Wide Importers](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0) samples.
 
-### Installing
+### Using this project:
 
+####  From NuGet
+1. Install-Package EzDbSchema.Core 
+2. Add the following line of code
+```cs
+var schema = new EzDbSchema.MsSql.Database().Render("MySchema", "Server=???;Database=???;user id=sa;password=sa");
+```
+3. Run the app
+
+####  As Cli
 1. Change EzDbSchema.Cli/appsettings.json ConnectionString to the proper database authentication credentials.  
 2. run the application.  A file called MySchemaName.db.json will be written to the EzDbSchema.Cli folder 
 
