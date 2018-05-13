@@ -43,6 +43,5 @@ namespace EzDbSchema.Cli
         {
             AppSettings.Instance.Version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         }
-        
     }
 }

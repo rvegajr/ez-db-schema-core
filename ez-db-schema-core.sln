@@ -32,4 +32,8 @@ Global
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.VersionControlPolicy = $1
+	EndGlobalSection
 EndGlobal

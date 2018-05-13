@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>EzDbSchema.Core</id>
+    <version>1.0.1</version>
+    <title>EzDbSchema - Easy Database Schema Generator for .NET Standard and .NET Core (Official): Metapackage</title>
+    <authors>Ricardo Vega Jr</authors>
+    <owners>EzDbSchema</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/rvegajr/ez-db-schema-core</projectUrl>
+    <description>A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</description>
+    <tags>database schema</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.Data.SqlClient" version="4.4.3"/>
+        <dependency id="Humanizer" version="2.2.0"/>
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="2.0.2"/>
+        <dependency id="Newtonsoft.Json" version="11.0.2"/>
+        <dependency id="System.Dynamic.Runtime" version="4.3.0"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+		<file src="/Users/rvegajr/Projects/ez-db-schema-core/EzDbSchema.Core/bin/Debug/netstandard2.0/EzDbSchema.Core.dll" target="lib" />        
+		<file src="/Users/rvegajr/Projects/ez-db-schema-core/EzDbSchema.MsSql/bin/Debug/netstandard2.0/EzDbSchema.MsSql.dll" target="lib" />        
+  </files>  
+</package>

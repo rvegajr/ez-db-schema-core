@@ -1,12 +1,12 @@
-# EZDBSchame - Easy Database Schema
+# EZDBSchema - Easy Database Schema
 
-A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.  the application
+A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.  
 
 Included in the project is a handy command line interface that can be used to dump the schema of the database to a json file.    
 
 The idea is to obtain the database schema informtion as close to the source as possible. All of the schema definitions can be obtain from the database itself,  with a little sluething,  we can derive that information we need quickly and deliver it into a usable object heirarchy.  
 
-One use of this is for code generation based on database objects. 
+One possible use of this is for code generation based on database objects. 
 
 ## Getting Started
 
