@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using EzDbSchema.Core;
 using EzDbSchema.Core.Enums;
+using EzDbSchema.Internal;
 using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Configuration;
 
 namespace EzDbSchema.Cli
 {
-    class Program
+	class Program
     {
         private static CommandLineApplication App = new CommandLineApplication();
         static int Main(string[] args)

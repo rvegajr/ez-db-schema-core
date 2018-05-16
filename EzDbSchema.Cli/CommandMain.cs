@@ -9,6 +9,7 @@ using EzDbSchema.Core.Extentions;
 using McMaster.Extensions.CommandLineUtils;
 using EzDbSchema.MsSql;
 using Newtonsoft.Json;
+using EzDbSchema.Internal;
 
 namespace EzDbSchema.Cli
 {

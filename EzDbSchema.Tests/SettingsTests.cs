@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EzDbSchema.Core;
+using EzDbSchema.Internal;
 using Xunit;
 
 namespace EzDbSchema.Tests
