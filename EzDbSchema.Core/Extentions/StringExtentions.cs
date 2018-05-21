@@ -6,60 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using Humanizer;
 
 //Thanks https://www.codeproject.com/tips/1081932/tosingular-toplural-string-extensions
 namespace EzDbSchema.Core.Extentions
 {
-    public class Pluralizer
-    {
-        public Dictionary<string, string> SingularToPlural = new Dictionary<string, string>();
-        public Dictionary<string, string> PluralToSingular = new Dictionary<string, string>();
-        public void AddWord(string singleForm, string pluralForm)
-        {
-            if (!SingularToPlural.ContainsKey(singleForm))
-                SingularToPlural.Add(singleForm, pluralForm);
-
-            if (!PluralToSingular.ContainsKey(pluralForm))
-                PluralToSingular.Add(pluralForm, singleForm);
-        }
-
-        public bool IsSingular(string word)
-        {
-            return (word.Singularize(inputIsKnownToBePlural: false) == word);
-        }
-        public bool IsPlural(string word)
-        {
-            return (word.Pluralize(inputIsKnownToBeSingular: false) == word);
-        }
-        public string Singularize(string word)
-        {
-            return (word.Singularize(inputIsKnownToBePlural: false));
-        }
-        public string Pluralize(string word)
-        {
-            return (word.Pluralize(inputIsKnownToBeSingular: false));
-        }
-        private static Pluralizer instance;
-
-        private Pluralizer()
-        {
-        }
-        public static Pluralizer Instance
-        {
-            get
-            {
-
-                if (instance == null)
-                {
-                    instance = new Pluralizer();
-                }
-                return instance;
-            }
-        }
-
-
-    }
     public static class StringExtensions
     {
         private static Dictionary<string, string> sQLDataTypeToDotNetDataType = new Dictionary<string, string>();
@@ -67,39 +17,6 @@ namespace EzDbSchema.Core.Extentions
 
         static StringExtensions()
         {
-            var mapping = Pluralizer.Instance;
-            mapping.AddWord("Cactus", "Cacti");
-            mapping.AddWord("cactus", "cacti");
-            mapping.AddWord("Die", "Dice");
-            mapping.AddWord("die", "dice");
-            //mapping.AddWord("Equipment", "Equipment");
-            //mapping.AddWord("equipment", "equipment");
-            //mapping.AddWord("Money", "Money");
-            //mapping.AddWord("money", "money");
-            mapping.AddWord("Nucleus", "Nuclei");
-            mapping.AddWord("nucleus", "nuclei");
-            mapping.AddWord("Quiz", "Quizzes");
-            mapping.AddWord("quiz", "quizzes");
-            mapping.AddWord("Shoe", "Shoes");
-            mapping.AddWord("shoe", "shoes");
-            mapping.AddWord("Syllabus", "Syllabi");
-            mapping.AddWord("syllabus", "syllabi");
-            mapping.AddWord("Testis", "Testes");
-            mapping.AddWord("testis", "testes");
-            mapping.AddWord("Virus", "Viruses");
-            mapping.AddWord("virus", "viruses");
-            //mapping.AddWord("Water", "Water");
-            //mapping.AddWord("water", "water");
-            mapping.AddWord("Lease", "Leases");
-            mapping.AddWord("lease", "leases");
-            mapping.AddWord("IncreaseDecrease", "IncreaseDecreases");
-            mapping.AddWord("increaseDecrease", "increaseDecreases");
-            mapping.AddWord("ScenarioCase", "ScenarioCases");
-            mapping.AddWord("scenarioCase", "scenarioCases");
-            mapping.AddWord("OpStatus", "OpStatuses");
-            mapping.AddWord("opStatus", "opStatuses");
-            mapping.AddWord("ConstructionStatus", "ConstructionStatuses");
-            mapping.AddWord("constructionStatus", "constructionStatuses");
             if (sQLDataTypeToJsDataType.Count == 0)
             {
                 sQLDataTypeToJsDataType.Add("bigint", "number");
@@ -203,22 +120,6 @@ namespace EzDbSchema.Core.Extentions
             return str.Substring(0, maxLength);
         }
 
-        public static string ToSingular(this string word)
-        {
-            if (word == null)
-                throw new ArgumentNullException("word");
-
-            bool isUpperWord = (string.Compare(word, word.ToUpper(), false) == 0);
-            if (isUpperWord)
-            {
-                string lowerWord = word.ToLower();
-                return (Pluralizer.Instance.IsSingular(lowerWord) ? lowerWord :
-                    Pluralizer.Instance.Singularize(lowerWord)).ToUpper();
-            }
-            if (Pluralizer.Instance.PluralToSingular.ContainsKey(word)) return Pluralizer.Instance.PluralToSingular[word];
-            return (Pluralizer.Instance.IsSingular(word) ? word : Pluralizer.Instance.Singularize(word));
-        }
-
         public static string ToNetType(this string sqlType)
         {
             if (sqlType == null)
@@ -258,21 +159,6 @@ namespace EzDbSchema.Core.Extentions
             else
                 ret = (sQLDataTypeToJsDataType.ContainsKey(sqlType) ? sQLDataTypeToJsDataType[sqlType] : sqlType);
             return ret + (isNullable ? " | null" : "");
-        }
-        public static string ToPlural(this string word)
-        {
-            if (word == null)
-                throw new ArgumentNullException("word");
-
-            bool isUpperWord = (string.Compare(word, word.ToUpper(), false) == 0);
-            if (isUpperWord)
-            {
-                string lowerWord = word.ToLower();
-                return (Pluralizer.Instance.IsPlural(lowerWord) ? lowerWord :
-                    Pluralizer.Instance.Pluralize(lowerWord)).ToUpper();
-            }
-            if (Pluralizer.Instance.SingularToPlural.ContainsKey(word)) return Pluralizer.Instance.SingularToPlural[word];
-            return (Pluralizer.Instance.IsPlural(word) ? word : Pluralizer.Instance.Pluralize(word));
         }
 
         public static string AsFormattedName(this string word)
