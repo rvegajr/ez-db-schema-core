@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IPropertyDictionary : IDictionary<string, IProperty>
+    public interface IPropertyDictionary : IDictionary<string, IProperty>, IJson<IPropertyDictionary>
     {
     }
 
@@ -11,7 +11,7 @@ namespace EzDbSchema.Core.Interfaces
     {
     }
 
-    public interface IPrimaryKeyProperties : IPropertyList
+    public interface IPrimaryKeyProperties : IPropertyList, IJson<IPrimaryKeyProperties>
     {
     }
 }

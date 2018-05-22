@@ -78,6 +78,7 @@ namespace EzDbSchema.Cli
                         schemaObject
                         , Formatting.Indented
                         , new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+                    //schemaAsJson = NetJSON.NetJSON.Serialize(schemaObject);
 					File.WriteAllText(outputPath, schemaAsJson);
 					Console.WriteLine(string.Format("Schema has been written to {0}", outputPath));
 

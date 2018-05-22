@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
 	/// <summary></summary>
-	public abstract class Database : IDatabase
+	public abstract class Database : IDatabase, IJson<IDatabase>
     {
 		private IEntityDictionary _entities = new EntityDictionary();
 
@@ -57,8 +59,8 @@ namespace EzDbSchema.Core.Objects
 			throw new NotImplementedException();
 		}
 
-		/// <summary></summary>
-		public bool ShowWarnings { get; set; } = false;
+        /// <summary></summary>
+        public bool ShowWarnings { get; set; } = false;
 		/// <summary></summary>
 		public string Name { get; set; } = "";
 		/// <summary></summary>

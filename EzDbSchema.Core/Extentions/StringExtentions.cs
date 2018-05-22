@@ -197,7 +197,7 @@ namespace EzDbSchema.Core.Extentions
         {
             if ((PathToResolve.Contains("{SOLUTION_PATH}")) || (PathToResolve.Contains("{ASSEMBLY_PATH}")))
             {
-                var AssemblyPath = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
+                var AssemblyPath = AppContext.BaseDirectory;
                 AssemblyPath += (AssemblyPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? "" : Path.DirectorySeparatorChar.ToString());
                 var SolutionPath = AssemblyPath;
 
@@ -519,5 +519,80 @@ namespace EzDbSchema.Core.Extentions
                 throw;
             }
         }
+
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, string value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append("\"");
+            sb.Append(value.Replace("\"", "\"\""));
+            sb.Append("\"");
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, bool value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append((value) ? "true" : "false");
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, int value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append(value.ToString());
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, decimal value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append(value.ToString());
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, float value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append(value.ToString());
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, DateTime value)
+        {
+            sb.Append("\"");
+            sb.Append(name);
+            sb.Append("\"");
+            sb.Append(":");
+            sb.Append(value.ToString("yyyy-MM-ddTHH:mm:ssK"));
+            return sb;
+        }
+        public static StringBuilder AppendJsonParm(this StringBuilder sb, string name, object value)
+        {
+            if (value.GetType() == typeof(int))
+                return sb.AppendJsonParm(name, int.Parse(value.ToString()));
+            else if (value.GetType() == typeof(string))
+                return sb.AppendJsonParm(name, int.Parse(value.ToString()));
+            else if (value.GetType() == typeof(string))
+                return sb.AppendJsonParm(name, value.ToString());
+            else if (value.GetType() == typeof(decimal))
+                return sb.AppendJsonParm(name, decimal.Parse(value.ToString()));
+            else if (value.GetType() == typeof(float))
+                return sb.AppendJsonParm(name, float.Parse(value.ToString()));
+            else if (value.GetType() == typeof(DateTime))
+                return sb.AppendJsonParm(name, DateTime.Parse(value.ToString()));
+            else
+                return null;
+        }
+
     }
 }

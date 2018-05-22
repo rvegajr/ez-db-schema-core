@@ -7,13 +7,10 @@
     <DebugType></DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NetJSON" Version="1.2.5" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Objects\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>
