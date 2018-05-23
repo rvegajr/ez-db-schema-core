@@ -3,9 +3,9 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class Entity : IEntity
+	public class Entity : EzObject, IEntity
     {
-        public Entity()
+        public Entity() : base()
         {
 			this.PrimaryKeys = new PrimaryKeyProperties(this);
         }

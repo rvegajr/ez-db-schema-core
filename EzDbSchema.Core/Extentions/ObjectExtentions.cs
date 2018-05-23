@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EzDbSchema.Core.Interfaces;
+using EzDbSchema.Core.Objects;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,6 +10,33 @@ namespace EzDbSchema.Core.Extentions
 {
     public static class ObjectExtensions
     {
+
+        //this dictionary should use weak key references
+        static Dictionary<object, int> d = new Dictionary<object, int>();
+        static int gid = 0;
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <returns></returns>
+        public static int GetId(this object o)
+        {
+            if (d.ContainsKey(o)) return d[o];
+            return d[o] = gid++;
+        }
+
+        /// <summary>
+        /// Gets an identifier for an object
+        /// </summary>
+        /// <param name="o">EZObject- if the object already exists,  use its ide</param>
+        /// <param name="valToCheck">Value to check.  If it is greater than 0,  then return it</param>
+        /// <returns></returns>
+        public static int GetId(this IEzObject o, ref int valToCheck)
+        {
+            if (d.ContainsKey(o)) return d[o];
+            if (valToCheck > 0) return valToCheck;
+            return d[o] = gid++;
+        }
         /// <summary>
         /// Will search an object array and safely return a string.  If the item doesn't exist, this will return 
         /// </summary>

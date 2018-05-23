@@ -3,8 +3,12 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class Relationship : IRelationship
+	public class Relationship : EzObject, IRelationship
     {
+        public Relationship() : base()
+        {
+
+        }
         public string Name { get; set; }
         public string FromTableName { get; set; }
         public string FromFieldName { get; set; }

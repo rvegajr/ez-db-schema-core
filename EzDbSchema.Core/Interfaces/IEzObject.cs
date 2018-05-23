@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface ICustomAttributes : IDictionary<string, object>, IEzObject
+    public interface IEzObject
     {
+        int Id { get; set; }
     }
 }

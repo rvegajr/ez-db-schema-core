@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EzDbSchema.Core.Enums;
+using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
@@ -9,11 +10,22 @@ namespace EzDbSchema.Core.Objects
 	
 	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary
     {
+        public RelationshipDictionary()
+        {
+            this.Id = this.GetId();
+        }
+        public int Id { get; set; }
     }
 
-	public class RelationshipList : List<IRelationship>, IRelationshipList
+
+    public class RelationshipList : List<IRelationship>, IRelationshipList
     {
-		public IRelationshipList Fetch(RelationshipType TypeToFetch)
+        public RelationshipList()
+        {
+            this.Id = this.GetId();
+        }
+        public int Id { get; set; }
+        public IRelationshipList Fetch(RelationshipType TypeToFetch)
         {
 			IRelationshipList retListRaw = new RelationshipList();
 			if (TypeToFetch == RelationshipType.OneToMany) retListRaw = (EzDbSchema.Core.Objects.RelationshipList)this.Where(r => r.Type == "One to Many").ToList();

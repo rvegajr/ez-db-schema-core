@@ -3,8 +3,11 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class DatabaseObjectUpdates : IDatabaseObjectUpdates
-	{
+	public class DatabaseObjectUpdates : EzObject, IDatabaseObjectUpdates
+    {
+        public DatabaseObjectUpdates() : base()
+        {
+        }
         public DateTime? LastCreated { get; set; } = null;
         public DateTime? LastModified { get; set; } = null;
         public string LastItemCreated { get; set; } = "";

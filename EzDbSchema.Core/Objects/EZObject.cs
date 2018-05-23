@@ -5,9 +5,10 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes
+    /// <summary></summary>
+    public class EzObject : IEzObject
     {
-        public CustomAttributes()
+        public EzObject()
         {
             this.Id = this.GetId();
         }

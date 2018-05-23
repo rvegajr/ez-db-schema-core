@@ -3,8 +3,12 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class Property : IProperty
+	public class Property : EzObject, IProperty
     {
+        public Property() : base()
+        {
+
+        }
         public string Name { get; set; }
         public string Type { get; set; }
         public int MaxLength { get; set; }

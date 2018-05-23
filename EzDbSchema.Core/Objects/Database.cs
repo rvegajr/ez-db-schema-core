@@ -5,12 +5,12 @@ using EzDbSchema.Core.Interfaces;
 namespace EzDbSchema.Core.Objects
 {
 	/// <summary></summary>
-	public abstract class Database : IDatabase
+	public abstract class Database : EzObject, IDatabase
     {
 		private IEntityDictionary _entities = new EntityDictionary();
 
 		/// <summary></summary>
-        public Database()
+        public Database() : base()
         {
 			this.ShowWarnings = false;
         }
