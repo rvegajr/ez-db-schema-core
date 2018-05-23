@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface ICustomAttributes : IDictionary<string, object>, IEzObject
+    public interface ICustomAttributes : IDictionary<string, object>, IEzObject, IEzObjectJson<ICustomAttributes>
     {
     }
 }

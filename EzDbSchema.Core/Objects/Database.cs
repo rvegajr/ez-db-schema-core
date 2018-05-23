@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
@@ -57,8 +60,24 @@ namespace EzDbSchema.Core.Objects
 			throw new NotImplementedException();
 		}
 
-		/// <summary></summary>
-		public bool ShowWarnings { get; set; } = false;
+        public string AsJson()
+        {
+            var sb = new StringBuilder();
+            sb.Append("{");
+            foreach (PropertyInfo pi in this.GetType().GetProperties())
+                if ( !((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))) )
+                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+        public IDatabase FromJson(string Json)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary></summary>
+        public bool ShowWarnings { get; set; } = false;
 		/// <summary></summary>
 		public string Name { get; set; } = "";
 		/// <summary></summary>

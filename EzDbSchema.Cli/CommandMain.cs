@@ -10,6 +10,10 @@ using McMaster.Extensions.CommandLineUtils;
 using EzDbSchema.MsSql;
 using Newtonsoft.Json;
 using EzDbSchema.Internal;
+using ExtendedXmlSerializer.Configuration;
+using System.Xml;
+using ExtendedXmlSerializer.ExtensionModel.Xml;
+using EzDbSchema.Core.Objects;
 
 namespace EzDbSchema.Cli
 {
@@ -73,10 +77,11 @@ namespace EzDbSchema.Cli
                     schemaObject = schemaObject.Render(
                         AppSettings.Instance.SchemaName,
                         AppSettings.Instance.ConnectionString);
+                    var s = schemaObject.AsJson();
 
                     var schemaAsJson = JsonConvert.SerializeObject(
                         schemaObject
-                        , Formatting.Indented
+                        , Newtonsoft.Json.Formatting.Indented
                         , new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
 					File.WriteAllText(outputPath, schemaAsJson);
 					Console.WriteLine(string.Format("Schema has been written to {0}", outputPath));

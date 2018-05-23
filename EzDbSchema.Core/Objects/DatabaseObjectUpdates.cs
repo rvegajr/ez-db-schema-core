@@ -12,5 +12,14 @@ namespace EzDbSchema.Core.Objects
         public DateTime? LastModified { get; set; } = null;
         public string LastItemCreated { get; set; } = "";
         public string LastItemModified { get; set; } = "";
+        public string AsJson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDatabase FromJson(string Json)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

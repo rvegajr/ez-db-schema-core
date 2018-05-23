@@ -186,7 +186,7 @@ namespace EzDbSchema.Core.Extentions
         /// <returns></returns>
         public static string ResolvePathVars(this string PathToResolve)
         {
-			return PathToResolve.ResolvePathVars("ez-db-schema-core");
+            return PathToResolve.ResolvePathVars("ez-db-schema-core");
         }
         /// <summary>
         /// Resolve the pah vatraibles
@@ -519,5 +519,44 @@ namespace EzDbSchema.Core.Extentions
                 throw;
             }
         }
+        public static StringBuilder PrependComma(this StringBuilder sb)
+        {
+            if ( !((sb.ToString().Trim().EndsWith("{")) || (sb.ToString().Trim().EndsWith("[")))) sb.Append(", ");
+            return sb;
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, string value)
+        {
+            return sb.PrependComma().AppendFormat("\"{0}\": \"{1}\"", name, value);
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, int value)
+        {
+            return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, value);
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, decimal value)
+        {
+            return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, value);
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, DateTime value)
+        {
+            return sb.PrependComma().AppendFormat("\"{0}\": \"{1}\"", name, value.ToString("o"));
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, bool value)
+        {
+            return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, (value ? "true" : "false"));
+        }
+        public static StringBuilder AppendJson(this StringBuilder sb, string name, object value)
+        {
+            if (value.GetType().Equals(typeof(decimal)))
+                return sb.AppendJson(name, value.ToString());
+            if (value.GetType().Equals(typeof(DateTime)))
+                return sb.AppendJson(name, DateTime.Parse(value.ToString()));
+            if (value.GetType().Equals(typeof(bool)))
+                return sb.AppendJson(name, (bool)value);
+            else if (value.GetType().Equals(typeof(int)))
+                return sb.AppendJson(name, int.Parse(value.ToString()));
+            else
+                return sb.AppendJson(name, value.ToString());
+        }
+
     }
 }

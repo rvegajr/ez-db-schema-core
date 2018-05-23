@@ -8,4 +8,10 @@ namespace EzDbSchema.Core.Interfaces
     {
         int Id { get; set; }
     }
+
+    public interface IEzObjectJson<T>
+    {
+        string AsJson();
+        T FromJson(string Json);
+    }
 }

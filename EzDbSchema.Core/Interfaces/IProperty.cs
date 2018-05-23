@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IProperty : IEzObject
+    public interface IProperty : IEzObject, IEzObjectJson<IProperty>
     {
         string Name { get; set; }
         string Type { get; set; }

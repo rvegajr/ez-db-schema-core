@@ -12,5 +12,15 @@ namespace EzDbSchema.Core.Objects
             this.Id = this.GetId();
         }
         public int Id { get; set; }
+
+        public string AsJson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDatabase FromJson(string Json)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
