@@ -6,6 +6,10 @@
     <ReleaseVersion>1.0.3</ReleaseVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="MySchemaName.db.json" />
@@ -22,8 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
@@ -32,5 +34,10 @@
   <ItemGroup>
     <Compile Remove="CommandSample.cs" />
     <Compile Remove="CommandSchemaDump.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
