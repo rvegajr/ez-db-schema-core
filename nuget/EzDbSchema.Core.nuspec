@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>EzDbSchema.Core</id>
-    <version>1.0.3-rc4</version>
+    <version>1.0.3-rc5</version>
     <title>EzDbSchema - Easy Database Schema Generator for .NET Standard and .NET Core (Official): Metapackage</title>
     <authors>Ricardo Vega Jr</authors>
     <owners>EzDbSchema</owners>
@@ -15,8 +15,6 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="System.Data.SqlClient" version="4.4.3"/>
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="2.0.2"/>
-        <dependency id="Newtonsoft.Json" version="11.0.2"/>
         <dependency id="System.Dynamic.Runtime" version="4.3.0"/>
       </group>
     </dependencies>
@@ -24,5 +22,6 @@
   <files>
 		<file src="../EzDbSchema.Core/bin/Release/netstandard2.0/EzDbSchema.Core.dll" target="lib" />        
 		<file src="../EzDbSchema.MsSql/bin/Release/netstandard2.0/EzDbSchema.MsSql.dll" target="lib" />        
+		<file src="../Newtonsoft.Json.dll" target="lib" />        
   </files>  
 </package>
