@@ -1,43 +1,45 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.IO;
+using EzDbSchema.Core.Extentions;
+using Newtonsoft.Json;
+
 namespace EzDbSchema.Internal
 {
-	public class AppSettings 
+    public class AppSettings
     {
-		/// <summary></summary>
-		public string ApplicationName { get; set; } = "";
+        /// <summary></summary>
+        public string ApplicationName { get; set; } = "";
         /// <summary></summary>
 		public string ConnectionString { get; set; } = "";
         /// <summary></summary>
 		public string SchemaName { get; set; } = "";
         /// <summary></summary>
 		public string Version { get; set; } = "";
-		/// <summary></summary>
-		public bool VerboseMessages { get; set; } = false;
+        /// <summary></summary>
+        public bool VerboseMessages { get; set; } = false;
         private static AppSettings instance;
-        
-		private AppSettings()
+
+        private AppSettings()
         {
-			//_configuration = configuration;
         }
         public static AppSettings Instance
         {
             get
             {
-
                 if (instance == null)
                 {
-					var builder = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-					IConfigurationRoot configuration = builder.Build();
-					instance = new AppSettings();
-					foreach (var item in configuration.GetChildren())
-					{
-						var p= instance.GetType().GetProperty(item.Key);
-						if (p != null) p.SetValue(instance, item.Value);
-					}
-				}
+                    var configFileName = "{ASSEMBLY_PATH}appsettings.json".ResolvePathVars();
+                    try
+                    {
+                        //Complete ghetto way to deal with working around a Newtonsoft JSON bug 
+                        var appsettingsText = File.ReadAllText(configFileName);
+                        instance = JsonConvert.DeserializeObject<AppSettings>(appsettingsText);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        throw new Exception(string.Format("Error while parsing {0}. {1}", configFileName, ex.Message), ex);
+                    }
+                }
                 return instance;
             }
         }
