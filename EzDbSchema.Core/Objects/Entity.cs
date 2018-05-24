@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Reflection;
+using System.Text;
+using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
@@ -21,6 +24,23 @@ namespace EzDbSchema.Core.Objects
 		public ICustomAttributes CustomAttributes { get; set; }
 
         public bool IsTemporalView { get; set; }
+
+        public string AsJson()
+        {
+            var sb = new StringBuilder();
+            sb.Append("{");
+            foreach (PropertyInfo pi in this.GetType().GetProperties())
+                if (!((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))))
+                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+        public IEntity FromJson(string Json)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool HasPrimaryKeys()
         {
             foreach (var prop in Properties.Values)

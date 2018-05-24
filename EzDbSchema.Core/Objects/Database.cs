@@ -67,6 +67,7 @@ namespace EzDbSchema.Core.Objects
             foreach (PropertyInfo pi in this.GetType().GetProperties())
                 if ( !((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))) )
                     sb.AppendJson(pi.Name, pi.GetValue(this, null));
+            sb.AppendJson(nameof(LastUpdates), LastUpdates.AsJson());
             sb.Append("}");
             return sb.ToString();
         }
