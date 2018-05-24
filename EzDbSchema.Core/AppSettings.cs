@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.Extensions.Configuration;
 namespace EzDbSchema.Internal
 {
 	public class AppSettings 
@@ -26,7 +27,6 @@ namespace EzDbSchema.Internal
 
                 if (instance == null)
                 {
-                    /*
 					var builder = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -37,8 +37,7 @@ namespace EzDbSchema.Internal
 						var p= instance.GetType().GetProperty(item.Key);
 						if (p != null) p.SetValue(instance, item.Value);
 					}
-                    */
-                }
+				}
                 return instance;
             }
         }

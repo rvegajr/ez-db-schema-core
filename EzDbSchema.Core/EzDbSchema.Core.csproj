@@ -6,24 +6,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Newtonsoft.Json\**" />
-    <EmbeddedResource Remove="Newtonsoft.Json\**" />
-    <None Remove="Newtonsoft.Json\**" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Objects\" />
     <Folder Include="Interfaces\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

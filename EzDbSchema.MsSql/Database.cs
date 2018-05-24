@@ -5,6 +5,7 @@ using System.IO;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
 using EzDbSchema.Core.Extentions;
