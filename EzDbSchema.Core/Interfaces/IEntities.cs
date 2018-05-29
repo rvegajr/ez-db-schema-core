@@ -3,10 +3,13 @@ using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IEntityDictionary : IDictionary<string, IEntity>, IEzObject, IEzObjectJson<IEntityDictionary>
+    public interface IEntityDictionary : IDictionary<string, IEntity>, IEzObject, IXmlRenderable
     {
     }
-    public interface IEntityList : IList<IEntity>, IEzObject, IEzObjectJson<IEntityList>
+    public interface IEntityList : IList<IEntity>, IEzObject, IXmlRenderable
+    {
+    }
+    public interface IEntityNameList : IList<string>, IXmlRenderable
     {
     }
 }

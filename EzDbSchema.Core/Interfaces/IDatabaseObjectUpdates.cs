@@ -2,7 +2,7 @@
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IDatabaseObjectUpdates : IEzObject, IEzObjectJson<IDatabaseObjectUpdates>
+    public interface IDatabaseObjectUpdates : IEzObject, IXmlRenderable
     {
         DateTime? LastCreated { get; set; }
         DateTime? LastModified { get; set; }

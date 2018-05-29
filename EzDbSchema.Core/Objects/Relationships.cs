@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using EzDbSchema.Core.Enums;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
@@ -10,16 +11,29 @@ namespace EzDbSchema.Core.Objects
 	
 	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary
     {
+        public static string ALIAS = "Relationships";
+
         public RelationshipDictionary()
         {
             this.Id = this.GetId();
         }
         public int Id { get; set; }
+        public XmlNode AsXml(XmlDocument doc)
+        {
+            return this.DictionaryAsXmlNode(doc, ALIAS);
+        }
+
+        public string AsXml()
+        {
+            return AsXml(new XmlDocument()).OuterXml;
+        }
     }
 
 
     public class RelationshipList : List<IRelationship>, IRelationshipList
     {
+        public static string ALIAS = "Relationships";
+
         public RelationshipList()
         {
             this.Id = this.GetId();
@@ -60,5 +74,16 @@ namespace EzDbSchema.Core.Objects
             else if (searchField == RelationSearchField.FromColumnName) return list.Count(r => r.FromColumnName == searchFor);
             else return 0;
         }
+
+        public XmlNode AsXml(XmlDocument doc)
+        {
+            return this.ListAsXmlNode(doc, ALIAS);
+        }
+
+        public string AsXml()
+        {
+            return AsXml(new XmlDocument()).OuterXml;
+        }
+
     }
 }

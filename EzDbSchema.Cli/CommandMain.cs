@@ -77,7 +77,9 @@ namespace EzDbSchema.Cli
                     schemaObject = schemaObject.Render(
                         AppSettings.Instance.SchemaName,
                         AppSettings.Instance.ConnectionString);
-                    var s = schemaObject.AsJson();
+                    var s = schemaObject.AsXml();
+
+
 
                     var schemaAsJson = JsonConvert.SerializeObject(
                         schemaObject

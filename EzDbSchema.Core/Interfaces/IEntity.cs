@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IEntity : IEzObject, IEzObjectJson<IEntity>
+    public interface IEntity : IEzObject, IXmlRenderable
     {
         bool IsTemporalView { get; set; }
         string Name { get; set; }

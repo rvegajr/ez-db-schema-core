@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IEzObject
+    public interface IXmlRenderable
     {
-        int Id { get; set; }
+        string AsXml();
+        XmlNode AsXml(XmlDocument doc);
     }
 }

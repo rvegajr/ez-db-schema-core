@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IDatabase : IEzObject, IEzObjectJson<IDatabase>
+    public interface IDatabase : IEzObject, IXmlRenderable
     {
         IEntity this[string entityName] { get; set; }
         IEntityDictionary Entities { get; set; }
@@ -13,7 +13,7 @@ namespace EzDbSchema.Core.Interfaces
 		IDatabase Render(string entityName, string ConnectionString);
 		string Name { get; set; }
 		IDatabaseObjectUpdates LastUpdates { get; set; }
-		ICollection<string> Keys {get;}
+        IEntityNameList Keys {get;}
 		bool ShowWarnings { get; set; }
 	}
 }

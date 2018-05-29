@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IRelationship : IEzObject, IEzObjectJson<IRelationship>
+    public interface IRelationship : IEzObject, IXmlRenderable
     {
         string FromColumnName { get; set; }
         string FromFieldName { get; set; }

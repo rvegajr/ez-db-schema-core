@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
@@ -10,7 +11,9 @@ namespace EzDbSchema.Core.Objects
 	/// <summary></summary>
 	public abstract class Database : EzObject, IDatabase
     {
-		private IEntityDictionary _entities = new EntityDictionary();
+        public static string ALIAS = "Schema";
+
+        private IEntityDictionary _entities = new EntityDictionary();
 
 		/// <summary></summary>
         public Database() : base()
@@ -60,21 +63,25 @@ namespace EzDbSchema.Core.Objects
 			throw new NotImplementedException();
 		}
 
-        public string AsJson()
+        public string AsXml()
         {
-            var sb = new StringBuilder();
-            sb.Append("{");
-            foreach (PropertyInfo pi in this.GetType().GetProperties())
-                if ( !((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))) )
-                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
-            sb.AppendJson(nameof(LastUpdates), LastUpdates.AsJson());
-            sb.Append("}");
-            return sb.ToString();
+            var doc = new XmlDocument();
+            return doc.AppendChild(doc.CreateElement("xml").AppendChild(AsXml(doc))).OuterXml;
         }
 
-        public IDatabase FromJson(string Json)
+        public XmlNode AsXml(XmlDocument doc)
         {
-            throw new NotImplementedException();
+            return this.AsXmlNode(doc, ALIAS);
+        }
+
+        public IDatabase FromXml(string Xml)
+        {
+            return this;
+        }
+
+        public IDatabase FromXml(XmlNode nod)
+        {
+
         }
 
         /// <summary></summary>
@@ -84,11 +91,11 @@ namespace EzDbSchema.Core.Objects
 		/// <summary></summary>
 		public IDatabaseObjectUpdates LastUpdates { get; set; } = new DatabaseObjectUpdates();
 		/// <summary></summary>
-		public ICollection<string> Keys
+		public IEntityNameList Keys
         {
             get
             {
-                return _entities.Keys;
+                return new EntityNameList(_entities.Keys);
             }
         }
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
@@ -8,6 +9,8 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Property : EzObject, IProperty
     {
+        public static string ALIAS = "Property";
+
         public Property() : base()
         {
 
@@ -21,24 +24,19 @@ namespace EzDbSchema.Core.Objects
         public bool IsKey { get; set; }
         public int KeyOrder { get; set; }
         public bool IsIdentity { get; set; }
+        [AsRef("Id")]
         public IEntity Parent { get; set; }
 		public IRelationshipList RelatedTo { get; set; } = new RelationshipList();
 		public ICustomAttributes CustomAttributes { get; set; } = new CustomAttributes();
 
-        public string AsJson()
+        public string AsXml()
         {
-            var sb = new StringBuilder();
-            sb.Append("{");
-            foreach (PropertyInfo pi in this.GetType().GetProperties())
-                if (!((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))))
-                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
-            sb.Append("}");
-            return sb.ToString();
+            return AsXml(new XmlDocument()).OuterXml;
         }
 
-        public IProperty FromJson(string Json)
+        public XmlNode AsXml(XmlDocument doc)
         {
-            throw new NotImplementedException();
+            return this.AsXmlNode(doc, ALIAS);
         }
     }
 }

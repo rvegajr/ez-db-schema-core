@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Interfaces;
 
@@ -8,6 +9,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Entity : EzObject, IEntity
     {
+        public static string ALIAS = "Entity";
         public Entity() : base()
         {
 			this.PrimaryKeys = new PrimaryKeyProperties(this);
@@ -25,20 +27,14 @@ namespace EzDbSchema.Core.Objects
 
         public bool IsTemporalView { get; set; }
 
-        public string AsJson()
+        public string AsXml()
         {
-            var sb = new StringBuilder();
-            sb.Append("{");
-            foreach (PropertyInfo pi in this.GetType().GetProperties())
-                if (!((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))))
-                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
-            sb.Append("}");
-            return sb.ToString();
+            return AsXml(new XmlDocument()).OuterXml;
         }
 
-        public IEntity FromJson(string Json)
+        public XmlNode AsXml(XmlDocument doc)
         {
-            throw new NotImplementedException();
+            return this.AsXmlNode(doc, ALIAS);
         }
 
         public bool HasPrimaryKeys()
