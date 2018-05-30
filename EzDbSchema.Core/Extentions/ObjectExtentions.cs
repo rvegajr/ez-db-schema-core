@@ -6,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace EzDbSchema.Core.Extentions
+namespace EzDbSchema.Core.Extentions.Objects
 {
     public static class ObjectExtensions
     {

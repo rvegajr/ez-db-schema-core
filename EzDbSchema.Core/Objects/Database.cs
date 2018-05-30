@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using EzDbSchema.Core.Extentions;
+using EzDbSchema.Core.Extentions.Objects;
+using EzDbSchema.Core.Extentions.Xml;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects

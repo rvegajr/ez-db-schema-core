@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EzDbSchema.Core.Extentions
+namespace EzDbSchema.Core.Extentions.Types
 {
     public static class TypeExtensions
     {

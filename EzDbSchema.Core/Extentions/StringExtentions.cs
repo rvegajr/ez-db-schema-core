@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 //Thanks https://www.codeproject.com/tips/1081932/tosingular-toplural-string-extensions
-namespace EzDbSchema.Core.Extentions
+namespace EzDbSchema.Core.Extentions.Strings
 {
     public static class StringExtensions
     {

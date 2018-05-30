@@ -1,4 +1,5 @@
-﻿using EzDbSchema.Core.Interfaces;
+﻿using EzDbSchema.Core.Extentions.Objects;
+using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EzDbSchema.Core.Extentions
+namespace EzDbSchema.Core.Extentions.Xml
 {
     public static class XmlExtentions
     {
@@ -162,10 +163,6 @@ namespace EzDbSchema.Core.Extentions
                         try
                         {
                             var pi = item.GetType().GetProperty(ele.Name);
-                            if (ele.Name.Equals("Parent"))
-                            {
-                                Console.Write("Parent");
-                            }
                             if (pi!=null)
                             {
                                 var refId = (ele.Attributes["ref"] != null ? ele.Attributes["ref"].InnerText : null);

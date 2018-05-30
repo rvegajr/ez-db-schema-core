@@ -5,14 +5,11 @@ using System.Reflection;
 using EzDbSchema.Core;
 using EzDbSchema.Core.Enums;
 using EzDbSchema.Core.Interfaces;
-using EzDbSchema.Core.Extentions;
+using EzDbSchema.Core.Extentions.Strings;
 using McMaster.Extensions.CommandLineUtils;
 using EzDbSchema.MsSql;
-using Newtonsoft.Json;
 using EzDbSchema.Internal;
-using ExtendedXmlSerializer.Configuration;
 using System.Xml;
-using ExtendedXmlSerializer.ExtensionModel.Xml;
 using EzDbSchema.Core.Objects;
 
 namespace EzDbSchema.Cli
