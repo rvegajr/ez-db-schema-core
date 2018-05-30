@@ -12,9 +12,9 @@ namespace EzDbSchema.Core.Objects
 
         public CustomAttributes()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -23,6 +23,19 @@ namespace EzDbSchema.Core.Objects
         public string AsXml()
         {
             return AsXml(new XmlDocument()).OuterXml;
+        }
+
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
         }
     }
 

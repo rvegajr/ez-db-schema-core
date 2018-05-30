@@ -24,7 +24,7 @@ namespace EzDbSchema.Core.Objects
         public bool IsKey { get; set; }
         public int KeyOrder { get; set; }
         public bool IsIdentity { get; set; }
-        [AsRef("Id")]
+        [AsRef("_id")]
         public IEntity Parent { get; set; }
 		public IRelationshipList RelatedTo { get; set; } = new RelationshipList();
 		public ICustomAttributes CustomAttributes { get; set; } = new CustomAttributes();
@@ -37,6 +37,18 @@ namespace EzDbSchema.Core.Objects
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.AsXmlNode(doc, ALIAS);
+        }
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.FromXmlNode(node, ALIAS);
+            return node;
         }
     }
 }

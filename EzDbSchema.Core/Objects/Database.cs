@@ -74,14 +74,45 @@ namespace EzDbSchema.Core.Objects
             return this.AsXmlNode(doc, ALIAS);
         }
 
-        public IDatabase FromXml(string Xml)
+        public void FromXml(string Xml)
         {
-            return this;
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
         }
 
-        public IDatabase FromXml(XmlNode nod)
+        public XmlNode FromXml(XmlNode node)
         {
-
+            ObjectExtensions.ClearRef();
+            this.FromXmlNode(node, ALIAS);
+            //restore referenced objects
+            foreach(IEntity e in this.Entities.Values)
+            {
+                foreach (var p in e.Properties.Values) {
+                    p.Parent = e;
+                    foreach (var r in p.RelatedTo)
+                        r.Parent = e;
+                }
+                var keys = new PrimaryKeyProperties();
+                foreach (var k in e.PrimaryKeys)
+                {
+                    if (ObjectExtensions.RefObjectXref.ContainsKey(k._id * -1))
+                    {
+                        keys.Add((IProperty)ObjectExtensions.RefObjectXref[k._id * -1]);
+                    }
+                }
+                e.PrimaryKeys = keys;
+                var rel = new RelationshipReferenceList();
+                foreach (var k in e.Relationships)
+                {
+                    if (ObjectExtensions.RefObjectXref.ContainsKey(k._id * -1))
+                    {
+                        rel.Add((IRelationship)ObjectExtensions.RefObjectXref[k._id * -1]);
+                    }
+                }
+                e.Relationships = rel;
+            }
+            return node;
         }
 
         /// <summary></summary>

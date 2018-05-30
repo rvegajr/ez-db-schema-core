@@ -11,6 +11,8 @@ namespace EzDbSchema.Core.Extentions
     public static class ObjectExtensions
     {
 
+        public static Dictionary<int, object> RefObjectXref = new Dictionary<int, object>();
+        public static List<IEzObject> DelayedRefResolutionList = new List<IEzObject>();
         //this dictionary should use weak key references
         static Dictionary<object, int> d = new Dictionary<object, int>();
         static int gid = 0;
@@ -36,6 +38,27 @@ namespace EzDbSchema.Core.Extentions
             if (d.ContainsKey(o)) return d[o];
             if (valToCheck > 0) return valToCheck;
             return d[o] = gid++;
+        }
+
+        /// <summary>
+        /// Gets an identifier for an object
+        /// </summary>
+        /// <param name="o">EZObject- if the object already exists,  use its ide</param>
+        /// <param name="valToCheck">Value to check.  If it is greater than 0,  then return it</param>
+        /// <returns></returns>
+        public static int SetRefId(this IEzObject o)
+        {
+            if (!RefObjectXref.ContainsKey(o._id)) RefObjectXref.Add(o._id, o);
+            if (!d.ContainsKey(o)) d.Add(o, o._id);
+            return o._id;
+            
+        }
+
+        public static void ClearRef()
+        {
+            RefObjectXref.Clear();
+            DelayedRefResolutionList.Clear();
+            d.Clear();
         }
         /// <summary>
         /// Will search an object array and safely return a string.  If the item doesn't exist, this will return 

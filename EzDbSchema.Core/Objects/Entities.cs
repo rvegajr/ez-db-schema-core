@@ -12,9 +12,9 @@ namespace EzDbSchema.Core.Objects
         public static string ALIAS = "Entities";
         public EntityDictionary()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
@@ -25,17 +25,30 @@ namespace EzDbSchema.Core.Objects
         {
             return AsXml(new XmlDocument()).OuterXml;
         }
+
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 
-	public class EntityList : List<IEntity>, IEntityList
+    public class EntityList : List<IEntity>, IEntityList
     {
         public static string ALIAS = "Entities";
 
         public EntityList()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
@@ -45,6 +58,17 @@ namespace EzDbSchema.Core.Objects
         public string AsXml()
         {
             return AsXml(new XmlDocument()).OuterXml;
+        }
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            return node;
         }
     }
     public class EntityNameList : List<string>, IEntityNameList
@@ -67,6 +91,17 @@ namespace EzDbSchema.Core.Objects
         public string AsXml()
         {
             return AsXml(new XmlDocument()).OuterXml;
+        }
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            return node;
         }
     }
 }

@@ -12,9 +12,9 @@ namespace EzDbSchema.Core.Objects
 
         public PropertyDictionary()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -25,6 +25,18 @@ namespace EzDbSchema.Core.Objects
             return AsXml(new XmlDocument()).OuterXml;
         }
 
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 
     public class PropertyList : List<IProperty>, IPropertyList
@@ -33,9 +45,9 @@ namespace EzDbSchema.Core.Objects
 
         public PropertyList()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.ListAsXmlNode(doc, ALIAS);
@@ -46,6 +58,18 @@ namespace EzDbSchema.Core.Objects
             return AsXml(new XmlDocument()).OuterXml;
         }
 
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.ListFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 
     public class PrimaryKeyProperties : List<IProperty>, IPrimaryKeyProperties
@@ -54,9 +78,9 @@ namespace EzDbSchema.Core.Objects
 
         public PrimaryKeyProperties()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         protected IEntity Entity;
         public PrimaryKeyProperties(IEntity Parent)
         {
@@ -68,8 +92,8 @@ namespace EzDbSchema.Core.Objects
             XmlNode nod = doc.CreateElement(XmlConvert.EncodeName(ALIAS));
             foreach (var item in this)
             {
-                XmlNode refnod = nod.OwnerDocument.CreateElement("item");
-                ((XmlElement)refnod).SetAttribute("ref", item.Id.ToSafeString());
+                XmlNode refnod = nod.OwnerDocument.CreateElement(Property.ALIAS);
+                ((XmlElement)refnod).SetAttribute("ref", item._id.ToSafeString());
                 nod.AppendChild(refnod);
 
             }
@@ -81,5 +105,17 @@ namespace EzDbSchema.Core.Objects
             return AsXml(new XmlDocument()).OuterXml;
         }
 
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.ListFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 }

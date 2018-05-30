@@ -14,7 +14,7 @@ namespace EzDbSchema.Core.Interfaces
         bool isAuditablePropertyName(string propertyNameToCheck);
 
         IPropertyDictionary Properties { get; set; }
-        IRelationshipList Relationships { get; set; }
+        IRelationshipReferenceList Relationships { get; set; }
         IPrimaryKeyProperties PrimaryKeys { get; set; }
         ICustomAttributes CustomAttributes { get; set; }
     }

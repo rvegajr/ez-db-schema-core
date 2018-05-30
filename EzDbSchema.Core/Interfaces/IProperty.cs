@@ -13,7 +13,7 @@ namespace EzDbSchema.Core.Interfaces
         bool IsKey { get; set; }
         int KeyOrder { get; set; }
         bool IsIdentity { get; set; }
-        [AsRef("Id")]
+        [AsRef("_id")]
         IEntity Parent { get; set; }
         IRelationshipList RelatedTo { get; set; }
         ICustomAttributes CustomAttributes { get; set; }

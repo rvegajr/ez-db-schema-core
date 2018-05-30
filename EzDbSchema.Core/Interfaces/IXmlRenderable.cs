@@ -9,5 +9,7 @@ namespace EzDbSchema.Core.Interfaces
     {
         string AsXml();
         XmlNode AsXml(XmlDocument doc);
+        void FromXml(string Xml);
+        XmlNode FromXml(XmlNode node);
     }
 }

@@ -21,7 +21,7 @@ namespace EzDbSchema.Core.Objects
         public string ObjectState { get; set; }
 
 		public IPropertyDictionary Properties { get; set; } = new PropertyDictionary();
-		public IRelationshipList Relationships { get; set; } = new RelationshipList();
+		public IRelationshipReferenceList Relationships { get; set; } = new RelationshipReferenceList();
 		public IPrimaryKeyProperties PrimaryKeys { get; set; }
 		public ICustomAttributes CustomAttributes { get; set; }
 
@@ -35,6 +35,19 @@ namespace EzDbSchema.Core.Objects
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.AsXmlNode(doc, ALIAS);
+        }
+
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.FromXmlNode(node, ALIAS);
+            return node;
         }
 
         public bool HasPrimaryKeys()

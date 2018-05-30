@@ -15,9 +15,9 @@ namespace EzDbSchema.Core.Objects
 
         public RelationshipDictionary()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -27,18 +27,64 @@ namespace EzDbSchema.Core.Objects
         {
             return AsXml(new XmlDocument()).OuterXml;
         }
+
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 
+    public class RelationshipReferenceList : RelationshipList, IRelationshipReferenceList
+    {
+        public new static string ALIAS = "Relationships";
+        public new XmlNode AsXml(XmlDocument doc)
+        {
+            XmlNode nod = doc.CreateElement(XmlConvert.EncodeName(ALIAS));
+            foreach (var item in this)
+            {
+                XmlNode refnod = nod.OwnerDocument.CreateElement(Relationship.ALIAS);
+                ((XmlElement)refnod).SetAttribute("ref", item._id.ToSafeString());
+                nod.AppendChild(refnod);
 
+            }
+            return nod;
+        }
+
+        public new string AsXml()
+        {
+            return AsXml(new XmlDocument()).OuterXml;
+        }
+
+        public new void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public new XmlNode FromXml(XmlNode node)
+        {
+            this.ListFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
+    }
     public class RelationshipList : List<IRelationship>, IRelationshipList
     {
-        public static string ALIAS = "Relationships";
+        public static string ALIAS = "RelatedTo";
 
         public RelationshipList()
         {
-            this.Id = this.GetId();
+            this._id = this.GetId();
         }
-        public int Id { get; set; }
+        public int _id { get; set; }
         public IRelationshipList Fetch(RelationshipType TypeToFetch)
         {
 			IRelationshipList retListRaw = new RelationshipList();
@@ -85,5 +131,17 @@ namespace EzDbSchema.Core.Objects
             return AsXml(new XmlDocument()).OuterXml;
         }
 
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.ListFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
     }
 }

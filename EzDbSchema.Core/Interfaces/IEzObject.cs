@@ -6,6 +6,6 @@ namespace EzDbSchema.Core.Interfaces
 {
     public interface IEzObject
     {
-        int Id { get; set; }
+        int _id { get; set; }
     }
 }

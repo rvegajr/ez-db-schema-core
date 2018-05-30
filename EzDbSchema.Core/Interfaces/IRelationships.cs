@@ -14,4 +14,7 @@ namespace EzDbSchema.Core.Interfaces
 		int CountItems(string searchFor);
 		int CountItems(RelationSearchField searchField, string searchFor);
     }
+    public interface IRelationshipReferenceList : IRelationshipList, IEzObject, IXmlRenderable
+    {
+    }
 }

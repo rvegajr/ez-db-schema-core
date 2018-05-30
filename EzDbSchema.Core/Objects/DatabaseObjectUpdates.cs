@@ -12,23 +12,12 @@ namespace EzDbSchema.Core.Objects
         public DatabaseObjectUpdates() : base()
         {
         }
-        public static string ALIAS = "DatabaseObjectUpdates";
+        public static string ALIAS = "LastUpdates";
 
         public DateTime? LastCreated { get; set; } = null;
         public DateTime? LastModified { get; set; } = null;
         public string LastItemCreated { get; set; } = "";
         public string LastItemModified { get; set; } = "";
-        public string AsJson()
-        {
-            var sb = new StringBuilder();
-            sb.Append("{");
-            foreach (PropertyInfo pi in this.GetType().GetProperties())
-                if (!((pi.PropertyType.FullName.Contains("EzDbSchema")) || (pi.PropertyType.FullName.Contains("Collection"))))
-                    sb.AppendJson(pi.Name, pi.GetValue(this, null));
-            sb.Append("}");
-            return sb.ToString();
-        }
-
         public string AsXml()
         {
             var doc = new XmlDocument();
@@ -40,9 +29,17 @@ namespace EzDbSchema.Core.Objects
             return this.AsXmlNode(doc, ALIAS);
         }
 
-        public IDatabaseObjectUpdates FromJson(string Json)
+        public void FromXml(string Xml)
         {
-            throw new NotImplementedException();
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.FromXmlNode(node, ALIAS);
+            return node;
         }
     }
 }

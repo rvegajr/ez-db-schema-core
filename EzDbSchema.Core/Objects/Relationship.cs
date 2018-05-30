@@ -24,7 +24,7 @@ namespace EzDbSchema.Core.Objects
         public string ToColumnName { get; set; }
         public string Type { get; set; }
         public string PrimaryTableName { get; set; }
-        [AsRef("Id")]
+        [AsRef("_id")]
         public IEntity Parent { get; set; }
 
         public string AsXml()
@@ -37,6 +37,18 @@ namespace EzDbSchema.Core.Objects
             return this.AsXmlNode(doc, ALIAS);
         }
 
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.FromXmlNode(node, ALIAS);
+            return node;
+        }
 
     }
 }
