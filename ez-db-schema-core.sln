@@ -1,13 +1,14 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzDbSchema.Cli", "EzDbSchema.Cli\EzDbSchema.Cli.csproj", "{7F85BC66-F4F1-4817-8D67-F20472FA752B}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Cli", "EzDbSchema.Cli\EzDbSchema.Cli.csproj", "{7F85BC66-F4F1-4817-8D67-F20472FA752B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzDbSchema.Core", "EzDbSchema.Core\EzDbSchema.Core.csproj", "{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Core", "EzDbSchema.Core\EzDbSchema.Core.csproj", "{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzDbSchema.Tests", "EzDbSchema.Tests\EzDbSchema.Tests.csproj", "{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Tests", "EzDbSchema.Tests\EzDbSchema.Tests.csproj", "{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzDbSchema.MsSql", "EzDbSchema.MsSql\EzDbSchema.MsSql.csproj", "{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.MsSql", "EzDbSchema.MsSql\EzDbSchema.MsSql.csproj", "{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +32,12 @@ Global
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA842968-B5BA-4354-8236-3B30BCEFE400}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

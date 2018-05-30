@@ -1,5 +1,12 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using EzDbSchema.Core.Extentions.Json;
+using EzDbSchema.Core.Extentions.Strings;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Json;
+using JsonPair = System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>;
+using JsonPairEnumerable = System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>>;
+
 namespace EzDbSchema.Internal
 {
 	public class AppSettings 
@@ -27,16 +34,23 @@ namespace EzDbSchema.Internal
 
                 if (instance == null)
                 {
-					var builder = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-					IConfigurationRoot configuration = builder.Build();
-					instance = new AppSettings();
-					foreach (var item in configuration.GetChildren())
-					{
-						var p= instance.GetType().GetProperty(item.Key);
-						if (p != null) p.SetValue(instance, item.Value);
-					}
+                    var configFileName = "{ASSEMBLY_PATH}appsettings.json".ResolvePathVars();
+                    try
+                    {
+                        //Complete ghetto way to deal with working around a Newtonsoft JSON bug 
+                        var appsettingsText = File.ReadAllText(configFileName);
+                        var items = JsonObject.Parse(appsettingsText);
+                        instance = new AppSettings();
+                        foreach (JsonPair jp in items )
+                        {
+                            var p = instance.GetType().GetProperty(jp.Key);
+                            if (p != null) p.SetValue(instance, jp.Value.AsString());
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        throw new Exception(string.Format("Error while parsing {0}. {1}", configFileName, ex.Message), ex);
+                    }
 				}
                 return instance;
             }

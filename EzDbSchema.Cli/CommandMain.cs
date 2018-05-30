@@ -5,18 +5,19 @@ using System.Reflection;
 using EzDbSchema.Core;
 using EzDbSchema.Core.Enums;
 using EzDbSchema.Core.Interfaces;
-using EzDbSchema.Core.Extentions;
+using EzDbSchema.Core.Extentions.Strings;
 using McMaster.Extensions.CommandLineUtils;
 using EzDbSchema.MsSql;
-using Newtonsoft.Json;
 using EzDbSchema.Internal;
+using System.Xml;
+using EzDbSchema.Core.Objects;
 
 namespace EzDbSchema.Cli
 {
 	public static class CommandMain
     {
         /*
-         * Example Usage:  -sc "Server=NSWIN10VM.local;Database=WideWorldImportersDW;user id=sa;password=sa" -sf "/Users/rvegajr/Downloads/Schema/WideWorldImportersDW.db.json" -sn "WideWorldImportersDWEntities"
+         * Example Usage:  -sc "Server=NSWIN10VM.local;Database=WideWorldImportersDW;user id=sa;password=sa" -sf "/Users/rvegajr/Downloads/Schema/WideWorldImportersDW.db.xml" -sn "WideWorldImportersDWEntities"
          */
         public static void Enable(CommandLineApplication app)
         {
@@ -52,7 +53,7 @@ namespace EzDbSchema.Cli
                     if (entityName.HasValue()) AppSettings.Instance.SchemaName = entityName.Value();
                     if (connectionString.HasValue()) AppSettings.Instance.ConnectionString = connectionString.Value();
                     var dbtype = (databaseType.HasValue() ? databaseType.Value() : "auto");
-					var outputPath = (schemaOutput.HasValue() ? schemaOutput.Value() : (@"{ASSEMBLY_PATH}" + AppSettings.Instance.SchemaName + @".db.json").ResolvePathVars());
+					var outputPath = (schemaOutput.HasValue() ? schemaOutput.Value() : (@"{ASSEMBLY_PATH}" + AppSettings.Instance.SchemaName + @".db.xml").ResolvePathVars());
 
                     Console.WriteLine("Performing Schema Dump....");
                     Console.WriteLine("Connection String: " + AppSettings.Instance.ConnectionString);
@@ -73,15 +74,12 @@ namespace EzDbSchema.Cli
                     schemaObject = schemaObject.Render(
                         AppSettings.Instance.SchemaName,
                         AppSettings.Instance.ConnectionString);
+                    var schemaAsXml = schemaObject.AsXml();
 
-                    var schemaAsJson = JsonConvert.SerializeObject(
-                        schemaObject
-                        , Formatting.Indented
-                        , new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
-					File.WriteAllText(outputPath, schemaAsJson);
+					File.WriteAllText(outputPath, schemaAsXml);
 					Console.WriteLine(string.Format("Schema has been written to {0}", outputPath));
 
-					Console.WriteLine("Schema Dump has completed.");
+                    Console.WriteLine("Schema Dump has completed.");
                     Environment.ExitCode = (int)ReturnCode.Ok;
                     Environment.Exit(Environment.ExitCode);
                     return Environment.ExitCode;

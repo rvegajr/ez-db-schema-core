@@ -1,7 +1,8 @@
-﻿using System;
+﻿using EzDbSchema.Core.Objects;
+using System;
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IProperty
+    public interface IProperty : IEzObject, IXmlRenderable
     {
         string Name { get; set; }
         string Type { get; set; }
@@ -12,6 +13,7 @@ namespace EzDbSchema.Core.Interfaces
         bool IsKey { get; set; }
         int KeyOrder { get; set; }
         bool IsIdentity { get; set; }
+        [AsRef("_id")]
         IEntity Parent { get; set; }
         IRelationshipList RelatedTo { get; set; }
         ICustomAttributes CustomAttributes { get; set; }

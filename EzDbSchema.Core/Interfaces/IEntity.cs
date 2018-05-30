@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IEntity
+    public interface IEntity : IEzObject, IXmlRenderable
     {
         bool IsTemporalView { get; set; }
         string Name { get; set; }
@@ -14,7 +14,7 @@ namespace EzDbSchema.Core.Interfaces
         bool isAuditablePropertyName(string propertyNameToCheck);
 
         IPropertyDictionary Properties { get; set; }
-        IRelationshipList Relationships { get; set; }
+        IRelationshipReferenceList Relationships { get; set; }
         IPrimaryKeyProperties PrimaryKeys { get; set; }
         ICustomAttributes CustomAttributes { get; set; }
     }
