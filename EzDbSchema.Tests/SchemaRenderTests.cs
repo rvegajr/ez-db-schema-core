@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using EzDbSchema.Core;
 using EzDbSchema.Internal;
 using KellermanSoftware.CompareNetObjects;
@@ -37,7 +38,14 @@ namespace EzDbSchema.Tests
                 EzDbSchema.MsSql.Database dbschema2 = new EzDbSchema.MsSql.Database();
                 dbschema2.FromXml(s);
                 CompareLogic compareLogic = new CompareLogic();
+                compareLogic.Config.SkipInvalidIndexers = true;
+                compareLogic.Config.MaxDifferences = 9999;
+                compareLogic.Config.MembersToIgnore.Add("_id");
                 ComparisonResult result = compareLogic.Compare(dbschema, dbschema2);
+
+                string path = Path.GetTempPath();
+                File.WriteAllText(path + "db1.xml", s);
+                File.WriteAllText(path + "db2.xml", dbschema2.AsXml());
 
                 if (!result.AreEqual)
                     Console.WriteLine(result.DifferencesString);

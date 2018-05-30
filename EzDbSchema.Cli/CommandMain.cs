@@ -79,9 +79,6 @@ namespace EzDbSchema.Cli
 					File.WriteAllText(outputPath, schemaAsXml);
 					Console.WriteLine(string.Format("Schema has been written to {0}", outputPath));
 
-                    var NewSchemaObject = new EzDbSchema.MsSql.Database();
-                    NewSchemaObject.FromXml(schemaAsXml);
-
                     Console.WriteLine("Schema Dump has completed.");
                     Environment.ExitCode = (int)ReturnCode.Ok;
                     Environment.Exit(Environment.ExitCode);

@@ -197,7 +197,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         {
             if ((PathToResolve.Contains("{SOLUTION_PATH}")) || (PathToResolve.Contains("{ASSEMBLY_PATH}")))
             {
-                var AssemblyPath = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
+                var AssemblyPath = AppContext.BaseDirectory;
                 AssemblyPath += (AssemblyPath.EndsWith(Path.DirectorySeparatorChar.ToString()) ? "" : Path.DirectorySeparatorChar.ToString());
                 var SolutionPath = AssemblyPath;
 
