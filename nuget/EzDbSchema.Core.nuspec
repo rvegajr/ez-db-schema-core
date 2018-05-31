@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/rvegajr/ez-db-schema-core</projectUrl>
     <description>A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</description>
     <tags>database schema</tags>
-    <releaseNotes>Utility features for Relationships and Properties</releaseNotes>
+    <releaseNotes>Removing Newtonsoft JSON in favor of xml serialization.  Why?  Please there appears to be known issues when including a nuget package with it in a .net standard 2.0 library. </releaseNotes>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="System.Data.SqlClient" version="4.4.3"/>
