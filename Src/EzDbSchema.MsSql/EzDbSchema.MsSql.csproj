@@ -3,22 +3,22 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461;netcoreapp2.0</TargetFrameworks>
     <ReleaseVersion>1.0.3</ReleaseVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.4.0</AssemblyVersion>
     <FileVersion>1.0.4.0</FileVersion>
-    <PackageId>EzDbSchema.Core</PackageId>
+    <PackageId>EzDbSchema.MsSql</PackageId>
     <Version>1.0.4-rc3</Version>
-    <Authors>Ricardo Vega Jr</Authors>
-    <Company>Noctusoft, Inc.</Company>
-    <Product>EzDbSchema - Easy Database Schema Generator</Product>
-    <Description>A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</Description>
-    <Copyright>2018</Copyright>
-    <PackageLicenseUrl>https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core</RepositoryUrl>
+    <Authors></Authors>
+    <Company></Company>
+    <Product></Product>
+    <Description></Description>
+    <Copyright></Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
     <RepositoryType></RepositoryType>
-    <PackageTags>database schema</PackageTags>
-    <PackageReleaseNotes>Application now is multitarget for .net</PackageReleaseNotes>
+    <PackageTags></PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
