@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EzDbSchema.Cli\EzDbSchema.Cli.csproj" />
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
     <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
-    <ProjectReference Include="..\EzDbSchema.Cli\EzDbSchema.Cli.csproj" />
   </ItemGroup>
 </Project>

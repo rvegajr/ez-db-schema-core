@@ -11,7 +11,7 @@ using EzDbSchema.Core.Interfaces;
 namespace EzDbSchema.Core.Objects
 {
 	
-	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary
+	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary, IXmlRenderableInternal
     {
         public static string ALIAS = "Relationships";
 
@@ -44,7 +44,7 @@ namespace EzDbSchema.Core.Objects
         }
     }
 
-    public class RelationshipReferenceList : RelationshipList, IRelationshipReferenceList
+    public class RelationshipReferenceList : RelationshipList, IRelationshipReferenceList, IXmlRenderableInternal
     {
         public new static string ALIAS = "Relationships";
         public new XmlNode AsXml(XmlDocument doc)
@@ -78,7 +78,7 @@ namespace EzDbSchema.Core.Objects
             return node;
         }
     }
-    public class RelationshipList : List<IRelationship>, IRelationshipList
+    public class RelationshipList : List<IRelationship>, IRelationshipList, IXmlRenderableInternal
     {
         public static string ALIAS = "RelatedTo";
 

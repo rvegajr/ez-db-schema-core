@@ -8,7 +8,7 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class DatabaseObjectUpdates : EzObject, IDatabaseObjectUpdates
+	public class DatabaseObjectUpdates : EzObject, IDatabaseObjectUpdates, IXmlRenderableInternal
     {
         public DatabaseObjectUpdates() : base()
         {

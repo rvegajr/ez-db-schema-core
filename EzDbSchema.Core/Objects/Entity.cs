@@ -8,7 +8,7 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class Entity : EzObject, IEntity
+	public class Entity : EzObject, IEntity, IXmlRenderableInternal
     {
         public static string ALIAS = "Entity";
         public Entity() : base()

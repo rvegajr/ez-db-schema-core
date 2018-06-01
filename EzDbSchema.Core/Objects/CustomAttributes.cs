@@ -8,7 +8,7 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes
+	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes, IXmlRenderableInternal
     {
         public static string ALIAS = "CustomAttributes";
 

@@ -24,11 +24,11 @@
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
-    <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="CommandSample.cs" />
     <Compile Remove="CommandSchemaDump.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+    <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class PropertyDictionary : Dictionary<string, IProperty>, IPropertyDictionary
+	public class PropertyDictionary : Dictionary<string, IProperty>, IPropertyDictionary, IXmlRenderableInternal
     {
         public static string ALIAS = "Properties";
 
@@ -41,7 +41,7 @@ namespace EzDbSchema.Core.Objects
         }
     }
 
-    public class PropertyList : List<IProperty>, IPropertyList
+    public class PropertyList : List<IProperty>, IPropertyList, IXmlRenderableInternal
     {
         public static string ALIAS = "Properties";
 
@@ -74,7 +74,7 @@ namespace EzDbSchema.Core.Objects
         }
     }
 
-    public class PrimaryKeyProperties : List<IProperty>, IPrimaryKeyProperties
+    public class PrimaryKeyProperties : List<IProperty>, IPrimaryKeyProperties, IXmlRenderableInternal
     {
         public static string ALIAS = "PrimaryKeys";
 

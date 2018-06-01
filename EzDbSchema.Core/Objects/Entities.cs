@@ -9,7 +9,7 @@ using EzDbSchema.Core.Interfaces;
 namespace EzDbSchema.Core.Objects
 {
 	/// <summary></summary>
-	public class EntityDictionary : Dictionary<string, IEntity>, IEntityDictionary
+	public class EntityDictionary : Dictionary<string, IEntity>, IEntityDictionary, IXmlRenderableInternal
     {
         public static string ALIAS = "Entities";
         public EntityDictionary()
@@ -42,7 +42,7 @@ namespace EzDbSchema.Core.Objects
         }
     }
 
-    public class EntityList : List<IEntity>, IEntityList
+    public class EntityList : List<IEntity>, IEntityList, IXmlRenderableInternal
     {
         public static string ALIAS = "Entities";
 
@@ -73,7 +73,7 @@ namespace EzDbSchema.Core.Objects
             return node;
         }
     }
-    public class EntityNameList : List<string>, IEntityNameList
+    public class EntityNameList : List<string>, IEntityNameList, IXmlRenderableInternal
     {
         public static string ALIAS = "EntityNames";
 

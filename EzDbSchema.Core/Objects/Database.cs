@@ -11,7 +11,7 @@ using EzDbSchema.Core.Interfaces;
 namespace EzDbSchema.Core.Objects
 {
 	/// <summary></summary>
-	public abstract class Database : EzObject, IDatabase
+	public abstract class Database : EzObject, IDatabase, IXmlRenderableInternal
     {
         public static string ALIAS = "Schema";
 

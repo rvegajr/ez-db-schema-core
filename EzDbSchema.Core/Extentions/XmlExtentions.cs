@@ -85,7 +85,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                             IXmlRenderable valToRender = val as IXmlRenderable;
                             if (valToRender != null)
                             {
-                                nod.AppendChild(valToRender.AsXml(_doc));
+                                nod.AppendChild(((IXmlRenderableInternal)valToRender).AsXml(_doc));
                             }
                             else if (((pi.PropertyType.FullName.Contains("DateTime") || pi.PropertyType.Name.Equals("String") || pi.PropertyType.IsPrimitive)) && (val != null))
                             {
@@ -133,7 +133,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                 IXmlRenderable valToRender = itemKV.Value as IXmlRenderable;
                 if (valToRender != null)
                 {
-                    var newNode = nod.AppendChild(valToRender.AsXml(_doc));
+                    var newNode = nod.AppendChild(((IXmlRenderableInternal)valToRender).AsXml(_doc));
                     ((XmlElement)newNode).SetAttribute("key", itemKV.Key);
                 } else
                 {
@@ -198,7 +198,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                                         {
                                             try
                                             {
-                                                valToRender.FromXml(ele);
+                                                ((IXmlRenderableInternal)valToRender).FromXml(ele);
                                             }
                                             catch (Exception)
                                             {
@@ -235,7 +235,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                 IXmlRenderable valToRender = obj as IXmlRenderable;
                 if (valToRender != null)
                 {
-                    valToRender.FromXml(ele);
+                    ((IXmlRenderableInternal)valToRender).FromXml(ele);
                     var e = (T)valToRender;
                     items.Add(key, e);
                 }
@@ -258,7 +258,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                         ((IEzObject)e)._id = (int.Parse(ele.Attributes["ref"].InnerText) * -1);
                     } else
                     {
-                        valToRender.FromXml(ele);
+                        ((IXmlRenderableInternal)valToRender).FromXml(ele);
                         e = (T)valToRender;
                     }
                     items.Add(e);
