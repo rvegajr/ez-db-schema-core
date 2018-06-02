@@ -76,7 +76,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema.Core",
-        Version                 = @"1.0.4-rc3",
+        Version                 = @"1.0.4-rc4",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -91,7 +91,7 @@ Task("NuGet-Pack")
         RequireLicenseAcceptance= false,
         Symbols                 = false,
         NoPackageAnalysis       = false,
-        OutputDirectory         = thisDir + "Tools/nuget",
+        OutputDirectory         = thisDir + "artifacts/",
 		Properties = new Dictionary<string, string>
 		{
 			{ @"Configuration", @"Release" }
@@ -107,7 +107,7 @@ Task("NuGet-Pack")
 		ArgumentCustomization = args => args.Append("")		
     };
             	
-    NuGetPack(thisDir + "artifacts/EzDbSchema.Core.nuspec", nuGetPackSettings);
+    NuGetPack(thisDir + "Tools/NuGet/EzDbSchema.Core.nuspec", nuGetPackSettings);
 });
 
 //////////////////////////////////////////////////////////////////////
