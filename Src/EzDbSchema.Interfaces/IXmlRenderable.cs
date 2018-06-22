@@ -16,7 +16,7 @@ namespace EzDbSchema.Core.Interfaces
     /// Used to allow for manipulation of xml but only for the classes within this assembly
     /// </summary>
     /// <seealso cref="EzDbSchema.Core.Interfaces.IXmlRenderable" />
-    internal interface IXmlRenderableInternal
+    public interface IXmlRenderableInternal
     {
         XmlNode AsXml(XmlDocument doc);
         XmlNode FromXml(XmlNode node);

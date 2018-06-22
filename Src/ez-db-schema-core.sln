@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Tests", "EzDbSch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.MsSql", "EzDbSchema.MsSql\EzDbSchema.MsSql.csproj", "{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzDbSchema.Interfaces", "EzDbSchema.Interfaces\EzDbSchema.Interfaces.csproj", "{7C621F97-FC0A-4DCB-BFD6-D0B57B185066}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0F6F1A9-8D07-47E3-B8B8-9EF07EE482CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C621F97-FC0A-4DCB-BFD6-D0B57B185066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C621F97-FC0A-4DCB-BFD6-D0B57B185066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C621F97-FC0A-4DCB-BFD6-D0B57B185066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C621F97-FC0A-4DCB-BFD6-D0B57B185066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

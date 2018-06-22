@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
     <ReleaseVersion>1.0.3</ReleaseVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.4.0</AssemblyVersion>
@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+    <ProjectReference Include="..\EzDbSchema.Interfaces\EzDbSchema.Interfaces.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
