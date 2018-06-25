@@ -36,7 +36,7 @@ Task("Restore-NuGet-Packages")
 	var settings = new NuGetRestoreSettings()
 	{
 		// VSTS has old version of Nuget.exe and Automapper restore fails because of that
-		ToolPath = "./tools/nuget.exe",
+		ToolPath = "./nuget/nuget.exe",
 		Verbosity = NuGetVerbosity.Detailed,
 	};
 	NuGetRestore("./Src/ez-db-schema-core.sln", settings);
@@ -107,7 +107,7 @@ Task("NuGet-Pack")
 		ArgumentCustomization = args => args.Append("")		
     };
             	
-    NuGetPack(thisDir + "Tools/NuGet/EzDbSchema.Core.nuspec", nuGetPackSettings);
+    NuGetPack(thisDir + "NuGet/EzDbSchema.Core.nuspec", nuGetPackSettings);
 });
 
 //////////////////////////////////////////////////////////////////////
