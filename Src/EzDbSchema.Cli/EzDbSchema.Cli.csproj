@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <ReleaseVersion>1.0.3</ReleaseVersion>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +27,9 @@
   <ItemGroup>
     <Compile Remove="CommandSample.cs" />
     <Compile Remove="CommandSchemaDump.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />

@@ -20,7 +20,12 @@
     <PackageTags></PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\VersionInfo.cs" Link="VersionInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
