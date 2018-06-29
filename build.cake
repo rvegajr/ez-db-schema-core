@@ -76,12 +76,12 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.4",
+        Version                 = @"1.0.5",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
         Description             = @"A class library that allows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.",
-        Summary                 = @"A class library that allows you to point to a database and obtain a schema dump in xml format.",
+        Summary                 = @"A class library that allows you to point to a database and obtain a schema dump in json format.",
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
@@ -107,7 +107,7 @@ Task("NuGet-Pack")
 		ArgumentCustomization = args => args.Append("")		
     };
             	
-    NuGetPack(thisDir + "NuGet/EzDbSchema.Core.nuspec", nuGetPackSettings);
+    NuGetPack(thisDir + "NuGet/EzDbSchema.nuspec", nuGetPackSettings);
 });
 
 //////////////////////////////////////////////////////////////////////

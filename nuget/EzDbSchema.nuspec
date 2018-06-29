@@ -14,15 +14,15 @@
     <tags>database schema</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.6.1">
-        <dependency id="EzDbSchema.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.4.3" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp2.0">
-        <dependency id="EzDbSchema.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.4.3" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="EzDbSchema.Core" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.4.3" exclude="Build,Analyzers" />
       </group>
     </dependencies>
