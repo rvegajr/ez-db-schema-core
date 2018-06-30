@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461;netcoreapp2.0</TargetFrameworks>
+    <ReleaseVersion>1.0.3</ReleaseVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <PackageId>EzDbSchema.MsSql</PackageId>
+    <Version>1.0.4-rc3</Version>
+    <Authors></Authors>
+    <Company></Company>
+    <Product></Product>
+    <Description></Description>
+    <Copyright></Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageTags></PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <NeutralLanguage>en</NeutralLanguage>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+  </ItemGroup>
+</Project>

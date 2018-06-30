@@ -1,0 +1,57 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Cli", "EzDbSchema.Cli\EzDbSchema.Cli.csproj", "{7F85BC66-F4F1-4817-8D67-F20472FA752B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Core", "EzDbSchema.Core\EzDbSchema.Core.csproj", "{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.Tests", "EzDbSchema.Tests\EzDbSchema.Tests.csproj", "{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{324DA27D-457A-4C16-BDF5-F8D271255685}"
+	ProjectSection(SolutionItems) = preProject
+		VersionInfo.cs = VersionInfo.cs
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzDbSchema.MsSql", "EzDbSchema.MsSql\EzDbSchema.MsSql.csproj", "{62D1B671-96B5-4555-AA6F-08DB015D545A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F85BC66-F4F1-4817-8D67-F20472FA752B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F85BC66-F4F1-4817-8D67-F20472FA752B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F85BC66-F4F1-4817-8D67-F20472FA752B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F85BC66-F4F1-4817-8D67-F20472FA752B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B29D0063-61D2-4F7A-BFBC-7F7FB0240A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD722FB-62EC-4E2D-98E4-FD86E94C23C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62D1B671-96B5-4555-AA6F-08DB015D545A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62D1B671-96B5-4555-AA6F-08DB015D545A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62D1B671-96B5-4555-AA6F-08DB015D545A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62D1B671-96B5-4555-AA6F-08DB015D545A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA842968-B5BA-4354-8236-3B30BCEFE400}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.VersionControlPolicy = $1
+		$0.DotNetNamingPolicy = $2
+		$2.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $3
+		$3.Text = @\n${FileName}\n \nAuthor:\n      ${AuthorName} <${AuthorEmail}>\n\nCopyright (c) ${Year} ${CopyrightHolder}\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.
+		description = Utility that will quickly populate a simple object model that represents a schema for a database.
+		version = 1.0.3
+	EndGlobalSection
+EndGlobal
