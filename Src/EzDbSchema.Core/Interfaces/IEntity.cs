@@ -5,6 +5,7 @@ namespace EzDbSchema.Core.Interfaces
     {
         bool IsTemporalView { get; set; }
         string Name { get; set; }
+        string Alias { get; set; }
         string ObjectState { get; set; }
         string Schema { get; set; }
         string TemporalType { get; set; }

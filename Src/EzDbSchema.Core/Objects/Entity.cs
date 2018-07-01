@@ -16,6 +16,7 @@ namespace EzDbSchema.Core.Objects
 			this.PrimaryKeys = new PrimaryKeyProperties(this);
         }
         public string Name { get; set; }
+        public string Alias { get; set; }
         public string Schema { get; set; }
         public string Type { get; set; }
         public string TemporalType { get; set; }

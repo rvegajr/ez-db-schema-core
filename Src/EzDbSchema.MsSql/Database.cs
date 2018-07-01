@@ -65,14 +65,11 @@ namespace EzDbSchema.MsSql
 								entityType = new Entity()
                                 {
                                     Name = tableName
-                                    ,
-                                    Type = row["OBJECT_TYPE"].ToString()
-                                    ,
-                                    Schema = row["SCHEMANAME"].ToString()
-                                    ,
-                                    IsTemporalView = ((tableName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
-                                    ,
-                                    TemporalType = (row["TEMPORAL_TYPE_DESC"] == DBNull.Value ? "" : row["TEMPORAL_TYPE_DESC"].ToString())
+                                    , Alias = tableName
+                                    , Type = row["OBJECT_TYPE"].ToString()
+                                    , Schema = row["SCHEMANAME"].ToString()
+                                    , IsTemporalView = ((tableName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
+                                    , TemporalType = (row["TEMPORAL_TYPE_DESC"] == DBNull.Value ? "" : row["TEMPORAL_TYPE_DESC"].ToString())
                                 };
                                 primaryKeyList = new PrimaryKeyProperties(entityType);
                                 entityType.PrimaryKeys = primaryKeyList;
