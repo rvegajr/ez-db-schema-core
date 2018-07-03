@@ -37,20 +37,21 @@ namespace EzDbSchema.MsSql
                         var adapter = new SqlDataAdapter(cmd);
                         adapter.Fill(ds);
                         var tableColumnData = ds.Tables[0];
-                        var CurrentEntityName = "";
+                        var currentSchemaObjectName = "";
+                        var schemaObjectName = "";
                         IEntity entityType = null;
                         PrimaryKeyProperties primaryKeyList = null;
                         foreach (DataRow row in tableColumnData.Rows)
                         {
-                            var tableName = row["TABLENAME"].ToString();
-                            if (CurrentEntityName != tableName)
+                            schemaObjectName = string.Format("{0}.{1}", row["SCHEMANAME"], row["TABLENAME"]);
+                            if (currentSchemaObjectName != schemaObjectName)
                             {
-                                if (CurrentEntityName.Length > 0)
+                                if (currentSchemaObjectName.Length > 0)
                                 {
                                     //Temporal views are handled below
                                     if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE")))
                                     {
-                                        Console.WriteLine("Warning... no primary keys for " + tableName + ".. adding all as primary keys");
+                                        Console.WriteLine("Warning... no primary keys for " + schemaObjectName + ".. adding all as primary keys");
                                         int order = 0;
                                         foreach (var prop in entityType.Properties.Values)
                                         {
@@ -60,20 +61,20 @@ namespace EzDbSchema.MsSql
                                             entityType.PrimaryKeys.Add(prop);
                                         }
                                     }
-                                    schema.Add(CurrentEntityName, entityType);
+                                    schema.Add(currentSchemaObjectName, entityType);
                                 }
 								entityType = new Entity()
                                 {
-                                    Name = tableName
-                                    , Alias = tableName
+                                    Name = row["TABLENAME"].ToString()
+                                    , Alias = schemaObjectName
                                     , Type = row["OBJECT_TYPE"].ToString()
                                     , Schema = row["SCHEMANAME"].ToString()
-                                    , IsTemporalView = ((tableName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
+                                    , IsTemporalView = ((schemaObjectName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
                                     , TemporalType = (row["TEMPORAL_TYPE_DESC"] == DBNull.Value ? "" : row["TEMPORAL_TYPE_DESC"].ToString())
                                 };
                                 primaryKeyList = new PrimaryKeyProperties(entityType);
                                 entityType.PrimaryKeys = primaryKeyList;
-                                CurrentEntityName = tableName;
+                                currentSchemaObjectName = schemaObjectName;
                             }
                             Property property = new Property() { IsNullable = (bool)row["IS_NULLABLE"] };
                             property.Name = (row["COLUMNNAME"] == DBNull.Value ? "" : row["COLUMNNAME"].ToString());
@@ -93,12 +94,12 @@ namespace EzDbSchema.MsSql
                             property.Parent = entityType;
                             entityType.Properties.Add(property.Name, property);
                         }
-                        if (CurrentEntityName.Length > 0)
+                        if (currentSchemaObjectName.Length > 0)
                         {
                             //Temporal views are handled abolve
                             if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE")))
                             {
-                                if (ShowWarnings) Console.WriteLine("Warning... no primary keys for " + CurrentEntityName + ".. adding all as primary keys");
+                                if (ShowWarnings) Console.WriteLine("Warning... no primary keys for " + currentSchemaObjectName + ".. adding all as primary keys");
                                 int order = 0;
                                 foreach (var prop in entityType.Properties.Values)
                                 {
@@ -108,13 +109,15 @@ namespace EzDbSchema.MsSql
                                     entityType.PrimaryKeys.Add(prop);
                                 }
                             }
-                            schema.Add(CurrentEntityName, entityType);
+                            schema.Add(currentSchemaObjectName, entityType);
                         }
 
                         var tableFKeyData = ds.Tables[1];
                         foreach (DataRow row in tableFKeyData.Rows)
                         {
-                            var tableName = row["EntityTable"].ToString();
+                            var entityKey = string.Format("{0}.{1}", row["EntitySchema"], row["EntityTable"]);
+                            if (!schema.ContainsKey(entityKey))
+                                throw new Exception(string.Format("Entity Key {0} was not found.", entityKey));
 
                             string fromEntity = (row["EntityTable"] == DBNull.Value ? "" : row["EntityTable"].ToString());
                             string fromEntityField = (row["EntityColumn"] == DBNull.Value ? "" : row["EntityColumn"].ToString());
@@ -135,14 +138,14 @@ namespace EzDbSchema.MsSql
                                 ToColumnName = toEntityColumnName,
                                 Type = multiplicity,
                                 PrimaryTableName = primaryTableName,
-                                Parent = schema[tableName]
+                                Parent = schema[entityKey]
                             };
 
-                            schema[tableName].Relationships.Add(newRel);
-                            var fieldToMarkRelation = (tableName.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
-                            if (schema[tableName].Properties.ContainsKey(fieldToMarkRelation))
+                            schema[entityKey].Relationships.Add(newRel);
+                            var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
+                            if (schema[entityKey].Properties.ContainsKey(fieldToMarkRelation))
                             {
-                                schema[tableName].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
+                                schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
                             }
                         }
 
@@ -172,12 +175,12 @@ namespace EzDbSchema.MsSql
         private static string FKSQL = @"
 
 SET NOCOUNT ON
-/*
-DROP TABLE #IDX;
-DROP TABLE #COL;
-DROP TABLE #FK;
-DROP TABLE #FKREL;
-*/
+
+DROP TABLE IF EXISTS #IDX;
+DROP TABLE IF EXISTS #COL;
+DROP TABLE IF EXISTS #FK;
+DROP TABLE IF EXISTS #FKREL;
+
 SELECT DISTINCT
     s.name + '.' + t.name + '.' + c.name AS 'FULL_COLUMN_NAME',
     s.name as SCHEMANAME,
@@ -255,9 +258,10 @@ select
 , KP.TABLE_NAME EntityTable
 , KP.COLUMN_NAME EntityColumn
 , KP.TABLE_SCHEMA + '.' + KP.TABLE_NAME + '.' + KP.COLUMN_NAME AS EntityFullColumnName
+, KF.TABLE_SCHEMA RelatedSchema
 , KF.TABLE_NAME RelatedTable
 , KF.COLUMN_NAME RelatedColumn
-, KP.TABLE_SCHEMA + '.' + KF.TABLE_NAME + '.' + KF.COLUMN_NAME AS RelatedFullColumnName
+, KF.TABLE_SCHEMA + '.' + KF.TABLE_NAME + '.' + KF.COLUMN_NAME AS RelatedFullColumnName
 , RC.MATCH_OPTION MatchOption
 , RC.CONSTRAINT_NAME FK_Name
 , KP.TABLE_NAME as PrimaryTableName
@@ -336,6 +340,7 @@ SELECT f.EntitySchema AS SCHEMANAME, f.EntityTable AS TABLENAME,
     , f.EntitySchema 
     , f.EntityTable
     , f.EntityColumn
+	, f.RelatedSchema
     , f.RelatedTable
     , f.RelatedColumn
     , f.EntityFullColumnName
@@ -346,11 +351,12 @@ SELECT f.EntitySchema AS SCHEMANAME, f.EntityTable AS TABLENAME,
 FROM
     #FKREL f
 UNION
-SELECT frel.EntitySchema AS SCHEMANAME, frel.RelatedTable AS TABLENAME,
+SELECT frel.RelatedSchema AS SCHEMANAME, frel.RelatedTable AS TABLENAME,
     frel.FK_Name
-    , frel.EntitySchema 
+    , frel.RelatedSchema
     , frel.RelatedTable
     , frel.RelatedColumn
+    , frel.EntitySchema 
     , frel.EntityTable
     , frel.EntityColumn
     , frel.RelatedFullColumnName
