@@ -21,6 +21,10 @@
         <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
       </group>
+      <group targetFramework=".NETCoreApp2.1">
+        <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
@@ -32,6 +36,8 @@
     <file src="..\EzDbSchema.Core\bin\Release\net461\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net461\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.0\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\netcoreapp2.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netcoreapp2.0\EzDbSchema.Core.dll" />
+    <file src="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.1\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.1\EzDbSchema.MsSql.dll" />
+    <file src="..\EzDbSchema.Core\bin\Release\netcoreapp2.1\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netcoreapp2.1\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\netstandard2.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netstandard2.0\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\netstandard2.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netstandard2.0\EzDbSchema.Core.dll" />
   </files>

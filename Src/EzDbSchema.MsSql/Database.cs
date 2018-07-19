@@ -24,11 +24,21 @@ namespace EzDbSchema.MsSql
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
+                    var OriginalCompatabilityLevel = 0;
                     if (connection.State == ConnectionState.Closed) connection.Open();
-
-                    SqlCommand cmdCompat11 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = 110'; EXECUTE sp_executesql @sql", connection);
-                    cmdCompat11.CommandType = CommandType.Text;
-                    cmdCompat11.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand("SELECT compatibility_level FROM sys.databases WHERE name = DB_NAME()", connection))
+                    {
+                        OriginalCompatabilityLevel = int.Parse(cmd.ExecuteScalar().ToString());
+                    }
+                    /* For some reason that I have not investigated,  calling schema queries takes MUCH more time on any COMPATIBILITY_LEVEL > 110,  this will temporarily obtain the 
+                     * current COMPATIBILITY_LEVEL and save it,  then restore it after this query has run
+                     */
+                    if (OriginalCompatabilityLevel > 110)
+                    {
+                        SqlCommand cmdCompat11 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = 110'; EXECUTE sp_executesql @sql", connection);
+                        cmdCompat11.CommandType = CommandType.Text;
+                        cmdCompat11.ExecuteNonQuery();
+                    }
                     using (SqlCommand cmd = new SqlCommand(FKSQL, connection))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -161,9 +171,12 @@ namespace EzDbSchema.MsSql
                     }
 
                     var itemCount = schema.Keys.Count();
-                    SqlCommand cmdCompat13 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = 130'; EXECUTE sp_executesql @sql", connection);
-                    cmdCompat13.CommandType = CommandType.Text;
-                    cmdCompat13.ExecuteNonQuery();
+                    if (OriginalCompatabilityLevel > 110)
+                    {
+                        SqlCommand cmdCompat13 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = " + OriginalCompatabilityLevel.ToString() + "'; EXECUTE sp_executesql @sql", connection);
+                        cmdCompat13.CommandType = CommandType.Text;
+                        cmdCompat13.ExecuteNonQuery();
+                    }
                     return schema;
                 }
             }
@@ -175,11 +188,10 @@ namespace EzDbSchema.MsSql
         private static string FKSQL = @"
 
 SET NOCOUNT ON
-
-DROP TABLE IF EXISTS #IDX;
-DROP TABLE IF EXISTS #COL;
-DROP TABLE IF EXISTS #FK;
-DROP TABLE IF EXISTS #FKREL;
+IF OBJECT_ID('tempdb..#IDX') IS NOT NULL DROP TABLE #IDX; 
+IF OBJECT_ID('tempdb..#COL') IS NOT NULL DROP TABLE #COL ;
+IF OBJECT_ID('tempdb..#FK') IS NOT NULL DROP TABLE #FK ;
+IF OBJECT_ID('tempdb..#FKREL') IS NOT NULL DROP TABLE #FKREL ;
 
 SELECT DISTINCT
     s.name + '.' + t.name + '.' + c.name AS 'FULL_COLUMN_NAME',
@@ -206,7 +218,8 @@ SELECT DISTINCT
         WHEN 'V' THEN 'VIEW'
         ELSE t.[type]
     END) as OBJECT_TYPE,
-    (SELECT tb.temporal_type_desc FROM sys.tables tb WHERE tb.object_id = t.object_id) AS TEMPORAL_TYPE_DESC
+	CAST(NULL AS VARCHAR(255)) AS TEMPORAL_TYPE_DESC,
+	t.object_id AS TABLE_OBJECTID
 INTO
     #COL
 FROM 
@@ -226,7 +239,30 @@ FROM
 ORDER BY 
     s.name, t.name, ic.ORDINAL_POSITION, c.name;
 
-select 
+DECLARE @SQLMajorVersion DECIMAL
+SELECT @SQLMajorVersion = 
+  CASE 
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '8%' THEN 8
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '9%' THEN 9
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '10.0%' THEN 10
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '10.5%' THEN 10.5
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '11%' THEN 11
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '12%' THEN 12
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '13%' THEN 13     
+     WHEN CONVERT(VARCHAR(128), SERVERPROPERTY ('productversion')) like '14%' THEN 14 
+     ELSE NULL
+  END 
+
+IF ( @SQLMajorVersion > 12 ) BEGIN
+	UPDATE #COL SET
+		TEMPORAL_TYPE_DESC = (SELECT tb.temporal_type_desc FROM sys.tables tb WHERE tb.object_id = #COL.TABLE_OBJECTID) 
+END ELSE BEGIN
+	UPDATE #COL SET
+		TEMPORAL_TYPE_DESC = 'NON_TEMPORAL_TABLE'
+	WHERE OBJECT_TYPE <> 'VIEW'
+END
+
+SELECT
     SCHEMA_NAME(o.schema_id) + '.' + o.name + '.' + co.[name] AS 'FULL_COLUMN_NAME',
     i.name as IndexName, 
     o.name as TableName, 
