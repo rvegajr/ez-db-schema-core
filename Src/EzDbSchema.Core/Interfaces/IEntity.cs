@@ -3,6 +3,7 @@ namespace EzDbSchema.Core.Interfaces
 {
     public interface IEntity : IEzObject, IXmlRenderable
     {
+        IDatabase Parent { get; set; }
         bool IsTemporalView { get; set; }
         string Name { get; set; }
         string Alias { get; set; }

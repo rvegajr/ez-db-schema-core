@@ -81,6 +81,7 @@ namespace EzDbSchema.MsSql
                                     , Schema = row["SCHEMANAME"].ToString()
                                     , IsTemporalView = ((schemaObjectName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
                                     , TemporalType = (row["TEMPORAL_TYPE_DESC"] == DBNull.Value ? "" : row["TEMPORAL_TYPE_DESC"].ToString())
+                                    , Parent = schema
                                 };
                                 primaryKeyList = new PrimaryKeyProperties(entityType);
                                 entityType.PrimaryKeys = primaryKeyList;
@@ -128,6 +129,9 @@ namespace EzDbSchema.MsSql
                             var entityKey = string.Format("{0}.{1}", row["EntitySchema"], row["EntityTable"]);
                             if (!schema.ContainsKey(entityKey))
                                 throw new Exception(string.Format("Entity Key {0} was not found.", entityKey));
+                            var relatedEntityKey = string.Format("{0}.{1}", row["RelatedSchema"], row["RelatedTable"]);
+                            if (!schema.ContainsKey(relatedEntityKey))
+                                throw new Exception(string.Format("Related Entity Key {0} was not found.", relatedEntityKey));
 
                             string fromEntity = (row["EntityTable"] == DBNull.Value ? "" : row["EntityTable"].ToString());
                             string fromEntityField = (row["EntityColumn"] == DBNull.Value ? "" : row["EntityColumn"].ToString());
@@ -140,11 +144,11 @@ namespace EzDbSchema.MsSql
                             var newRel = new Relationship()
                             {
                                 Name = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
-                                FromTableName = fromEntity,
+                                FromTableName = entityKey,
                                 FromFieldName = fromEntityField,
                                 FromColumnName = fromEntityColumnName,
                                 ToFieldName = toEntityField,
-                                ToTableName = toEntity,
+                                ToTableName = relatedEntityKey,
                                 ToColumnName = toEntityColumnName,
                                 Type = multiplicity,
                                 PrimaryTableName = primaryTableName,

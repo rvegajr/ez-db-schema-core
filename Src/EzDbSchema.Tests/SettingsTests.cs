@@ -11,7 +11,7 @@ namespace EzDbSchema.Tests
 		[Fact]
 		public void AppSettingsTests()
 		{
-			Assert.True(AppSettings.Instance.ConnectionString.Length > 0, "Nothing returned in Connection string");
-		}
-	}
+            Assert.True(AppSettings.Instance.ConnectionString.Length > 0, "Nothing returned in Connection string");
+        }
+    }
 }
