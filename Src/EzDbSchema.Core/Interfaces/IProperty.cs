@@ -5,6 +5,7 @@ namespace EzDbSchema.Core.Interfaces
     public interface IProperty : IEzObject, IXmlRenderable
     {
         string Name { get; set; }
+        string Alias { get; set; }
         string Type { get; set; }
         int MaxLength { get; set; }
         int Precision { get; set; }

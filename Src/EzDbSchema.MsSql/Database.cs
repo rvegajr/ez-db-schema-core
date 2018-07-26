@@ -89,6 +89,7 @@ namespace EzDbSchema.MsSql
                             }
                             Property property = new Property() { IsNullable = (bool)row["IS_NULLABLE"] };
                             property.Name = (row["COLUMNNAME"] == DBNull.Value ? "" : row["COLUMNNAME"].ToString());
+                            property.Alias = property.Name + (property.Name.Equals(schemaObjectName) ? "_Text" : "");
                             property.MaxLength = (int)(row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : row["CHARACTER_MAXIMUM_LENGTH"]);
                             property.Precision = (int)(row["NUMERIC_PRECISION"] == DBNull.Value ? 0 : Convert.ToInt32(row["NUMERIC_PRECISION"]));
                             property.Scale = (int)(row["NUMERIC_SCALE"] == DBNull.Value ? 0 : Convert.ToInt32(row["NUMERIC_SCALE"]));

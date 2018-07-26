@@ -17,6 +17,7 @@ namespace EzDbSchema.Core.Objects
 
         }
         public string Name { get; set; }
+        public string Alias { get; set; }
         public string Type { get; set; }
         public int MaxLength { get; set; }
         public int Precision { get; set; }
