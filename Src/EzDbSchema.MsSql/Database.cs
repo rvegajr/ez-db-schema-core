@@ -142,6 +142,7 @@ namespace EzDbSchema.MsSql
                             string fromEntityColumnName = fromEntityField.AsFormattedName();
                             string multiplicity = (row["Multiplicity"] == DBNull.Value ? "" : row["Multiplicity"].ToString());
                             string primaryTableName = (row["PrimaryTableName"] == DBNull.Value ? "" : row["PrimaryTableName"].ToString());
+                            int ordinalPosition = (row["FKOrdinalPosition"] == DBNull.Value ? 0 : row["FKOrdinalPosition"].AsInt(0));
                             var newRel = new Relationship()
                             {
                                 Name = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
@@ -153,6 +154,7 @@ namespace EzDbSchema.MsSql
                                 ToColumnName = toEntityColumnName,
                                 Type = multiplicity,
                                 PrimaryTableName = primaryTableName,
+                                FKOrdinalPosition = ordinalPosition,
                                 Parent = schema[entityKey]
                             };
 
@@ -191,7 +193,6 @@ namespace EzDbSchema.MsSql
             }
         }
         private static string FKSQL = @"
-
 SET NOCOUNT ON
 IF OBJECT_ID('tempdb..#IDX') IS NOT NULL DROP TABLE #IDX; 
 IF OBJECT_ID('tempdb..#COL') IS NOT NULL DROP TABLE #COL ;
@@ -294,30 +295,56 @@ and o.[type] IN ( 'U', 'V' )
 order by o.[name], i.[name], ic.is_included_column, ic.key_ordinal
 ;
 
-select  
-  KP.TABLE_SCHEMA EntitySchema
-, KP.TABLE_NAME EntityTable
-, KP.COLUMN_NAME EntityColumn
-, KP.TABLE_SCHEMA + '.' + KP.TABLE_NAME + '.' + KP.COLUMN_NAME AS EntityFullColumnName
-, KF.TABLE_SCHEMA RelatedSchema
-, KF.TABLE_NAME RelatedTable
-, KF.COLUMN_NAME RelatedColumn
-, KF.TABLE_SCHEMA + '.' + KF.TABLE_NAME + '.' + KF.COLUMN_NAME AS RelatedFullColumnName
-, RC.MATCH_OPTION MatchOption
-, RC.CONSTRAINT_NAME FK_Name
-, KP.TABLE_NAME as PrimaryTableName
-, RC.UPDATE_RULE UpdateRule
-, RC.DELETE_RULE DeleteRule
-INTO
-    #FK
-from 
-    INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS RC join INFORMATION_SCHEMA.KEY_COLUMN_USAGE KF 
-        ON RC.CONSTRAINT_NAME = KF.CONSTRAINT_NAME
-    join INFORMATION_SCHEMA.KEY_COLUMN_USAGE KP 
-        ON RC.UNIQUE_CONSTRAINT_NAME = KP.CONSTRAINT_NAME
+SELECT * INTO #FK FROM (
+SELECT 
+       EntitySchema = CONVERT(SYSNAME,SCHEMA_NAME(O1.SCHEMA_ID)), 
+       EntityTable = CONVERT(SYSNAME,O1.NAME), 
+       EntityColumn = CONVERT(SYSNAME,C1.NAME), 
+	   EntityFullColumnName = CONVERT(SYSNAME,SCHEMA_NAME(O1.SCHEMA_ID)) + '.' + CONVERT(SYSNAME,O1.NAME) + '.' + CONVERT(SYSNAME,C1.NAME),
+       RelatedSchema = CONVERT(SYSNAME,SCHEMA_NAME(O2.SCHEMA_ID)), 
+       RelatedTable = CONVERT(SYSNAME,O2.NAME), 
+       RelatedColumn = CONVERT(SYSNAME,C2.NAME) , 
+	   RelatedFullColumnName = CONVERT(SYSNAME,SCHEMA_NAME(O2.SCHEMA_ID))  + '.' +  CONVERT(SYSNAME,O2.NAME) + '.' + CONVERT(SYSNAME,C2.NAME),
+	   MatchOption = 'SIMPLE',
+       FK_Name = CONVERT(SYSNAME,OBJECT_NAME(F.OBJECT_ID)), 
+       PK_NAME = CONVERT(SYSNAME,I.NAME), 
+	   PrimaryTableName = CONVERT(SYSNAME,O1.NAME),
+       UpdateRule = CONVERT(VARCHAR(255),CASE OBJECTPROPERTY(F.OBJECT_ID,'CnstIsUpdateCascade')  
+                                        WHEN 1 THEN 'CASCADE' 
+                                        ELSE 'NO ACTION' 
+                                      END), 
+       DeleteRule = CONVERT(VARCHAR(255),CASE OBJECTPROPERTY(F.OBJECT_ID,'CnstIsDeleteCascade')  
+                                        WHEN 1 THEN 'CASCADE' 
+                                        ELSE 'NO ACTION' 
+                                      END)
+	   , FKOrdinalPosition = (SELECT ORDINAL_POSITION FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU WHERE KCU.CONSTRAINT_NAME = CONVERT(SYSNAME,OBJECT_NAME(F.OBJECT_ID)) AND KCU.COLUMN_NAME =CONVERT(SYSNAME,C2.NAME))
+	   --, DEFERRABILITY = CONVERT(SMALLINT,7)   -- SQL_NOT_DEFERRABLE 
+FROM   SYS.ALL_OBJECTS O1, 
+       SYS.ALL_OBJECTS O2, 
+       SYS.ALL_COLUMNS C1, 
+       SYS.ALL_COLUMNS C2, 
+       SYS.FOREIGN_KEYS F 
+       INNER JOIN SYS.FOREIGN_KEY_COLUMNS K 
+         ON (K.CONSTRAINT_OBJECT_ID = F.OBJECT_ID) 
+       INNER JOIN SYS.INDEXES I 
+         ON (F.REFERENCED_OBJECT_ID = I.OBJECT_ID 
+             AND F.KEY_INDEX_ID = I.INDEX_ID) 
+WHERE  O1.OBJECT_ID = F.REFERENCED_OBJECT_ID 
+       AND O2.OBJECT_ID = F.PARENT_OBJECT_ID 
+       AND C1.OBJECT_ID = F.REFERENCED_OBJECT_ID 
+       AND C2.OBJECT_ID = F.PARENT_OBJECT_ID 
+       AND C1.COLUMN_ID = K.REFERENCED_COLUMN_ID
+       AND C2.COLUMN_ID = K.PARENT_COLUMN_ID
+	   /*
 ORDER BY 
-    EntitySchema, EntityTable, EntityColumn, RelatedTable, RelatedColumn;
-
+		CONVERT(SYSNAME,SCHEMA_NAME(O1.SCHEMA_ID)) --PK_TABLEOWNER
+		, CONVERT(SYSNAME,O1.NAME) -- PK TABLE NAME
+		, CONVERT(SYSNAME,C1.NAME)
+		, CONVERT(SYSNAME,O2.NAME)
+		, CONVERT(SYSNAME,C2.NAME)*/
+) t 
+ORDER BY 
+	EntitySchema, EntityTable, FKOrdinalPosition;
 
 --SELECT * FROM #IDX;
 --SELECT * FROM #COL;
@@ -389,6 +416,7 @@ SELECT f.EntitySchema AS SCHEMANAME, f.EntityTable AS TABLENAME,
     , (f.RelationMultiplicityEntity + ' to ' + f.RelationMultiplicityRelated) as Multiplicity
     , 1 as RelationGroupSort
     , f.PrimaryTableName
+	, f.FKOrdinalPosition
 FROM
     #FKREL f
 UNION
@@ -405,6 +433,7 @@ SELECT frel.RelatedSchema AS SCHEMANAME, frel.RelatedTable AS TABLENAME,
     , (frel.InverseRelationMultiplicityEntity + ' to ' + frel.InverseRelationMultiplicityRelated) as Multiplicity
     , 2 as RelationGroupSort
     , frel.PrimaryTableName
+	, frel.FKOrdinalPosition
 FROM
     #FKREL frel 
 ) e
@@ -413,7 +442,8 @@ WHERE
  NOT (  e.EntityTable = e.RelatedTable AND e.EntityColumn = e.RelatedColumn)
  
 ORDER BY
-    EntitySchema, EntityTable, RelationGroupSort, EntityColumn, RelatedTable, RelatedColumn
+    EntitySchema, EntityTable, RelationGroupSort, FK_Name, FKOrdinalPosition, EntityColumn, RelatedTable, RelatedColumn
+;
 
 DROP TABLE #IDX;
 DROP TABLE #COL;

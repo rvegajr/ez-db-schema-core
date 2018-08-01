@@ -25,6 +25,7 @@ namespace EzDbSchema.Core.Objects
         public string ToColumnName { get; set; }
         public string Type { get; set; }
         public string PrimaryTableName { get; set; }
+        public int FKOrdinalPosition { get; set; } = 0;
         [AsRef("_id")]
         public IEntity Parent { get; set; }
 

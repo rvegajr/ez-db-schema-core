@@ -60,5 +60,19 @@ namespace EzDbSchema.Tests
             }
         }
 
+
+        [Fact]
+        public void DeserialzieTests()
+        {
+            try
+            {
+                string path = Path.GetTempPath();
+                var dbschema2 = Database.FromJsonFile(@"\\vmware-host\Shared Folders\Downloads\Unifier.BP.Schema.json");
+            }
+            catch (Exception ex)
+            {
+                Assert.True(false, ex.ToString());
+            }
+        }
     }
 }
