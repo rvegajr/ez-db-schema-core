@@ -13,5 +13,17 @@ namespace EzDbSchema.Core.Interfaces
         string ToFieldName { get; set; }
         string ToTableName { get; set; }
         string Type { get; set; }
+        RelationshipMultiplicityType MultiplicityType { get; set; }
     }
+
+    public enum RelationshipMultiplicityType
+    {
+        Unknown,
+        OneToOne,
+        OneToMany,
+        ZeroOrOneToMany,
+        ManyToOne,
+        ManyToZeroOrOne
+    }
+
 }

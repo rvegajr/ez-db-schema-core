@@ -52,16 +52,7 @@ namespace EzDbSchema.Core.Objects
             this.FromXmlNode(node, ALIAS);
             return node;
         }
-
     }
 
-    public enum RelationshipMultiplicityType
-    {
-        Unknown,
-        OneToOne,
-        OneToMany,
-        ZeroOrOneToMany,
-        ManyToOne,
-        ManyToZeroOrOne
-    }
+
 }
