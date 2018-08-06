@@ -155,8 +155,28 @@ namespace EzDbSchema.MsSql
                                 Type = multiplicity,
                                 PrimaryTableName = primaryTableName,
                                 FKOrdinalPosition = ordinalPosition,
-                                Parent = schema[entityKey]
+                                Parent = schema[entityKey],
+                                MultiplicityType = RelationshipMultiplicityType.Unknown
                             };
+
+                            switch (newRel.Type.ToLower())
+                            {
+                                case "one to one":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToOne;
+                                    break;
+                                case "one to many":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToMany;
+                                    break;
+                                case "zeroorone to many":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToMany;
+                                    break;
+                                case "many to one":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.ManyToOne;
+                                    break;
+                                case "many to zeroorone":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.ManyToZeroOrOne;
+                                    break;
+                            }
 
                             schema[entityKey].Relationships.Add(newRel);
                             var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);

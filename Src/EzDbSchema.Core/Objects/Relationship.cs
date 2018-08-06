@@ -24,6 +24,7 @@ namespace EzDbSchema.Core.Objects
         public string ToFieldName { get; set; }
         public string ToColumnName { get; set; }
         public string Type { get; set; }
+        public RelationshipMultiplicityType MultiplicityType { get; set; } = RelationshipMultiplicityType.Unknown;
         public string PrimaryTableName { get; set; }
         public int FKOrdinalPosition { get; set; } = 0;
         [AsRef("_id")]
@@ -52,5 +53,15 @@ namespace EzDbSchema.Core.Objects
             return node;
         }
 
+    }
+
+    public enum RelationshipMultiplicityType
+    {
+        Unknown,
+        OneToOne,
+        OneToMany,
+        ZeroOrOneToMany,
+        ManyToOne,
+        ManyToZeroOrOne
     }
 }
