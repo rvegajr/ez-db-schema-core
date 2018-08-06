@@ -164,6 +164,10 @@ namespace EzDbSchema.MsSql
                             {
                                 schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
                             }
+                            if (string.IsNullOrEmpty(newRel.Name)) throw new Exception("FK Namne is missing from the relationship");
+                            if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.Name))
+                                schema[entityKey].RelationshipGroups.Add(newRel.Name, new RelationshipList());
+                            schema[entityKey].RelationshipGroups[newRel.Name].Add(newRel);
                         }
 
                         var tableLastDateTime = ds.Tables[2];

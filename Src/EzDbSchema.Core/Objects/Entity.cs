@@ -25,7 +25,9 @@ namespace EzDbSchema.Core.Objects
 
 		public IPropertyDictionary Properties { get; set; } = new PropertyDictionary();
 		public IRelationshipReferenceList Relationships { get; set; } = new RelationshipReferenceList();
-		public IPrimaryKeyProperties PrimaryKeys { get; set; }
+        public IRelationshipGroups RelationshipGroups { get; set; } = new RelationshipGroups();
+
+        public IPrimaryKeyProperties PrimaryKeys { get; set; }
 		public ICustomAttributes CustomAttributes { get; set; }
 
         public bool IsTemporalView { get; set; }

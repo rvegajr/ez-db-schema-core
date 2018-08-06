@@ -17,6 +17,7 @@ namespace EzDbSchema.Core.Interfaces
 
         IPropertyDictionary Properties { get; set; }
         IRelationshipReferenceList Relationships { get; set; }
+        IRelationshipGroups RelationshipGroups { get; set; }
         IPrimaryKeyProperties PrimaryKeys { get; set; }
         ICustomAttributes CustomAttributes { get; set; }
     }

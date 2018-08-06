@@ -78,6 +78,42 @@ namespace EzDbSchema.Core.Objects
             return node;
         }
     }
+    /// <summary>
+    /// A group of relationship lists that are group by foriegn key name,  this allows the schema to represent composite foriegn keys
+    /// </summary>
+    public class RelationshipGroups : Dictionary<string, IRelationshipList>, IRelationshipGroups, IXmlRenderableInternal
+    {
+        public static string ALIAS = "RelationshipGroups";
+
+        public RelationshipGroups()
+        {
+            this._id = this.GetId();
+        }
+        public int _id { get; set; }
+        public XmlNode AsXml(XmlDocument doc)
+        {
+            return this.DictionaryAsXmlNode(doc, ALIAS);
+        }
+
+        public string AsXml()
+        {
+            return AsXml(new XmlDocument()).OuterXml;
+        }
+
+        public void FromXml(string Xml)
+        {
+            var doc = (new XmlDocument());
+            doc.LoadXml(Xml);
+            FromXml(doc.FirstChild);
+        }
+
+        public XmlNode FromXml(XmlNode node)
+        {
+            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
+            return node;
+        }
+
+    }
     public class RelationshipList : List<IRelationship>, IRelationshipList, IXmlRenderableInternal
     {
         public static string ALIAS = "RelatedTo";
@@ -121,6 +157,26 @@ namespace EzDbSchema.Core.Objects
             else if (searchField == RelationSearchField.FromFieldName) return list.Count(r => r.FromFieldName == searchFor);
             else if (searchField == RelationSearchField.FromColumnName) return list.Count(r => r.FromColumnName == searchFor);
             else return 0;
+        }
+
+        public IRelationshipList FindItems(string searchFor)
+        {
+            return FindItems(RelationSearchField.ToTableName, searchFor);
+        }
+
+        public IRelationshipList FindItems(RelationSearchField searchField, string searchFor)
+        {
+            var list = new RelationshipList();
+            foreach (var item in this)
+            {
+                if ((searchField == RelationSearchField.ToTableName) && (item.ToTableName == searchFor)) list.Add(item);
+                else if ((searchField == RelationSearchField.ToColumnName) && (item.ToColumnName == searchFor)) list.Add(item);
+                else if ((searchField == RelationSearchField.ToFieldName) && (item.ToFieldName == searchFor)) list.Add(item);
+                else if ((searchField == RelationSearchField.FromTableName) && (item.FromTableName == searchFor)) list.Add(item);
+                else if ((searchField == RelationSearchField.FromFieldName) && (item.FromFieldName == searchFor)) list.Add(item);
+                else if ((searchField == RelationSearchField.FromColumnName) && (item.FromColumnName == searchFor)) list.Add(item);
+            }
+            return list;
         }
 
         public XmlNode AsXml(XmlDocument doc)
