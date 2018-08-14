@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Interfaces
 
     public interface IRelationshipList : IList<IRelationship>, IEzObject, IXmlRenderable
     {
-		IRelationshipList Fetch(RelationshipType TypeToFetch);
+		IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch);
 		int CountItems(string searchFor);
 		int CountItems(RelationSearchField searchField, string searchFor);
         IRelationshipList FindItems(string searchFor);

@@ -123,14 +123,17 @@ namespace EzDbSchema.Core.Objects
             this._id = this.GetId();
         }
         public int _id { get; set; }
-        public IRelationshipList Fetch(RelationshipType TypeToFetch)
+        public IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch)
         {
             var retListRaw = new List<IRelationship>();
-			if (TypeToFetch == RelationshipType.OneToMany) retListRaw = this.Where(r => r.Type == "One to Many").ToList();
-			else if (TypeToFetch == RelationshipType.ZeroOrOneToMany) retListRaw = this.Where(r => ((r.Type == "One to Many") || (r.Type == "ZeroOrOne to Many"))).ToList();
-			else if (TypeToFetch == RelationshipType.ManyToOne) retListRaw = this.Where(r => r.Type == "Many to One").ToList();
-			else if (TypeToFetch == RelationshipType.ManyToZeroOrOne) retListRaw = this.Where(r => ((r.Type == "Many to ZeroOrOne") || (r.Type == "Many to One"))).ToList();
-			else if (TypeToFetch == RelationshipType.OneToOne) retListRaw = this.Where(r => (r.Type == "One to One")).ToList();
+			if (TypeToFetch == RelationshipMultiplicityType.OneToMany) retListRaw = this.Where(r => r.Type == "One to Many").ToList();
+			else if (TypeToFetch == RelationshipMultiplicityType.ZeroOrOneToMany) retListRaw = this.Where(r => ((r.Type == "One to Many") || (r.Type == "ZeroOrOne to Many"))).ToList();
+			else if (TypeToFetch == RelationshipMultiplicityType.ManyToOne) retListRaw = this.Where(r => r.Type == "Many to One").ToList();
+			else if (TypeToFetch == RelationshipMultiplicityType.ManyToZeroOrOne) retListRaw = this.Where(r => ((r.Type == "Many to ZeroOrOne") || (r.Type == "Many to One"))).ToList();
+			else if (TypeToFetch == RelationshipMultiplicityType.OneToOne) retListRaw = this.Where(r => (r.Type == "One to One")).ToList();
+            else if (TypeToFetch == RelationshipMultiplicityType.OneToZeroOrOne) retListRaw = this.Where(r => (r.Type == "One to ZeroOrOne")).ToList();
+            else if (TypeToFetch == RelationshipMultiplicityType.ZeroOrOneToOne) retListRaw = this.Where(r => (r.Type == "ZeroOrOne to One")).ToList();
+
             var retList = new RelationshipList();
             if (retListRaw.Count > 0)
             {

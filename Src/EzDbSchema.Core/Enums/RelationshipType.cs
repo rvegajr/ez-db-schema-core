@@ -1,12 +1,15 @@
 ﻿using System;
 namespace EzDbSchema.Core.Enums
 {
-    public enum RelationshipType
+    public enum RelationshipMultiplicityType
     {
+        Unknown,
+        OneToOne,
         OneToMany,
         ZeroOrOneToMany,
         ManyToOne,
         ManyToZeroOrOne,
-        OneToOne
+        ZeroOrOneToOne,
+        OneToZeroOrOne
     }
 }

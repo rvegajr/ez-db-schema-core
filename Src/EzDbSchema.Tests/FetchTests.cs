@@ -23,11 +23,11 @@ namespace EzDbSchema.Tests
             {
                 try
                 {
-                    var k1 = e.Relationships.Fetch(Core.Enums.RelationshipType.ManyToOne);
-                    var k2 = e.Relationships.Fetch(Core.Enums.RelationshipType.ManyToZeroOrOne);
-                    var k3 = e.Relationships.Fetch(Core.Enums.RelationshipType.OneToMany);
-                    var k4 = e.Relationships.Fetch(Core.Enums.RelationshipType.OneToOne);
-                    var k5 = e.Relationships.Fetch(Core.Enums.RelationshipType.ZeroOrOneToMany);
+                    var k1 = e.Relationships.Fetch(Core.Enums.RelationshipMultiplicityType.ManyToOne);
+                    var k2 = e.Relationships.Fetch(Core.Enums.RelationshipMultiplicityType.ManyToZeroOrOne);
+                    var k3 = e.Relationships.Fetch(Core.Enums.RelationshipMultiplicityType.OneToMany);
+                    var k4 = e.Relationships.Fetch(Core.Enums.RelationshipMultiplicityType.OneToOne);
+                    var k5 = e.Relationships.Fetch(Core.Enums.RelationshipMultiplicityType.ZeroOrOneToMany);
                 }
                 catch (Exception)
                 {

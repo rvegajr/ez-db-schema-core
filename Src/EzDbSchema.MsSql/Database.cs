@@ -10,6 +10,7 @@ using EzDbSchema.Core.Objects;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
 using EzDbSchema.Core.Extentions.Strings;
+using EzDbSchema.Core.Enums;
 
 namespace EzDbSchema.MsSql
 {
@@ -176,6 +177,12 @@ namespace EzDbSchema.MsSql
                                 case "many to zeroorone":
                                     newRel.MultiplicityType = RelationshipMultiplicityType.ManyToZeroOrOne;
                                     break;
+                                case "one to zeroorone":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToZeroOrOne;
+                                    break;
+                                case "zeroorone to one":
+                                    newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToOne;
+                                    break;
                             }
 
                             schema[entityKey].Relationships.Add(newRel);
@@ -222,6 +229,7 @@ IF OBJECT_ID('tempdb..#IDX') IS NOT NULL DROP TABLE #IDX;
 IF OBJECT_ID('tempdb..#COL') IS NOT NULL DROP TABLE #COL ;
 IF OBJECT_ID('tempdb..#FK') IS NOT NULL DROP TABLE #FK ;
 IF OBJECT_ID('tempdb..#FKREL') IS NOT NULL DROP TABLE #FKREL ;
+IF OBJECT_ID('tempdb..#KEYCOUNT') IS NOT NULL DROP TABLE #KEYCOUNT ;
 
 SELECT DISTINCT
     s.name + '.' + t.name + '.' + c.name AS 'FULL_COLUMN_NAME',
@@ -268,6 +276,17 @@ FROM
         ON cu4pk.CONSTRAINT_NAME = tc4pk.CONSTRAINT_NAME AND cu4pk.COLUMN_NAME = c.name
 ORDER BY 
     s.name, t.name, ic.ORDINAL_POSITION, c.name;
+
+SELECT 
+	SCHEMANAME, TABLENAME, COUNT(PRIMARY_KEY_ORDER) as KEYCOUNT
+INTO
+	#KEYCOUNT
+FROM
+	#COL
+WHERE 
+	PRIMARY_KEY_ORDER IS NOT NULL
+GROUP BY 
+	SCHEMANAME, TABLENAME;
 
 DECLARE @SQLMajorVersion DECIMAL
 SELECT @SQLMajorVersion = 
@@ -370,11 +389,14 @@ ORDER BY
 ORDER BY 
 	EntitySchema, EntityTable, FKOrdinalPosition;
 
---SELECT * FROM #IDX;
---SELECT * FROM #COL;
+-- SELECT '' AS '#KEYCOUNT', * FROM #KEYCOUNT; --DEBUG
+--SELECT '' AS '#IDX', * FROM #IDX; --DEBUG
+-- SELECT '' AS '#COL', * FROM #COL; --DEBUG
 SELECT 
     fk.*
-    , (CASE 
+	, entitykey.KEYCOUNT as EKEYCNT, entitycol.IS_NULLABLE AS ENULL, entitycol.PRIMARY_KEY_ORDER AS EPKORDER
+	, relatedkey.KEYCOUNT as RKEYCNT, relatedcol.IS_NULLABLE AS RNULL, relatedcol.PRIMARY_KEY_ORDER AS RPKORDER
+    , (CASE   --RelationMultiplicityEntity
         WHEN entitycol.IS_NULLABLE = 0
             THEN 'One'
         WHEN entitycol.IS_NULLABLE = 1
@@ -382,29 +404,33 @@ SELECT
         ELSE
             'Unknown'
     END) as RelationMultiplicityEntity
-    , (CASE 
-        WHEN relatedcol.PRIMARY_KEY_ORDER IS NOT NULL
+    , (CASE --RelationMultiplicityRelated
+        WHEN relatedcol.PRIMARY_KEY_ORDER IS NOT NULL AND relatedkey.KEYCOUNT = 1 AND relatedcol.IS_NULLABLE = 0
             THEN 'One'
+        WHEN relatedcol.PRIMARY_KEY_ORDER IS NOT NULL AND relatedkey.KEYCOUNT = 1 AND relatedcol.IS_NULLABLE = 1
+            THEN 'ZeroOrOne'
         WHEN relatedcol.IS_NULLABLE = 0
             THEN 'Many'
         ELSE
             'Many'
     END) as RelationMultiplicityRelated
-    , (CASE 
-        WHEN relatedcol.PRIMARY_KEY_ORDER IS NOT NULL
-            THEN 'One'
-        WHEN entitycol.IS_NULLABLE = 0
-            THEN 'Many'
-        ELSE
-            'Many'
-    END) as InverseRelationMultiplicityEntity
-    , (CASE 
+    , (CASE -- InverseRelationMultiplicityEntity
         WHEN relatedcol.IS_NULLABLE = 0
             THEN 'One'
         WHEN relatedcol.IS_NULLABLE = 1
             THEN 'ZeroOrOne'
         ELSE
             'Unknown'
+    END) as InverseRelationMultiplicityEntity
+    , (CASE -- InverseRelationMultiplicityRelated
+        WHEN entitycol.PRIMARY_KEY_ORDER IS NOT NULL AND entitykey.KEYCOUNT = 1 AND entitycol.IS_NULLABLE = 0
+            THEN 'One'
+        WHEN entitycol.PRIMARY_KEY_ORDER IS NOT NULL AND entitykey.KEYCOUNT = 1 AND entitycol.IS_NULLABLE = 1
+            THEN 'ZeroOrOne'
+        WHEN entitycol.IS_NULLABLE = 0
+            THEN 'Many'
+        ELSE
+            'Many'
     END) as InverseRelationMultiplicityRelated
 INTO 
     #FKREL
@@ -413,14 +439,19 @@ FROM
         ON entitycol.FULL_COLUMN_NAME = fk.EntityFullColumnName
     LEFT OUTER JOIN #IDX entityidx
         ON entityidx.FULL_COLUMN_NAME = entitycol.FULL_COLUMN_NAME
+	LEFT OUTER JOIN #KEYCOUNT entitykey
+		ON entitykey.SCHEMANAME = entitycol.SCHEMANAME AND entitykey.TABLENAME = entitycol.TABLENAME
     LEFT OUTER JOIN #COL relatedcol
         ON relatedcol.FULL_COLUMN_NAME = fk.RelatedFullColumnName
     LEFT OUTER JOIN #IDX relatedidx
         ON relatedidx.FULL_COLUMN_NAME = relatedcol.FULL_COLUMN_NAME
+	LEFT OUTER JOIN #KEYCOUNT relatedkey
+		ON relatedkey.SCHEMANAME = relatedcol.SCHEMANAME AND relatedkey.TABLENAME = relatedcol.TABLENAME
 ORDER BY
     EntitySchema, EntityTable, EntityColumn, RelatedTable, RelatedColumn
 ;
 
+--SELECT '' AS '#FKREL', * FROM #FKREL; -- DEBUG
 
 SELECT * FROM #COL 
 --WHERE TABLENAME = 'DrillGroupsTemporal'
@@ -473,6 +504,8 @@ DROP TABLE #IDX;
 DROP TABLE #COL;
 DROP TABLE #FK;
 DROP TABLE #FKREL;
+DROP TABLE #KEYCOUNT;
+
 
 DECLARE @LastCreate DATETIME, @LastUpdate DATETIME
 DECLARE @LastItemCreated VARCHAR(MAX), @LastItemUpdate VARCHAR(MAX)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EzDbSchema.Core.Enums;
+using System;
 namespace EzDbSchema.Core.Interfaces
 {
     public interface IRelationship : IEzObject, IXmlRenderable
@@ -14,16 +15,6 @@ namespace EzDbSchema.Core.Interfaces
         string ToTableName { get; set; }
         string Type { get; set; }
         RelationshipMultiplicityType MultiplicityType { get; set; }
-    }
-
-    public enum RelationshipMultiplicityType
-    {
-        Unknown,
-        OneToOne,
-        OneToMany,
-        ZeroOrOneToMany,
-        ManyToOne,
-        ManyToZeroOrOne
     }
 
 }
