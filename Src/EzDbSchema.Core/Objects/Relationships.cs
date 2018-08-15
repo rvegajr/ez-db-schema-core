@@ -131,8 +131,8 @@ namespace EzDbSchema.Core.Objects
 			else if (TypeToFetch == RelationshipMultiplicityType.ManyToOne) retListRaw = this.Where(r => r.Type == "Many to One").ToList();
 			else if (TypeToFetch == RelationshipMultiplicityType.ManyToZeroOrOne) retListRaw = this.Where(r => ((r.Type == "Many to ZeroOrOne") || (r.Type == "Many to One"))).ToList();
 			else if (TypeToFetch == RelationshipMultiplicityType.OneToOne) retListRaw = this.Where(r => (r.Type == "One to One")).ToList();
-            else if (TypeToFetch == RelationshipMultiplicityType.OneToZeroOrOne) retListRaw = this.Where(r => (r.Type == "One to ZeroOrOne")).ToList();
-            else if (TypeToFetch == RelationshipMultiplicityType.ZeroOrOneToOne) retListRaw = this.Where(r => (r.Type == "ZeroOrOne to One")).ToList();
+            else if (TypeToFetch == RelationshipMultiplicityType.OneToZeroOrOne) retListRaw = this.Where(r => ((r.Type == "One to ZeroOrOne") || (r.Type == "One to One"))).ToList();
+            else if (TypeToFetch == RelationshipMultiplicityType.ZeroOrOneToOne) retListRaw = this.Where(r => ((r.Type == "ZeroOrOne to One") || (r.Type == "One to One"))).ToList();
 
             var retList = new RelationshipList();
             if (retListRaw.Count > 0)
