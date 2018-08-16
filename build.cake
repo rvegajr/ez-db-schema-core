@@ -86,7 +86,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018",
-        ReleaseNotes            = new [] {"Added Multiplicity Enum for Standardization", "Added Relationship Groups for Composite Keys", "Added FindItems for Relationships", "Issues fixes", "Typos"},
+        ReleaseNotes            = new [] {"Fixed Inverse Relationships", "Fixed Composite Key Multiplicity Issue", "Issues fixes", "Typos"},
         Tags                    = new [] {"Database ", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
