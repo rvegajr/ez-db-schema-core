@@ -21,9 +21,13 @@ namespace EzDbSchema.Core.Objects
         public string FromTableName { get; set; }
         public string FromFieldName { get; set; }
         public string FromColumnName { get; set; }
+        public IEntity FromEntity { get; set; }
+        public IProperty FromProperty { get; set; }
         public string ToTableName { get; set; }
         public string ToFieldName { get; set; }
         public string ToColumnName { get; set; }
+        public IEntity ToEntity { get; set; }
+        public IProperty ToProperty { get; set; }
         public string Type { get; set; }
         public RelationshipMultiplicityType MultiplicityType { get; set; } = RelationshipMultiplicityType.Unknown;
         public string PrimaryTableName { get; set; }

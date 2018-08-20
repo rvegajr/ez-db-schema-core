@@ -129,6 +129,7 @@ namespace EzDbSchema.MsSql
                         foreach (DataRow row in tableFKeyData.Rows)
                         {
                             var entityKey = string.Format("{0}.{1}", row["EntitySchema"], row["EntityTable"]);
+                            var toEntityKey = string.Format("{0}.{1}", row["RelatedSchema"], row["RelatedTable"]);
                             if (!schema.ContainsKey(entityKey))
                                 throw new Exception(string.Format("Entity Key {0} was not found.", entityKey));
                             var relatedEntityKey = string.Format("{0}.{1}", row["RelatedSchema"], row["RelatedTable"]);
@@ -144,57 +145,71 @@ namespace EzDbSchema.MsSql
                             string multiplicity = (row["Multiplicity"] == DBNull.Value ? "" : row["Multiplicity"].ToString());
                             string primaryTableName = (row["PrimaryTableName"] == DBNull.Value ? "" : row["PrimaryTableName"].ToString());
                             int ordinalPosition = (row["FKOrdinalPosition"] == DBNull.Value ? 0 : row["FKOrdinalPosition"].AsInt(0));
-                            var newRel = new Relationship()
+                            try
                             {
-                                Name = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
-                                FromTableName = entityKey,
-                                FromFieldName = fromEntityField,
-                                FromColumnName = fromEntityColumnName,
-                                ToFieldName = toEntityField,
-                                ToTableName = relatedEntityKey,
-                                ToColumnName = toEntityColumnName,
-                                Type = multiplicity,
-                                PrimaryTableName = primaryTableName,
-                                FKOrdinalPosition = ordinalPosition,
-                                Parent = schema[entityKey],
-                                MultiplicityType = RelationshipMultiplicityType.Unknown
-                            };
+                                var newRel = new Relationship()
+                                {
+                                    Name = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
+                                    FromTableName = entityKey,
+                                    FromFieldName = fromEntityField,
+                                    FromColumnName = fromEntityColumnName,
+                                    FromEntity = schema[entityKey],
+                                    FromProperty = schema[entityKey].Properties[fromEntityField],
+                                    ToFieldName = toEntityField,
+                                    ToTableName = relatedEntityKey,
+                                    ToColumnName = toEntityColumnName,
+                                    ToEntity = schema[toEntityKey],
+                                    ToProperty = schema[toEntityKey].Properties[toEntityField],
+                                    Type = multiplicity,
+                                    PrimaryTableName = primaryTableName,
+                                    FKOrdinalPosition = ordinalPosition,
+                                    Parent = schema[entityKey],
+                                    MultiplicityType = RelationshipMultiplicityType.Unknown
+                                };
+                                switch (newRel.Type.ToLower())
+                                {
+                                    case "one to one":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.OneToOne;
+                                        break;
+                                    case "one to many":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.OneToMany;
+                                        break;
+                                    case "zeroorone to many":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToMany;
+                                        break;
+                                    case "many to one":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.ManyToOne;
+                                        break;
+                                    case "many to zeroorone":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.ManyToZeroOrOne;
+                                        break;
+                                    case "one to zeroorone":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.OneToZeroOrOne;
+                                        break;
+                                    case "zeroorone to one":
+                                        newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToOne;
+                                        break;
+                                }
 
-                            switch (newRel.Type.ToLower())
+                                schema[entityKey].Relationships.Add(newRel);
+                                var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
+                                if (schema[entityKey].Properties.ContainsKey(fieldToMarkRelation))
+                                {
+                                    schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
+                                }
+                                if (string.IsNullOrEmpty(newRel.Name)) throw new Exception("FK Namne is missing from the relationship");
+                                if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.Name))
+                                    schema[entityKey].RelationshipGroups.Add(newRel.Name, new RelationshipList());
+                                schema[entityKey].RelationshipGroups[newRel.Name].Add(newRel);
+
+                            }
+                            catch (Exception relEx)
                             {
-                                case "one to one":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToOne;
-                                    break;
-                                case "one to many":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToMany;
-                                    break;
-                                case "zeroorone to many":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToMany;
-                                    break;
-                                case "many to one":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.ManyToOne;
-                                    break;
-                                case "many to zeroorone":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.ManyToZeroOrOne;
-                                    break;
-                                case "one to zeroorone":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.OneToZeroOrOne;
-                                    break;
-                                case "zeroorone to one":
-                                    newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToOne;
-                                    break;
+                                throw new Exception(string.Format("Error while adding relationship {0}. {1}", 
+                                    row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(), relEx.Message
+                                ), relEx);
                             }
 
-                            schema[entityKey].Relationships.Add(newRel);
-                            var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
-                            if (schema[entityKey].Properties.ContainsKey(fieldToMarkRelation))
-                            {
-                                schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
-                            }
-                            if (string.IsNullOrEmpty(newRel.Name)) throw new Exception("FK Namne is missing from the relationship");
-                            if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.Name))
-                                schema[entityKey].RelationshipGroups.Add(newRel.Name, new RelationshipList());
-                            schema[entityKey].RelationshipGroups[newRel.Name].Add(newRel);
                         }
 
                         var tableLastDateTime = ds.Tables[2];
