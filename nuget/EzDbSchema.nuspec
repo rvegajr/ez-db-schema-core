@@ -9,9 +9,9 @@
     <licenseUrl>https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/rvegajr/ez-db-schema-core</projectUrl>
     <description>A class library that allows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</description>
-    <releaseNotes>Application now is multitarget for .net</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>2018</copyright>
-    <tags>database schema</tags>
+    <tags></tags>
     <dependencies>
       <group targetFramework=".NETFramework4.6.1">
         <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
