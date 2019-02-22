@@ -6,7 +6,6 @@
     <authors>Ricardo Vega Jr</authors>
     <owners>Ricardo Vega Jr</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/rvegajr/ez-db-schema-core</projectUrl>
     <description>A class library that allows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</description>
     <releaseNotes></releaseNotes>
@@ -25,6 +24,10 @@
         <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
       </group>
+      <group targetFramework=".NETCoreApp2.2">
+        <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
+      </group>
       <group targetFramework=".NETStandard2.0">
         <dependency id="System.Json" version="4.5.0" exclude="Build,Analyzers" />
         <dependency id="System.Data.SqlClient" version="4.5.1" exclude="Build,Analyzers" />
@@ -38,6 +41,8 @@
     <file src="..\EzDbSchema.Core\bin\Release\netcoreapp2.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netcoreapp2.0\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.1\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.1\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\netcoreapp2.1\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netcoreapp2.1\EzDbSchema.Core.dll" />
+    <file src="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.2\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netcoreapp2.2\EzDbSchema.MsSql.dll" />
+    <file src="..\EzDbSchema.Core\bin\Release\netcoreapp2.2\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netcoreapp2.2\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\netstandard2.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\netstandard2.0\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\netstandard2.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netstandard2.0\EzDbSchema.Core.dll" />
   </files>
