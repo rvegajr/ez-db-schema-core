@@ -18,6 +18,7 @@ namespace EzDbSchema.MsSql
     {
 		public override IDatabase Render(string entityName, string ConnectionString)
         {
+            string CurrentAction = string.Format("Entering Function using {0} and {1}", entityName, ConnectionString);
 			IDatabase schema = this;
 			schema.Name = entityName;
 
@@ -55,6 +56,7 @@ namespace EzDbSchema.MsSql
                         foreach (DataRow row in tableColumnData.Rows)
                         {
                             schemaObjectName = string.Format("{0}.{1}", row["SCHEMANAME"], row["TABLENAME"]);
+                            CurrentAction = "Processing " + schemaObjectName;
                             if (currentSchemaObjectName != schemaObjectName)
                             {
                                 if (currentSchemaObjectName.Length > 0)
@@ -105,6 +107,7 @@ namespace EzDbSchema.MsSql
                             property.Type = (row["DATA_TYPE"] == DBNull.Value ? "" : row["DATA_TYPE"].ToString());
                             if (property.IsKey) entityType.PrimaryKeys.Add(property);
                             property.Parent = entityType;
+                            CurrentAction = string.Format("Adding Property '{0}' to entity '{1}'", property.Name, entityType.Name);
                             entityType.Properties.Add(property.Name, property);
                         }
                         if (currentSchemaObjectName.Length > 0)
@@ -122,6 +125,7 @@ namespace EzDbSchema.MsSql
                                     entityType.PrimaryKeys.Add(prop);
                                 }
                             }
+                            CurrentAction = string.Format("Adding Schema Object {0}", currentSchemaObjectName);
                             schema.Add(currentSchemaObjectName, entityType);
                         }
 
@@ -190,7 +194,7 @@ namespace EzDbSchema.MsSql
                                         newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToOne;
                                         break;
                                 }
-
+                                CurrentAction = string.Format("Adding Relationships {0} to entity {0}", currentSchemaObjectName, entityKey);
                                 schema[entityKey].Relationships.Add(newRel);
                                 var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
                                 if (schema[entityKey].Properties.ContainsKey(fieldToMarkRelation))
@@ -198,6 +202,7 @@ namespace EzDbSchema.MsSql
                                     schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
                                 }
                                 if (string.IsNullOrEmpty(newRel.Name)) throw new Exception("FK Namne is missing from the relationship");
+
                                 if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.Name))
                                     schema[entityKey].RelationshipGroups.Add(newRel.Name, new RelationshipList());
                                 schema[entityKey].RelationshipGroups[newRel.Name].Add(newRel);
@@ -233,9 +238,9 @@ namespace EzDbSchema.MsSql
                     return schema;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(string.Format("Error While trying to render the database schema. {0}  {1} ", CurrentAction, ex.Message), ex);
             }
         }
         private static string FKSQL = @"
@@ -375,7 +380,8 @@ SELECT
                                         WHEN 1 THEN 'CASCADE' 
                                         ELSE 'NO ACTION' 
                                       END)
-	   , FKOrdinalPosition = (SELECT ORDINAL_POSITION FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU WHERE KCU.CONSTRAINT_NAME = CONVERT(SYSNAME,OBJECT_NAME(F.OBJECT_ID)) AND KCU.COLUMN_NAME =CONVERT(SYSNAME,C2.NAME))
+	   , FKOrdinalPosition = (SELECT ORDINAL_POSITION FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU WHERE KCU.CONSTRAINT_NAME = CONVERT(SYSNAME,OBJECT_NAME(F.OBJECT_ID)) 
+			AND KCU.TABLE_SCHEMA = CONVERT(SYSNAME,SCHEMA_NAME(O2.SCHEMA_ID)) AND KCU.TABLE_NAME = CONVERT(SYSNAME,O2.NAME) AND KCU.COLUMN_NAME =CONVERT(SYSNAME,C2.NAME))
 	   --, DEFERRABILITY = CONVERT(SMALLINT,7)   -- SQL_NOT_DEFERRABLE 
 FROM   SYS.ALL_OBJECTS O1, 
        SYS.ALL_OBJECTS O2, 
