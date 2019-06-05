@@ -27,6 +27,6 @@
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
   </ItemGroup>
 </Project>

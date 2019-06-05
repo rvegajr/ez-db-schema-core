@@ -76,7 +76,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.26",
+        Version                 = @"1.0.27",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -86,7 +86,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018",
-        ReleaseNotes            = new [] {"NuGet Spec Update.", ".netcore 2.2", "FKs with different schema but same table/col name now actually work", "Issues fixes. ", "Typos. "},
+        ReleaseNotes            = new [] {"VS2019", "NuGet Spec Update.", ".netcore 2.2", "Nuget Updates", "Typos. "},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
