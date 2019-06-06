@@ -76,7 +76,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.27",
+        Version                 = @"1.0.28",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
