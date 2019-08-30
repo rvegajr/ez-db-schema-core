@@ -76,7 +76,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.28",
+        Version                 = @"1.0.29",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -86,7 +86,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018-2019",
-        ReleaseNotes            = new [] {"Updated sql nuget", "VS2019", "NuGet Spec Update.", ".netcore 2.2", "Nuget Updates", "Typos. "},
+        ReleaseNotes            = new [] {"Fixed schema fetch query to work across db all compat modes"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
