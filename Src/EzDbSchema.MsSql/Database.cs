@@ -28,19 +28,6 @@ namespace EzDbSchema.MsSql
                 {
                     var OriginalCompatabilityLevel = 0;
                     if (connection.State == ConnectionState.Closed) connection.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT compatibility_level FROM sys.databases WHERE name = DB_NAME()", connection))
-                    {
-                        OriginalCompatabilityLevel = int.Parse(cmd.ExecuteScalar().ToString());
-                    }
-                    /* For some reason that I have not investigated,  calling schema queries takes MUCH more time on any COMPATIBILITY_LEVEL > 110,  this will temporarily obtain the 
-                     * current COMPATIBILITY_LEVEL and save it,  then restore it after this query has run
-                     */
-                    if (OriginalCompatabilityLevel > 110)
-                    {
-                        SqlCommand cmdCompat11 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = 110'; EXECUTE sp_executesql @sql", connection);
-                        cmdCompat11.CommandType = CommandType.Text;
-                        cmdCompat11.ExecuteNonQuery();
-                    }
                     using (SqlCommand cmd = new SqlCommand(FKSQL, connection))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -229,12 +216,6 @@ namespace EzDbSchema.MsSql
                     }
 
                     var itemCount = schema.Keys.Count();
-                    if (OriginalCompatabilityLevel > 110)
-                    {
-                        SqlCommand cmdCompat13 = new SqlCommand("DECLARE @sql NVARCHAR(1000) = 'ALTER DATABASE ' + DB_NAME() + ' SET COMPATIBILITY_LEVEL = " + OriginalCompatabilityLevel.ToString() + "'; EXECUTE sp_executesql @sql", connection);
-                        cmdCompat13.CommandType = CommandType.Text;
-                        cmdCompat13.ExecuteNonQuery();
-                    }
                     return schema;
                 }
             }
@@ -251,10 +232,21 @@ IF OBJECT_ID('tempdb..#FK') IS NOT NULL DROP TABLE #FK ;
 IF OBJECT_ID('tempdb..#FKREL') IS NOT NULL DROP TABLE #FKREL ;
 IF OBJECT_ID('tempdb..#KEYCOUNT') IS NOT NULL DROP TABLE #KEYCOUNT ;
 
+DECLARE @SchemaTable TABLE (schemaName sysname, tableName sysname, tableObjectId INT, tType CHAR(2))
+INSERT INTO @SchemaTable
+    SELECT s.Name AS SName, t.Name AS tName, t.object_id AS tObject_Id, t.type FROM 
+    sys.objects as t 
+    INNER JOIN sys.schemas as s
+    ON t.schema_id = s.schema_id AND t.type IN ('U', 'V');
+
+DECLARE @cu4pk TABLE (CONSTRAINT_NAME sysname, COLUMN_NAME NVARCHAR(200))
+INSERT INTO @cu4pk
+SELECT cu4pk.CONSTRAINT_NAME, cu4pk.COLUMN_NAME FROM information_schema.constraint_column_usage cu4pk
+
 SELECT DISTINCT
-    s.name + '.' + t.name + '.' + c.name AS 'FULL_COLUMN_NAME',
-    s.name as SCHEMANAME,
-    t.name AS TABLENAME,
+    st.schemaName + '.' + st.tableName + '.' + c.name AS 'FULL_COLUMN_NAME',
+    st.schemaName as SCHEMANAME,
+    st.tableName AS TABLENAME,
     c.name AS COLUMNNAME,
     ic.ORDINAL_POSITION,
     c.is_nullable AS IS_NULLABLE,
@@ -271,31 +263,27 @@ SELECT DISTINCT
     ic.NUMERIC_PRECISION_RADIX,
     ic.NUMERIC_SCALE,
     ic.DATETIME_PRECISION,
-    (CASE t.[type]
+    (CASE st.tType
         WHEN 'U' THEN 'TABLE'
         WHEN 'V' THEN 'VIEW'
-        ELSE t.[type]
+        ELSE st.tType
     END) as OBJECT_TYPE,
 	CAST(NULL AS VARCHAR(255)) AS TEMPORAL_TYPE_DESC,
-	t.object_id AS TABLE_OBJECTID
+	st.tableObjectId AS TABLE_OBJECTID
 INTO
     #COL
 FROM 
-/*
-    sys.tables as t INNER JOIN sys.schemas as s
-        ON t.schema_id = s.schema_id */
-    sys.objects as t INNER JOIN sys.schemas as s 
-        ON t.schema_id = s.schema_id AND t.type IN ('U', 'V') 
+	@SchemaTable st
     INNER JOIN sys.columns as c 
-        ON  c.object_id = t.object_id
+        ON  c.object_id = st.tableObjectId
     INNER JOIN INFORMATION_SCHEMA.COLUMNS ic 
-        ON ic.TABLE_SCHEMA = s.name AND ic.TABLE_NAME = t.name AND ic.COLUMN_NAME = c.name
+        ON ic.TABLE_SCHEMA = st.schemaName AND ic.TABLE_NAME = st.tableName AND ic.COLUMN_NAME = c.name
     LEFT OUTER JOIN  information_schema.table_constraints tc4pk 
-        ON tc4pk.TABLE_SCHEMA = s.name AND tc4pk.TABLE_NAME = t.name AND tc4pk.constraint_type = 'PRIMARY KEY '
-    LEFT OUTER JOIN  information_schema.constraint_column_usage cu4pk 
+        ON tc4pk.TABLE_SCHEMA = st.schemaName AND tc4pk.TABLE_NAME = st.tableName AND tc4pk.constraint_type = 'PRIMARY KEY '
+    LEFT OUTER JOIN  @cu4pk cu4pk 
         ON cu4pk.CONSTRAINT_NAME = tc4pk.CONSTRAINT_NAME AND cu4pk.COLUMN_NAME = c.name
 ORDER BY 
-    s.name, t.name, ic.ORDINAL_POSITION, c.name;
+    st.schemaName, st.tableName, ic.ORDINAL_POSITION, c.name;
 
 SELECT 
 	SCHEMANAME, TABLENAME, COUNT(PRIMARY_KEY_ORDER) as KEYCOUNT
