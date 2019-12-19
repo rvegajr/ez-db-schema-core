@@ -76,7 +76,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.29",
+        Version                 = @"1.0.30",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -86,7 +86,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018-2019",
-        ReleaseNotes            = new [] {"Fixed schema fetch query to work across db all compat modes"},
+        ReleaseNotes            = new [] {"Updated all nuget packages and rtm of 2.2.8", "Fixed schema fetch query to work across db all compat modes"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -99,10 +99,6 @@ Task("NuGet-Pack")
 		Files = new[] {
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net461/EzDbSchema.Core.dll", Target = "lib/net461" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net461/EzDbSchema.MsSql.dll", Target = "lib/net461" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp2.0/EzDbSchema.Core.dll", Target = "lib/netcoreapp2.0" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp2.0/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp2.0" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp2.1/EzDbSchema.Core.dll", Target = "lib/netcoreapp2.1" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp2.1/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp2.1" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp2.2/EzDbSchema.Core.dll", Target = "lib/netcoreapp2.2" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp2.2/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp2.2" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netstandard2.0/EzDbSchema.Core.dll", Target = "lib/netstandard2.0" },

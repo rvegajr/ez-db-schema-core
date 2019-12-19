@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>		
+    <TargetFrameworks>netstandard2.0;net461;netcoreapp2.2;</TargetFrameworks>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+	<RuntimeFrameworkVersion>2.2.8</RuntimeFrameworkVersion>	
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
@@ -10,7 +11,7 @@
     <Folder Include="Objects\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Json" Version="4.5.0" />
+    <PackageReference Include="System.Json" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

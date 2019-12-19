@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+	<RuntimeFrameworkVersion>2.2.8</RuntimeFrameworkVersion>	
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +22,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.4.4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="CommandSample.cs" />
