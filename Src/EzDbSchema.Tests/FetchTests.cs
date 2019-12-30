@@ -17,7 +17,8 @@ namespace EzDbSchema.Tests
 		public void FetchTests()
 		{
             EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
-            Assert.True(!AppSettings.Instance.ConnectionString.Contains("CHANGE ME"), "Change the Connection String in the App Settings");
+            //Assert.True(!AppSettings.Instance.ConnectionString.Contains("CHANGE ME"), "Change the Connection String in the App Settings");
+            AppSettings.Instance.ConnectionString = "Server=localhost;Database=CPPE;user id=cppeuser;password=Cpp3Us3r";
             dbschema.Render("TestSchemaName", AppSettings.Instance.ConnectionString);
             foreach (var e in dbschema.Entities.Values)
             {
