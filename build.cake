@@ -56,18 +56,6 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-/*
-	DotNetCoreBuild(coreProjectFile, new DotNetCoreBuildSettings
-	{
-		Framework = framework,
-		Configuration = configuration
-	});
-	DotNetCoreBuild(cliProjectFile, new DotNetCoreBuildSettings
-	{
-		Framework = framework,
-		Configuration = configuration
-	});	
-*/
     if(IsRunningOnWindows())
     {
 		Information("Building using MSBuild at " + msBuildPathX64);
