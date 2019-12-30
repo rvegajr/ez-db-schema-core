@@ -1,4 +1,5 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#tool "nuget:?package=vswhere"
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -21,6 +22,11 @@ var framework = Argument("framework", "netcoreapp3.1");
 var runtime = Argument("runtime", "Portable");
 var coreProjectFile = thisDir + "Src/EzDbSchema.Core/EzDbSchema.Core.csproj";
 var cliProjectFile = thisDir + "Src/EzDbSchema.Cli/EzDbSchema.Cli.csproj";
+
+DirectoryPath vsLatest  = VSWhereLatest();
+FilePath msBuildPathX64 = (vsLatest==null)
+                            ? null
+                            : vsLatest.CombineWithFilePath("./MSBuild/Current/bin/msbuild.exe");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -63,9 +69,12 @@ Task("Build")
 	});	
     if(IsRunningOnWindows())
     {
-      // Use MSBuild
-    MSBuild("./Src/ez-db-schema-core.sln", settings =>
-        settings.SetConfiguration("Release"));
+		Information("Building using MSBuild at " + msBuildPathX64);
+		
+		MSBuild(@"./Src/ez-db-schema-core.sln", new MSBuildSettings {
+			ToolPath = msBuildPathX64
+			, Configuration = configuration
+		});
     }
     else
     {
@@ -91,7 +100,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.31",
+        Version                 = @"1.0.35",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -101,7 +110,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018-2019",
-        ReleaseNotes            = new [] {"Updated all nuget packages for rtm 3.1", "Fixed schema fetch query to work across db all compat modes"},
+        ReleaseNotes            = new [] {"Added net472 and net48", "Updated all nuget packages for rtm 3.1", "Fixed schema fetch query to work across db all compat modes"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -114,6 +123,10 @@ Task("NuGet-Pack")
 		Files = new[] {
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net461/EzDbSchema.Core.dll", Target = "lib/net461" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net461/EzDbSchema.MsSql.dll", Target = "lib/net461" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net472/EzDbSchema.Core.dll", Target = "lib/net472" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net472/EzDbSchema.MsSql.dll", Target = "lib/net472" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net48/EzDbSchema.Core.dll", Target = "lib/net48" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net48/EzDbSchema.MsSql.dll", Target = "lib/net48" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp2.2/EzDbSchema.Core.dll", Target = "lib/netcoreapp2.2" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp2.2/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp2.2" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp3.1/EzDbSchema.Core.dll", Target = "lib/netcoreapp3.1" },
