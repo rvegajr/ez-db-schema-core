@@ -26,7 +26,6 @@ namespace EzDbSchema.MsSql
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    var OriginalCompatabilityLevel = 0;
                     if (connection.State == ConnectionState.Closed) connection.Open();
                     using (SqlCommand cmd = new SqlCommand(FKSQL, connection))
                     {
