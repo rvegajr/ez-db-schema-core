@@ -6,10 +6,14 @@ using System.IO;
 using System.Json;
 using JsonPair = System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>;
 using JsonPairEnumerable = System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>>;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
+[assembly: InternalsVisibleTo("EzDbSchema.Cli")]
+[assembly: InternalsVisibleTo("EzDbSchema.Tests")]
 
 namespace EzDbSchema.Internal
 {
-	public class AppSettings 
+	internal class AppSettings 
     {
 		/// <summary></summary>
 		public string ApplicationName { get; set; } = "";
