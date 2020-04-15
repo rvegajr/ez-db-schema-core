@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Types
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
 
         //this dictionary will store the types that have been encountered already

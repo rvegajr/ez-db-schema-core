@@ -6,11 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 //Thanks https://www.codeproject.com/tips/1081932/tosingular-toplural-string-extensions
 namespace EzDbSchema.Core.Extentions.Strings
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         private static Dictionary<string, string> sQLDataTypeToDotNetDataType = new Dictionary<string, string>();
         private static Dictionary<string, string> sQLDataTypeToJsDataType = new Dictionary<string, string>();

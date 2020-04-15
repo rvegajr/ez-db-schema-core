@@ -14,11 +14,11 @@
     <dependencies>
       <group targetFramework=".NETFramework4.6.1">
         <dependency id="System.Json" version="4.7.0" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.1" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETFramework4.7.2">
         <dependency id="System.Json" version="4.7.0" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.1" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETFramework4.8">
         <dependency id="System.Json" version="4.7.0" exclude="Build,Analyzers" />

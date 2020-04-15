@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Xml
 {
-    public static class XmlExtentions
+    internal static class XmlExtentions
     {
         public static XmlNode Append(this XmlNode nod, string ElementName, string Value)
         {
