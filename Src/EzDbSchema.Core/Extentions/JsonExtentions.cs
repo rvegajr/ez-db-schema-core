@@ -1,8 +1,10 @@
 ﻿using System.Json;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Json
 {
-    public static class JsonExtensions
+    internal static class JsonExtensions
     {
         private const string DOUBLE_QUOTE_SUB = @"_$$_";
         private const string DOUBLE_QUOTE = @"""""";

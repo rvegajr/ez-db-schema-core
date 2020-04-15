@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Objects
 {
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
 
         public static Dictionary<int, object> RefObjectXref = new Dictionary<int, object>();
