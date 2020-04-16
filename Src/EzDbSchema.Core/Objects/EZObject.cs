@@ -29,7 +29,7 @@ namespace EzDbSchema.Core.Objects
         }
         public int _id { get; set; } 
 
-        public static object CreateInstance(string name)
+        internal static object CreateInstance(string name)
         {
             switch (name)
             {

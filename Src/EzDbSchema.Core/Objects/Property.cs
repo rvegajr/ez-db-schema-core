@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Property : EzObject, IProperty, IXmlRenderableInternal
     {
-        public static string ALIAS = "Property";
+        internal static string ALIAS = "Property";
 
         public Property() : base()
         {

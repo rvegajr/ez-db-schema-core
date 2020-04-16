@@ -15,7 +15,7 @@ namespace EzDbSchema.Core.Objects
 	/// <summary></summary>
 	public class Database : EzObject, IDatabase, IXmlRenderableInternal
     {
-        public static string ALIAS = "Schema";
+        internal static string ALIAS = "Schema";
 
         private IEntityDictionary _entities = new EntityDictionary();
 
@@ -130,7 +130,7 @@ namespace EzDbSchema.Core.Objects
                 });
         }
 
-        public static IDatabase FromJson(string Json)
+        internal static IDatabase FromJson(string Json)
         {
             var settings = new JsonSerializerSettings()
             {
@@ -139,12 +139,12 @@ namespace EzDbSchema.Core.Objects
             return JsonConvert.DeserializeObject<Database>(Json, settings);
         }
 
-        public static IDatabase FromJsonFile(string FileName)
+        internal static IDatabase FromJsonFile(string FileName)
         {
             return JsonConvert.DeserializeObject<Database>(File.ReadAllText(FileName));
         }
 
-        public static T FromJson<T>(string Json)
+        internal static T FromJson<T>(string Json)
         {
             var settings = new JsonSerializerSettings()
             {
@@ -153,7 +153,7 @@ namespace EzDbSchema.Core.Objects
             return JsonConvert.DeserializeObject<T>(Json, settings);
         }
 
-        public static T FromJsonFile<T>(string FileName)
+        internal static T FromJsonFile<T>(string FileName)
         {
             return FromJson<T>(File.ReadAllText(FileName));
         }

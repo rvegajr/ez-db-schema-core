@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Entity : EzObject, IEntity, IXmlRenderableInternal
     {
-        public static string ALIAS = "Entity";
+        internal static string ALIAS = "Entity";
         public Entity() : base()
         {
 			this.PrimaryKeys = new PrimaryKeyProperties(this);

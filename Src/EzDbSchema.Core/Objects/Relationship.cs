@@ -11,7 +11,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Relationship : EzObject, IRelationship, IXmlRenderableInternal
     {
-        public static string ALIAS = "Relationship";
+        internal static string ALIAS = "Relationship";
 
         public Relationship() : base()
         {
