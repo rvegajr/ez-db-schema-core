@@ -31,7 +31,7 @@ namespace EzDbSchema.Internal
         {
 			//_configuration = configuration;
         }
-        public static AppSettings Instance
+        internal static AppSettings Instance
         {
             get
             {

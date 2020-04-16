@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class PropertyDictionary : Dictionary<string, IProperty>, IPropertyDictionary, IXmlRenderableInternal
     {
-        public static string ALIAS = "Properties";
+        internal static string ALIAS = "Properties";
 
         public PropertyDictionary()
         {
@@ -43,7 +43,7 @@ namespace EzDbSchema.Core.Objects
 
     public class PropertyList : List<IProperty>, IPropertyList, IXmlRenderableInternal
     {
-        public static string ALIAS = "Properties";
+        internal static string ALIAS = "Properties";
 
         public PropertyList()
         {
@@ -76,7 +76,7 @@ namespace EzDbSchema.Core.Objects
 
     public class PrimaryKeyProperties : List<IProperty>, IPrimaryKeyProperties, IXmlRenderableInternal
     {
-        public static string ALIAS = "PrimaryKeys";
+        internal static string ALIAS = "PrimaryKeys";
 
         public PrimaryKeyProperties()
         {

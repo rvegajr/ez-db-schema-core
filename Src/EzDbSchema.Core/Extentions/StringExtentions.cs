@@ -106,7 +106,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// <param name="str">String to truncate.</param>
         /// <param name="length">Maximum string length.</param>
         /// <returns>Original string or a truncated one if the original was too long.</returns>
-        public static string Truncate(this string str, int length)
+        internal static string Truncate(this string str, int length)
         {
             if (length < 0)
             {
@@ -122,7 +122,7 @@ namespace EzDbSchema.Core.Extentions.Strings
             return str.Substring(0, maxLength);
         }
 
-        public static string ToNetType(this string sqlType)
+        internal static string ToNetType(this string sqlType)
         {
             if (sqlType == null)
                 throw new ArgumentNullException("sqlType");
@@ -130,7 +130,7 @@ namespace EzDbSchema.Core.Extentions.Strings
             return (sQLDataTypeToDotNetDataType.ContainsKey(sqlType) ? sQLDataTypeToDotNetDataType[sqlType] : sqlType);
         }
 
-        public static string ToNetType(this string sqlType, bool isNullable)
+        internal static string ToNetType(this string sqlType, bool isNullable)
         {
             var ret = "";
             if (sqlType == null)
@@ -143,7 +143,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         }
 
 
-        public static string ToJsType(this string sqlType)
+        internal static string ToJsType(this string sqlType)
         {
             if (sqlType == null)
                 throw new ArgumentNullException("sqlType");
@@ -151,7 +151,7 @@ namespace EzDbSchema.Core.Extentions.Strings
             return (sQLDataTypeToJsDataType.ContainsKey(sqlType) ? sQLDataTypeToJsDataType[sqlType] : "object");
         }
 
-        public static string ToJsType(this string sqlType, bool isNullable)
+        internal static string ToJsType(this string sqlType, bool isNullable)
         {
             var ret = "object";
             if (sqlType == null)
@@ -163,7 +163,7 @@ namespace EzDbSchema.Core.Extentions.Strings
             return ret + (isNullable ? " | null" : "");
         }
 
-        public static string AsFormattedName(this string word)
+        internal static string AsFormattedName(this string word)
         {
             if (word == null)
                 return null;
@@ -175,7 +175,7 @@ namespace EzDbSchema.Core.Extentions.Strings
 
         }
 
-        public static string ToSnakeCase(this string str)
+        internal static string ToSnakeCase(this string str)
         {
             return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString())).ToLower();
         }
@@ -186,7 +186,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <param name="PathToResolve"></param>
         /// <returns></returns>
-        public static string ResolvePathVars(this string PathToResolve)
+        internal static string ResolvePathVars(this string PathToResolve)
         {
             return PathToResolve.ResolvePathVars("ez-db-schema-core");
         }
@@ -195,7 +195,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <param name="PathToResolve"></param>
         /// <returns></returns>
-        public static string ResolvePathVars(this string PathToResolve, string rootFolderName)
+        internal static string ResolvePathVars(this string PathToResolve, string rootFolderName)
         {
             if ((PathToResolve.Contains("{SOLUTION_PATH}")) || (PathToResolve.Contains("{ASSEMBLY_PATH}")))
             {
@@ -226,7 +226,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// <returns>The plucked String</returns>
         /// <param name="str">String.</param>
         /// <param name="leftString">Left string.</param>
-        public static string Pluck(this string str, string leftString)
+        internal static string Pluck(this string str, string leftString)
         {
             return (str + "$#@").Pluck(leftString, "$#@");
         }
@@ -238,7 +238,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// <param name="str">String.</param>
         /// <param name="leftString">Left string.</param>
         /// <param name="rightString">Right string.</param>
-        public static string Pluck(this string str, string leftString, string rightString)
+        internal static string Pluck(this string str, string leftString, string rightString)
         {
             try
             {
@@ -267,7 +267,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// <param name="leftString">Left string.</param>
         /// <param name="rightString">Right string.</param>
         /// <param name="RemainingString">Remaining string with the plucked string removed</param>
-        public static string Pluck(this string str, string leftString, string rightString, out string RemainingString)
+        internal static string Pluck(this string str, string leftString, string rightString, out string RemainingString)
         {
             RemainingString = str;
             try
@@ -302,7 +302,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string Unquote(this string str)
+        internal static string Unquote(this string str)
         {
             var ret = str.Trim();
             if (ret.ToUpper().Equals("NULL")) return null;
@@ -319,7 +319,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string ToTitleCase(this string str)
+        internal static string ToTitleCase(this string str)
         {
             var tokens = str.Split(new[] { " " }, StringSplitOptions.None);
             var stringBuilder = new StringBuilder();
@@ -375,7 +375,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string ToCsObjectName(this string str)
+        internal static string ToCsObjectName(this string str)
         {
             var strAsCharArray = str.ToCharArray();
             var invalidPrefixNumbers = "";
@@ -426,17 +426,17 @@ namespace EzDbSchema.Core.Extentions.Strings
             stringBuilder.Append(" ");
             return (stringBuilder.ToString() + invalidPrefixNumbers).TrimEnd().Replace(" ", "");
         }
-        public static string CHAR_ENCODE_PREFIX = "%";
-        public static string CHAR_ENCODE_REPLACE = "=-";
-        public static string ToSafeFileName(this string fileName)
+        internal static string CHAR_ENCODE_PREFIX = "%";
+        internal static string CHAR_ENCODE_REPLACE = "=-";
+        internal static string ToSafeFileName(this string fileName)
         {
             return fileName.ToSafeFileName(false);
         }
-        public static string ToSafeFileName(this string fileName, bool PreserveSpaces)
+        internal static string ToSafeFileName(this string fileName, bool PreserveSpaces)
         {
             return WebUtility.UrlEncode(fileName.Replace(" ", (PreserveSpaces ? "%20" : ""))).Replace(StringExtensions.CHAR_ENCODE_PREFIX, StringExtensions.CHAR_ENCODE_REPLACE);
         }
-        public static string FromSafeFileName(this string fileName)
+        internal static string FromSafeFileName(this string fileName)
         {
             return WebUtility.UrlDecode(fileName.Replace(StringExtensions.CHAR_ENCODE_REPLACE, StringExtensions.CHAR_ENCODE_PREFIX).Replace("%20", " "));
         }
@@ -452,7 +452,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// stringsToReplace[3] = "@@UPPER"         // will convert string to upper case
         /// </param>
         /// <returns></returns>
-        public static string AsOraFieldName(this string fieldName, params string[] stringsToReplace)
+        internal static string AsOraFieldName(this string fieldName, params string[] stringsToReplace)
         {
             foreach (var str in stringsToReplace)
             {
@@ -489,7 +489,7 @@ namespace EzDbSchema.Core.Extentions.Strings
         /// </summary>
         /// <returns>The stable hash code.</returns>
         /// <param name="str">String.</param>
-        public static int GetStableHashCode(this string str)
+        internal static int GetStableHashCode(this string str)
         {
             unchecked
             {
@@ -508,7 +508,7 @@ namespace EzDbSchema.Core.Extentions.Strings
             }
         }
 
-        public static bool IsEqualToFileContents(this string str, string FileToCompareTo)
+        internal static bool IsEqualToFileContents(this string str, string FileToCompareTo)
         {
             try
             {
@@ -521,32 +521,32 @@ namespace EzDbSchema.Core.Extentions.Strings
                 throw;
             }
         }
-        public static StringBuilder PrependComma(this StringBuilder sb)
+        internal static StringBuilder PrependComma(this StringBuilder sb)
         {
             if ( !((sb.ToString().Trim().EndsWith("{")) || (sb.ToString().Trim().EndsWith("[")))) sb.Append(", ");
             return sb;
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, string value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, string value)
         {
             return sb.PrependComma().AppendFormat("\"{0}\": \"{1}\"", name, value);
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, int value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, int value)
         {
             return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, value);
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, decimal value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, decimal value)
         {
             return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, value);
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, DateTime value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, DateTime value)
         {
             return sb.PrependComma().AppendFormat("\"{0}\": \"{1}\"", name, value.ToString("o"));
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, bool value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, bool value)
         {
             return sb.PrependComma().AppendFormat("\"{0}\": {1}", name, (value ? "true" : "false"));
         }
-        public static StringBuilder AppendJson(this StringBuilder sb, string name, object value)
+        internal static StringBuilder AppendJson(this StringBuilder sb, string name, object value)
         {
             if (value.GetType().Equals(typeof(decimal)))
                 return sb.AppendJson(name, value.ToString());

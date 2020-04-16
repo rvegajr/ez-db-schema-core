@@ -13,7 +13,7 @@ namespace EzDbSchema.Core.Objects
 	
 	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary, IXmlRenderableInternal
     {
-        public static string ALIAS = "Relationships";
+        internal static string ALIAS = "Relationships";
 
         public RelationshipDictionary()
         {
@@ -83,7 +83,7 @@ namespace EzDbSchema.Core.Objects
     /// </summary>
     public class RelationshipGroups : Dictionary<string, IRelationshipList>, IRelationshipGroups, IXmlRenderableInternal
     {
-        public static string ALIAS = "RelationshipGroups";
+        internal static string ALIAS = "RelationshipGroups";
 
         public RelationshipGroups()
         {
@@ -116,7 +116,7 @@ namespace EzDbSchema.Core.Objects
     }
     public class RelationshipList : List<IRelationship>, IRelationshipList, IXmlRenderableInternal
     {
-        public static string ALIAS = "RelatedTo";
+        internal static string ALIAS = "RelatedTo";
 
         public RelationshipList()
         {

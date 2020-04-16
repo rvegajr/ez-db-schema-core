@@ -13,7 +13,7 @@ namespace EzDbSchema.Core.Objects
         public DatabaseObjectUpdates() : base()
         {
         }
-        public static string ALIAS = "LastUpdates";
+        internal static string ALIAS = "LastUpdates";
 
         public DateTime? LastCreated { get; set; } = null;
         public DateTime? LastModified { get; set; } = null;
