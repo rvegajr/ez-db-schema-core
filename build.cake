@@ -89,7 +89,7 @@ Task("NuGet-Pack")
    var nuGetPackSettings   = new NuGetPackSettings {
 		BasePath 				= thisDir,
         Id                      = @"EzDbSchema",
-        Version                 = @"1.0.42",
+        Version                 = @"1.0.50",
         Title                   = @"EzDbSchema - Easy Database Schema Generator",
         Authors                 = new[] {"Ricardo Vega Jr."},
         Owners                  = new[] {"Ricardo Vega Jr."},
@@ -99,7 +99,7 @@ Task("NuGet-Pack")
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
         Copyright               = @"Noctusoft 2018-2019",
-        ReleaseNotes            = new [] {"Hide Internal Code", "Udpated Nuget packages"},
+        ReleaseNotes            = new [] {"Added IsEnabled and Custom Attributes to to the base class."},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,

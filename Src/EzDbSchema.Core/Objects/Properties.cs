@@ -15,8 +15,12 @@ namespace EzDbSchema.Core.Objects
         public PropertyDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -48,8 +52,12 @@ namespace EzDbSchema.Core.Objects
         public PropertyList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.ListAsXmlNode(doc, ALIAS);
@@ -81,8 +89,12 @@ namespace EzDbSchema.Core.Objects
         public PrimaryKeyProperties()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         protected IEntity Entity;
         public PrimaryKeyProperties(IEntity Parent)
         {

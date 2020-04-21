@@ -15,8 +15,11 @@ namespace EzDbSchema.Core.Objects
         public EntityDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
@@ -49,8 +52,11 @@ namespace EzDbSchema.Core.Objects
         public EntityList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
