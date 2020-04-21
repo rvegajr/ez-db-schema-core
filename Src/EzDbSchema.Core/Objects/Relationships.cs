@@ -18,8 +18,12 @@ namespace EzDbSchema.Core.Objects
         public RelationshipDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -88,8 +92,12 @@ namespace EzDbSchema.Core.Objects
         public RelationshipGroups()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -121,8 +129,12 @@ namespace EzDbSchema.Core.Objects
         public RelationshipList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch)
         {
             var retListRaw = new List<IRelationship>();

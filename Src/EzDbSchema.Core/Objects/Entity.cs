@@ -28,7 +28,6 @@ namespace EzDbSchema.Core.Objects
         public IRelationshipGroups RelationshipGroups { get; set; } = new RelationshipGroups();
 
         public IPrimaryKeyProperties PrimaryKeys { get; set; }
-		public ICustomAttributes CustomAttributes { get; set; }
 
         public bool IsTemporalView { get; set; }
 
