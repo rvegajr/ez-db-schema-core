@@ -32,7 +32,7 @@ namespace EzDbSchema.Core.Objects
         public bool IsEnabled { get; set; } = true;
         public ICustomAttributes CustomAttributes { get; set; }
 
-        internal static object CreateInstance(string name)
+        public static object CreateInstance(string name)
         {
             switch (name)
             {
