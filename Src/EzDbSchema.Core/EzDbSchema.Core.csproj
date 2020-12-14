@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net47;net472;net48;netcoreapp3.1;net5.0;</TargetFrameworks>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -10,11 +10,7 @@
     <Folder Include="Objects\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Json" Version="4.7.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Json" Version="4.7.1" />
   </ItemGroup>
 </Project>
