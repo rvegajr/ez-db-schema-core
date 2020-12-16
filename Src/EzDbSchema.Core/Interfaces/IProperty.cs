@@ -17,6 +17,5 @@ namespace EzDbSchema.Core.Interfaces
         [AsRef("_id")]
         IEntity Parent { get; set; }
         IRelationshipList RelatedTo { get; set; }
-        ICustomAttributes CustomAttributes { get; set; }
     }
 }

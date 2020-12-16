@@ -7,5 +7,7 @@ namespace EzDbSchema.Core.Interfaces
     public interface IEzObject
     {
         int _id { get; set; }
+        bool IsEnabled { get; set; }
+        ICustomAttributes CustomAttributes { get; set; }
     }
 }

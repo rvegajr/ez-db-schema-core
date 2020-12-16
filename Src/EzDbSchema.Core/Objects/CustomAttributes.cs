@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes, IXmlRenderableInternal
     {
-        public static string ALIAS = "CustomAttributes";
+        internal static string ALIAS = "CustomAttributes";
 
         public CustomAttributes()
         {

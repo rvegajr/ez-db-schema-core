@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Xml
 {
-    public static class XmlExtentions
+    internal static class XmlExtentions
     {
-        public static XmlNode Append(this XmlNode nod, string ElementName, string Value)
+        internal static XmlNode Append(this XmlNode nod, string ElementName, string Value)
         {
             XmlNode newnod = nod.OwnerDocument.CreateElement(ElementName);
             newnod.InnerText = Value.ToSafeString();
@@ -27,7 +29,7 @@ namespace EzDbSchema.Core.Extentions.Xml
         /// <param name="ElementName">Name of the element.</param>
         /// <param name="KeyAttributeValue">The key attribute value.</param>
         /// <returns></returns>
-        public static XmlNode AsXmlNode<T>(this T item, XmlDocument _doc, string ElementName)
+        internal static XmlNode AsXmlNode<T>(this T item, XmlDocument _doc, string ElementName)
         {
             return item.AsXmlNode(_doc, ElementName, null);
         }
@@ -41,7 +43,7 @@ namespace EzDbSchema.Core.Extentions.Xml
         /// <param name="ElementName">Name of the element.</param>
         /// <param name="KeyAttributeValue">The key attribute value.</param>
         /// <returns></returns>
-        public static XmlNode AsXmlNode<T>(this T item, XmlDocument _doc, string ElementName, string KeyAttributeValue )
+        internal static XmlNode AsXmlNode<T>(this T item, XmlDocument _doc, string ElementName, string KeyAttributeValue )
         {
             try
             {
@@ -108,7 +110,7 @@ namespace EzDbSchema.Core.Extentions.Xml
             }
         }
         
-        public static XmlNode ListAsXmlNode<T>(this List<T> items, XmlDocument _doc, string ElementName)
+        internal static XmlNode ListAsXmlNode<T>(this List<T> items, XmlDocument _doc, string ElementName)
         {
             XmlNode nod = _doc.CreateElement(XmlConvert.EncodeName(ElementName));
             foreach (var item in items)
@@ -125,7 +127,7 @@ namespace EzDbSchema.Core.Extentions.Xml
             return nod;
         }
 
-        public static XmlNode DictionaryAsXmlNode<T>(this Dictionary<string, T> items, XmlDocument _doc, string ElementName)
+        internal static XmlNode DictionaryAsXmlNode<T>(this Dictionary<string, T> items, XmlDocument _doc, string ElementName)
         {
             XmlNode nod = _doc.CreateElement(XmlConvert.EncodeName(ElementName));
             foreach (var itemKV in items)
@@ -152,7 +154,7 @@ namespace EzDbSchema.Core.Extentions.Xml
         /// <param name="ElementName">Name of the element.</param>
         /// <param name="KeyAttributeValue">The key attribute value.</param>
         /// <returns></returns>
-        public static void FromXmlNode<T>(this T item, XmlNode node, string ElementName)
+        internal static void FromXmlNode<T>(this T item, XmlNode node, string ElementName)
         {
             try
             {
@@ -225,7 +227,7 @@ namespace EzDbSchema.Core.Extentions.Xml
 
         }
 
-        public static void DictionaryFromXmlNodeList<T>(this Dictionary<string, T> items, XmlNodeList nodelist, string ElementName)
+        internal static void DictionaryFromXmlNodeList<T>(this Dictionary<string, T> items, XmlNodeList nodelist, string ElementName)
         {
             foreach (XmlElement ele in nodelist)
             {
@@ -242,7 +244,7 @@ namespace EzDbSchema.Core.Extentions.Xml
             }
         }
 
-        public static void ListFromXmlNodeList<T>(this List<T> items, XmlNodeList nodelist, string ElementName)
+        internal static void ListFromXmlNodeList<T>(this List<T> items, XmlNodeList nodelist, string ElementName)
         {
             foreach (XmlElement ele in nodelist)
             {

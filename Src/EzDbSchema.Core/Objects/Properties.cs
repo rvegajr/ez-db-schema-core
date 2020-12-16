@@ -10,13 +10,17 @@ namespace EzDbSchema.Core.Objects
 {
 	public class PropertyDictionary : Dictionary<string, IProperty>, IPropertyDictionary, IXmlRenderableInternal
     {
-        public static string ALIAS = "Properties";
+        internal static string ALIAS = "Properties";
 
         public PropertyDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -43,13 +47,17 @@ namespace EzDbSchema.Core.Objects
 
     public class PropertyList : List<IProperty>, IPropertyList, IXmlRenderableInternal
     {
-        public static string ALIAS = "Properties";
+        internal static string ALIAS = "Properties";
 
         public PropertyList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.ListAsXmlNode(doc, ALIAS);
@@ -76,13 +84,17 @@ namespace EzDbSchema.Core.Objects
 
     public class PrimaryKeyProperties : List<IProperty>, IPrimaryKeyProperties, IXmlRenderableInternal
     {
-        public static string ALIAS = "PrimaryKeys";
+        internal static string ALIAS = "PrimaryKeys";
 
         public PrimaryKeyProperties()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         protected IEntity Entity;
         public PrimaryKeyProperties(IEntity Parent)
         {

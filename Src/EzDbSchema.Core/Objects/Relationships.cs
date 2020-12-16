@@ -13,13 +13,17 @@ namespace EzDbSchema.Core.Objects
 	
 	public class RelationshipDictionary : Dictionary<string, IRelationship>, IRelationshipDictionary, IXmlRenderableInternal
     {
-        public static string ALIAS = "Relationships";
+        internal static string ALIAS = "Relationships";
 
         public RelationshipDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -83,13 +87,17 @@ namespace EzDbSchema.Core.Objects
     /// </summary>
     public class RelationshipGroups : Dictionary<string, IRelationshipList>, IRelationshipGroups, IXmlRenderableInternal
     {
-        public static string ALIAS = "RelationshipGroups";
+        internal static string ALIAS = "RelationshipGroups";
 
         public RelationshipGroups()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public XmlNode AsXml(XmlDocument doc)
         {
             return this.DictionaryAsXmlNode(doc, ALIAS);
@@ -116,13 +124,17 @@ namespace EzDbSchema.Core.Objects
     }
     public class RelationshipList : List<IRelationship>, IRelationshipList, IXmlRenderableInternal
     {
-        public static string ALIAS = "RelatedTo";
+        internal static string ALIAS = "RelatedTo";
 
         public RelationshipList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
+
         public IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch)
         {
             var retListRaw = new List<IRelationship>();

@@ -26,8 +26,11 @@ namespace EzDbSchema.Core.Objects
         public EzObject()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
-        public int _id { get; set; } 
+        public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
 
         public static object CreateInstance(string name)
         {
