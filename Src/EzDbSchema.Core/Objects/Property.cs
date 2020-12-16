@@ -10,7 +10,7 @@ namespace EzDbSchema.Core.Objects
 {
 	public class Property : EzObject, IProperty, IXmlRenderableInternal
     {
-        public static string ALIAS = "Property";
+        internal static string ALIAS = "Property";
 
         public Property() : base()
         {
@@ -29,7 +29,6 @@ namespace EzDbSchema.Core.Objects
         [AsRef("_id")]
         public IEntity Parent { get; set; }
 		public IRelationshipList RelatedTo { get; set; } = new RelationshipList();
-		public ICustomAttributes CustomAttributes { get; set; } = new CustomAttributes();
 
         public string AsXml()
         {

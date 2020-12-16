@@ -5,14 +5,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 
 namespace EzDbSchema.Core.Extentions.Objects
 {
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
 
-        public static Dictionary<int, object> RefObjectXref = new Dictionary<int, object>();
-        public static List<IEzObject> DelayedRefResolutionList = new List<IEzObject>();
+        internal static Dictionary<int, object> RefObjectXref = new Dictionary<int, object>();
+        internal static List<IEzObject> DelayedRefResolutionList = new List<IEzObject>();
         //this dictionary should use weak key references
         static Dictionary<object, int> d = new Dictionary<object, int>();
         static int gid = 0;
@@ -21,7 +23,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// </summary>
         /// <param name="o">The o.</param>
         /// <returns></returns>
-        public static int GetId(this object o)
+        internal static int GetId(this object o)
         {
             if (d.ContainsKey(o)) return d[o];
             return d[o] = gid++;
@@ -33,7 +35,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <param name="o">EZObject- if the object already exists,  use its ide</param>
         /// <param name="valToCheck">Value to check.  If it is greater than 0,  then return it</param>
         /// <returns></returns>
-        public static int GetId(this IEzObject o, ref int valToCheck)
+        internal static int GetId(this IEzObject o, ref int valToCheck)
         {
             if (d.ContainsKey(o)) return d[o];
             if (valToCheck > 0) return valToCheck;
@@ -46,7 +48,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <param name="o">EZObject- if the object already exists,  use its ide</param>
         /// <param name="valToCheck">Value to check.  If it is greater than 0,  then return it</param>
         /// <returns></returns>
-        public static int SetRefId(this IEzObject o)
+        internal static int SetRefId(this IEzObject o)
         {
             if (!RefObjectXref.ContainsKey(o._id)) RefObjectXref.Add(o._id, o);
             if (!d.ContainsKey(o)) d.Add(o, o._id);
@@ -54,7 +56,7 @@ namespace EzDbSchema.Core.Extentions.Objects
             
         }
 
-        public static void ClearRef()
+        internal static void ClearRef()
         {
             RefObjectXref.Clear();
             DelayedRefResolutionList.Clear();
@@ -66,7 +68,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The string.</returns>
         /// <param name="objectArray">Object array that has the item to return</param>
         /// <param name="index">IIndex to return</param>
-        public static string AsString(this object[] objectArray, int index)
+        internal static string AsString(this object[] objectArray, int index)
         {
             if (objectArray.Count() >= index)
             {
@@ -89,7 +91,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// </summary>
         /// <returns>The safe string.</returns>
         /// <param name="word">Word.</param>
-        public static string ToSafeString(this object word)
+        internal static string ToSafeString(this object word)
         {
             return (word == null) ? "" : word.ToString();
         }
@@ -98,7 +100,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// </summary>
         /// <returns>The nullable boolean.</returns>
         /// <param name="obj">Object.</param>
-        public static bool? AsNullableBoolean(this object obj)
+        internal static bool? AsNullableBoolean(this object obj)
         {
             bool? ret = null;
             if (obj != null)
@@ -113,7 +115,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// </summary>
         /// <returns><c>true</c>, if boolean was ased, <c>false</c> otherwise.</returns>
         /// <param name="obj">Object.</param>
-        public static bool AsBoolean(this object obj)
+        internal static bool AsBoolean(this object obj)
         {
             bool ret = false;
             if (obj != null)
@@ -129,7 +131,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The int.</returns>
         /// <param name="obj">Object.</param>
         /// <param name="ValueIfNull">Value if null.</param>
-        public static int AsInt(this object obj, int ValueIfNull)
+        internal static int AsInt(this object obj, int ValueIfNull)
         {
             int ret = ValueIfNull;
             if (obj != null)
@@ -153,7 +155,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The int nullable.</returns>
         /// <param name="obj">Object.</param>
         /// <param name="ValueIfNull">Value if null.</param>
-        public static int? AsIntNullable(this object obj, int? ValueIfNull)
+        internal static int? AsIntNullable(this object obj, int? ValueIfNull)
         {
             int? ret = ValueIfNull;
             if (obj != null)
@@ -179,7 +181,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The date time.</returns>
         /// <param name="obj">Object.</param>
         /// <param name="ValueIfNull">Value if null.</param>
-        public static DateTime AsDateTime(this object obj, DateTime ValueIfNull)
+        internal static DateTime AsDateTime(this object obj, DateTime ValueIfNull)
         {
             DateTime ret = ValueIfNull;
             if (obj != null)
@@ -198,7 +200,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The date time nullable.</returns>
         /// <param name="obj">Object.</param>
         /// <param name="ValueIfNull">Value if null.</param>
-        public static DateTime? AsDateTimeNullable(this object obj, DateTime? ValueIfNull)
+        internal static DateTime? AsDateTimeNullable(this object obj, DateTime? ValueIfNull)
         {
             DateTime? ret = ValueIfNull;
             if (obj != null)
@@ -216,7 +218,7 @@ namespace EzDbSchema.Core.Extentions.Objects
         /// <returns>The double.</returns>
         /// <param name="obj">Object.</param>
         /// <param name="ValueIfNull">Value if null.</param>
-        public static double AsDouble(this object obj, double ValueIfNull)
+        internal static double AsDouble(this object obj, double ValueIfNull)
         {
             double ret = ValueIfNull;
             if (obj != null)

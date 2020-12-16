@@ -11,12 +11,15 @@ namespace EzDbSchema.Core.Objects
 	/// <summary></summary>
 	public class EntityDictionary : Dictionary<string, IEntity>, IEntityDictionary, IXmlRenderableInternal
     {
-        public static string ALIAS = "Entities";
+        internal static string ALIAS = "Entities";
         public EntityDictionary()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
@@ -44,13 +47,16 @@ namespace EzDbSchema.Core.Objects
 
     public class EntityList : List<IEntity>, IEntityList, IXmlRenderableInternal
     {
-        public static string ALIAS = "Entities";
+        internal static string ALIAS = "Entities";
 
         public EntityList()
         {
             this._id = this.GetId();
+            this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public bool IsEnabled { get; set; } = true;
+        public ICustomAttributes CustomAttributes { get; set; }
 
         public XmlNode AsXml(XmlDocument doc)
         {
@@ -75,7 +81,7 @@ namespace EzDbSchema.Core.Objects
     }
     public class EntityNameList : List<string>, IEntityNameList, IXmlRenderableInternal
     {
-        public static string ALIAS = "EntityNames";
+        internal static string ALIAS = "EntityNames";
 
         public EntityNameList()
         {
