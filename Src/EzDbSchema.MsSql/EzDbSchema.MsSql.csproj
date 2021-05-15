@@ -1,32 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;</TargetFrameworks>
-    <ReleaseVersion>1.0.3</ReleaseVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
-    <PackageId>EzDbSchema.MsSql</PackageId>
-    <Version>1.0.4-rc3</Version>
-    <Authors></Authors>
-    <Company></Company>
-    <Product></Product>
-    <Description></Description>
-    <Copyright></Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
-    <RepositoryType></RepositoryType>
-    <PackageTags></PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <NeutralLanguage>en</NeutralLanguage>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+    <OutputType>library</OutputType>	
+   <GenerateAssemblyInfo>false</GenerateAssemblyInfo> 
+   <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0</TargetFrameworks>
+   <Platforms>AnyCPU</Platforms>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<PackageId>EzDbSchema.MsSql</PackageId>
+	<Authors>EzDbSchema.MsSql</Authors>
+	<PackageProjectUrl>https://github.com/rvegajr/EzDbSchema.MsSql</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/rvegajr/EzDbSchema.MsSql</RepositoryUrl>
+	<RepositoryType>github</RepositoryType>
+	<PackageReleaseNotes>Upgraded nuget packages, .NET 5.0, multi-targeted for maximum compatability, Added Geometry and Geography fields</PackageReleaseNotes>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>	
+	<Version>1.1.1.0</Version>	
+	<PackageTags>TSQL Schema</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="System.Json" Version="4.7.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 </Project>

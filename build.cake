@@ -137,8 +137,8 @@ Task("NuGet-Pack")
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
-        Copyright               = @"Noctusoft 2018-2019",
-        ReleaseNotes            = NuGetReleaseNotes,
+        Copyright               = @"Noctusoft 2018-2020",
+        ReleaseNotes            = new [] {"Added net5.0", "Updated nuget libs"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -161,6 +161,10 @@ Task("NuGet-Pack")
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp3.1/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp3.1" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netstandard2.0/EzDbSchema.Core.dll", Target = "lib/netstandard2.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netstandard2.0/EzDbSchema.MsSql.dll", Target = "lib/netstandard2.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netstandard2.1/EzDbSchema.Core.dll", Target = "lib/netstandard2.1" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netstandard2.1/EzDbSchema.MsSql.dll", Target = "lib/netstandard2.1" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net5.0/EzDbSchema.Core.dll", Target = "lib/net5.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net5.0/EzDbSchema.MsSql.dll", Target = "lib/net5.0" },
 		},
 		ArgumentCustomization = args => args.Append("")		
     };
