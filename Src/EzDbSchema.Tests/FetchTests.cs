@@ -11,15 +11,13 @@ using Xunit;
 
 namespace EzDbSchema.Tests
 {
-	public class EntityMethodTests
+	public class EntityMethodTests : DatabaseTestBase
 	{
 		[Fact]
 		public void FetchTests()
 		{
             EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
-            //Assert.True(!AppSettings.Instance.ConnectionString.Contains("CHANGE ME"), "Change the Connection String in the App Settings");
-            AppSettings.Instance.ConnectionString = "Server=localhost;Database=CPPE;user id=cppeuser;password=Cpp3Us3r";
-            dbschema.Render("TestSchemaName", AppSettings.Instance.ConnectionString);
+            dbschema.Render("TestSchemaName", DatabaseTestBase.ConnectionString);
             foreach (var e in dbschema.Entities.Values)
             {
                 try
