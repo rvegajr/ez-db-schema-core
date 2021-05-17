@@ -53,6 +53,7 @@ namespace EzDbSchema.Tests
                     var DatabaseBackupZip = DBPath + "Resources" + Path.DirectorySeparatorChar + DatabaseFixture.DATABASE_NAME + ".zip";
                     var DatabaseBackup = DBPath + "Resources" + Path.DirectorySeparatorChar + DatabaseFixture.DATABASE_NAME + ".bak";
 
+                    if (File.Exists(DatabaseBackup)) File.Delete(DatabaseBackup);
                     if (!File.Exists(DatabaseBackupZip))
                         throw new Exception("File " + DatabaseBackupZip + " does not exist.");
                     System.IO.Compression.ZipFile.ExtractToDirectory(DatabaseBackupZip, DBPath + "Resources" + Path.DirectorySeparatorChar);
@@ -93,6 +94,7 @@ WITH REPLACE,RECOVERY,
     MOVE '{2}' TO @MDF,
     MOVE '{2}_log' TO @LDF;
 ", DatabaseBackup, UserPath, DatabaseFixture.DATABASE_NAME).Replace(@"\", @"\\");
+                    command.CommandTimeout = 300;
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception ex)
