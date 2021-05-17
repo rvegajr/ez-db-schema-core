@@ -11,13 +11,19 @@ using Xunit;
 
 namespace EzDbSchema.Tests
 {
-	public class EntityMethodTests : DatabaseTestBase
+    [Collection("DatabaseCollection")]
+    public class EntityMethodTests
 	{
+        DatabaseFixture fixture;
+        public EntityMethodTests(DatabaseFixture _fixture)
+        {
+            this.fixture = _fixture;
+        }
 		[Fact]
 		public void FetchTests()
 		{
             EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
-            dbschema.Render("TestSchemaName", DatabaseTestBase.ConnectionString);
+            dbschema.Render("TestSchemaName", this.fixture.ConnectionString);
             foreach (var e in dbschema.Entities.Values)
             {
                 try
