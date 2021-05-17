@@ -19,6 +19,7 @@ namespace EzDbSchema.Tests
         {
             this.fixture = _fixture;
         }
+
 		[Fact]
 		public void FetchTests()
 		{

@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <None Remove="Resources\Northwind.bak" />
+    <None Remove="Resources\Northwind.zip" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Northwind.bak">
+    <Content Include="Resources\Northwind.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

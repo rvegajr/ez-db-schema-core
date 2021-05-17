@@ -11,16 +11,23 @@ using Xunit;
 
 namespace EzDbSchema.Tests
 {
-	public class SchemaRenderTests
+    [Collection("DatabaseCollection")]
+
+    public class SchemaRenderTests
     {
+        DatabaseFixture fixture;
+        public SchemaRenderTests(DatabaseFixture _fixture)
+        {
+            this.fixture = _fixture;
+        }
+
         [Fact]
         public void MsSqlSchemaRenderTests()
         {
 			try
 			{
 				EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
-                Assert.True(!AppSettings.Instance.ConnectionString.Contains("CHANGE ME"), "Change the Connection String in the App Settings");
-                dbschema.Render("TestSchemaName", AppSettings.Instance.ConnectionString);
+                dbschema.Render("TestSchemaName", this.fixture.ConnectionString);
 				Assert.True(dbschema.Entities.Count > 0, "No entites returned");
 			}
 			catch (Exception ex)
@@ -37,8 +44,7 @@ namespace EzDbSchema.Tests
                 string path = Path.GetTempPath();
 
                 EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
-                Assert.True(!AppSettings.Instance.ConnectionString.Contains("CHANGE ME"), "Change the Connection String in the App Settings");
-                dbschema.Render("TestSchemaName", AppSettings.Instance.ConnectionString);
+                dbschema.Render("TestSchemaName", this.fixture.ConnectionString);
                 dbschema.ToJsonFile(path + "db1.json");
                 EzDbSchema.MsSql.Database dbschema2 = Database.FromJsonFile<MsSql.Database>(path + "db1.json");
 
@@ -60,19 +66,5 @@ namespace EzDbSchema.Tests
             }
         }
 
-
-        [Fact]
-        public void DeserialzieTests()
-        {
-            try
-            {
-                string path = Path.GetTempPath();
-                var dbschema2 = Database.FromJsonFile(@"\\vmware-host\Shared Folders\Downloads\Unifier.BP.Schema.json");
-            }
-            catch (Exception ex)
-            {
-                Assert.True(false, ex.ToString());
-            }
-        }
     }
 }

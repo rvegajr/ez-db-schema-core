@@ -48,26 +48,51 @@ namespace EzDbSchema.Tests
                 {
                     await connection.OpenAsync();
                     var command = connection.CreateCommand();
-                    var DBPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+                    var DBPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + Path.DirectorySeparatorChar;
+                    var UserPath = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + Path.DirectorySeparatorChar;
+                    var DatabaseBackupZip = DBPath + "Resources" + Path.DirectorySeparatorChar + DatabaseFixture.DATABASE_NAME + ".zip";
+                    var DatabaseBackup = DBPath + "Resources" + Path.DirectorySeparatorChar + DatabaseFixture.DATABASE_NAME + ".bak";
 
-                    var TempPath = Path.GetTempPath();
-                    var DatabaseBackup = DBPath + Path.DirectorySeparatorChar + "Resources" + Path.DirectorySeparatorChar + DatabaseFixture.DATABASE_NAME + ".bak";
+                    if (!File.Exists(DatabaseBackupZip))
+                        throw new Exception("File " + DatabaseBackupZip + " does not exist.");
+                    System.IO.Compression.ZipFile.ExtractToDirectory(DatabaseBackupZip, DBPath + "Resources" + Path.DirectorySeparatorChar);
                     if (!File.Exists(DatabaseBackup))
-                    {
                         throw new Exception("File " + DatabaseBackup + " does not exist.");
-                    }
-                    if (File.Exists(string.Format("{0}{1}.mdf", TempPath, DatabaseFixture.DATABASE_NAME))) File.Delete(string.Format("{0}{1}.mdf", TempPath, DatabaseFixture.DATABASE_NAME));
-                    if (File.Exists(string.Format("{0}{1}.ldf", TempPath, DatabaseFixture.DATABASE_NAME))) File.Delete(string.Format("{0}{1}.ldf", TempPath, DatabaseFixture.DATABASE_NAME));
+
+                    if (File.Exists(string.Format("{0}{1}.mdf", UserPath, DatabaseFixture.DATABASE_NAME))) File.Delete(string.Format("{0}{1}.mdf", UserPath, DatabaseFixture.DATABASE_NAME));
+                    if (File.Exists(string.Format("{0}{1}.ldf", UserPath, DatabaseFixture.DATABASE_NAME))) File.Delete(string.Format("{0}{1}.ldf", UserPath, DatabaseFixture.DATABASE_NAME));
                     command.CommandText = string.Format(@"
 USE [master]
-IF EXISTS (SELECT name FROM master.sys.databases WHERE name = N'{2}') BEGIN
-	ALTER DATABASE [{2}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-	DROP DATABASE [{2}];
-END
+DECLARE @NOTE VARCHAR(8000) = '';
+SET @NOTE = 'Restoring Local DB'; RAISERROR (@NOTE, 10, 1) WITH NOWAIT; 
 
-RESTORE DATABASE [{2}] FROM  DISK = N'{0}' WITH  FILE = 1,  
-	MOVE N'{2}' TO N'{1}{2}.mdf',  MOVE N'{2}_log' TO N'{1}{2}.ldf',  NOUNLOAD,  STATS = 5
-", DatabaseBackup, TempPath, DatabaseFixture.DATABASE_NAME);
+SET NOCOUNT ON;
+DECLARE @PMSG VARCHAR(8000) = ''; DECLARE @PROC VARCHAR(512) = 'LocalDB Restore: ';
+BEGIN TRY
+	IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{2}') BEGIN
+		ALTER DATABASE [{2}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+		EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'{2}';
+		SET @NOTE = 'Deleting old database'; RAISERROR (@NOTE, 10, 1) WITH NOWAIT; 
+		DROP DATABASE [{2}]
+	END
+END TRY
+BEGIN CATCH
+END CATCH
+DECLARE @MDF VARCHAR(512) = CONVERT(NVARCHAR, serverproperty('InstanceDefaultDataPath')) + '{2}.mdf';
+DECLARE @LDF VARCHAR(512) = CONVERT(NVARCHAR, serverproperty('InstanceDefaultLogPath')) + '{2}.ldf';
+BEGIN TRY
+	DROP DATABASE [{2}]
+END TRY
+BEGIN CATCH
+END CATCH
+
+SET @NOTE = 'Restoring....'; RAISERROR (@NOTE, 10, 1) WITH NOWAIT; 
+RESTORE DATABASE [{2}]
+FROM DISK = '{0}'
+WITH REPLACE,RECOVERY,
+    MOVE '{2}' TO @MDF,
+    MOVE '{2}_log' TO @LDF;
+", DatabaseBackup, UserPath, DatabaseFixture.DATABASE_NAME).Replace(@"\", @"\\");
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception ex)
