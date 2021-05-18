@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;</TargetFrameworks>
-    <ReleaseVersion>1.0.3</ReleaseVersion>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0</TargetFrameworks>
+    <ReleaseVersion>1.1.9</ReleaseVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.1.9.0</AssemblyVersion>
+    <FileVersion>1.1.9.0</FileVersion>
     <PackageId>EzDbSchema.MsSql</PackageId>
-    <Version>1.0.4-rc3</Version>
+    <Version>1.1.9</Version>
     <Authors></Authors>
     <Company></Company>
     <Product></Product>
