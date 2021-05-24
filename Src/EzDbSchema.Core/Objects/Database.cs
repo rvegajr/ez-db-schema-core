@@ -130,30 +130,29 @@ namespace EzDbSchema.Core.Objects
                 });
         }
 
-        internal static IDatabase FromJson(string Json)
+        private static JsonSerializerSettings JsonSerializerSetting()
         {
-            var settings = new JsonSerializerSettings()
+            return new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-            return JsonConvert.DeserializeObject<Database>(Json, settings);
         }
-
-        internal static IDatabase FromJsonFile(string FileName)
+        public static IDatabase FromJson(string Json)
         {
-            return JsonConvert.DeserializeObject<Database>(File.ReadAllText(FileName));
+            return JsonConvert.DeserializeObject<Database>(Json, JsonSerializerSetting());
         }
 
-        internal static T FromJson<T>(string Json)
+        public static IDatabase FromJsonFile(string FileName)
         {
-            var settings = new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
-            return JsonConvert.DeserializeObject<T>(Json, settings);
+            return JsonConvert.DeserializeObject<Database>(File.ReadAllText(FileName), JsonSerializerSetting());
         }
 
-        internal static T FromJsonFile<T>(string FileName)
+        public static T FromJson<T>(string Json)
+        {
+            return JsonConvert.DeserializeObject<T>(Json, JsonSerializerSetting());
+        }
+
+        public static T FromJsonFile<T>(string FileName)
         {
             return FromJson<T>(File.ReadAllText(FileName));
         }
