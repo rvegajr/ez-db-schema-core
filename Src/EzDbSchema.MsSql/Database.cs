@@ -29,6 +29,7 @@ namespace EzDbSchema.MsSql
                     if (connection.State == ConnectionState.Closed) connection.Open();
                     using (SqlCommand cmd = new SqlCommand(FKSQL, connection))
                     {
+                        cmd.CommandTimeout = 300;
                         cmd.CommandType = CommandType.Text;
 
                         var ds = new DataSet();

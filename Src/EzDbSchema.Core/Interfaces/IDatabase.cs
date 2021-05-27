@@ -15,5 +15,5 @@ namespace EzDbSchema.Core.Interfaces
 		IDatabaseObjectUpdates LastUpdates { get; set; }
         IEntityNameList Keys {get;}
 		bool ShowWarnings { get; set; }
-	}
+    }
 }
