@@ -15,8 +15,8 @@ namespace EzDbSchema.Tests
         private SqlLocalDbApi localDB;
         private ISqlLocalDbInstanceInfo instance;
         private ISqlLocalDbInstanceManager manager;
-        private static string LOCALDB_NAME = "EzDbSchemaTestDB";
-        private static string DATABASE_NAME = "Northwind";
+        public static string LOCALDB_NAME = "EzDbSchemaTestDB";
+        public static string DATABASE_NAME = "Northwind";
         public DatabaseFixture()
         {
             this.localDB = new SqlLocalDbApi();

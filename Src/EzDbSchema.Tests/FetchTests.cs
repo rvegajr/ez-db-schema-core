@@ -4,6 +4,7 @@ using System.IO;
 using EzDbSchema.Core;
 using EzDbSchema.Core.Objects;
 using EzDbSchema.Internal;
+using EzDbSchema.MsSql;
 using Json.Comparer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,7 +21,24 @@ namespace EzDbSchema.Tests
             this.fixture = _fixture;
         }
 
-		[Fact]
+        [Fact]
+        public void MsSqlConnectionStringParseTest()
+        {
+            var connparms = new ConnectionParameters() { Database = DatabaseFixture.DATABASE_NAME, Server = $"(localdb)\\{DatabaseFixture.LOCALDB_NAME}", Trusted = true };
+            connparms.ConnectionString = this.fixture.ConnectionString;
+            Assert.True(connparms.IsValid(), "Connection should be valid");
+        }
+
+
+        [Fact]
+        public void MsSqlConnectionParameterTest()
+        {
+            var connparms = new ConnectionParameters() { Database = DatabaseFixture.DATABASE_NAME, Server = $"(localdb)\\{DatabaseFixture.LOCALDB_NAME}", Trusted = true };
+            Assert.True(connparms.IsValid(), "Connection should be valid");
+        }
+
+
+        [Fact]
 		public void FetchTests()
 		{
             EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();

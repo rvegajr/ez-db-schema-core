@@ -4,10 +4,12 @@ using System.IO;
 using EzDbSchema.Core;
 using EzDbSchema.Core.Objects;
 using EzDbSchema.Internal;
+using EzDbSchema.MsSql;
 using Json.Comparer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using Database = EzDbSchema.Core.Objects.Database;
 
 namespace EzDbSchema.Tests
 {
@@ -35,6 +37,7 @@ namespace EzDbSchema.Tests
 				Assert.True(false, ex.ToString());
 			}
         }
+
 
         [Fact]
         public void MsSqlSchemaSerializeDeserialzieTests()
