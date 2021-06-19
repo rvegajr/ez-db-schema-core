@@ -26,6 +26,12 @@ namespace EzDbSchema.Tests
         {
             var connparms = new ConnectionParameters() { Database = DatabaseFixture.DATABASE_NAME, Server = $"(localdb)\\{DatabaseFixture.LOCALDB_NAME}", Trusted = true };
             connparms.ConnectionString = this.fixture.ConnectionString;
+            connparms.UserName = "TRUSTED";
+            Assert.True(connparms.ConnectionString.Equals(@"Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;"), @"Connection string should be 'Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;'");
+            connparms.UserName = "";
+            connparms.Trusted = false;
+            connparms.Trusted = true;
+            Assert.True(connparms.ConnectionString.Equals(@"Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;"), @"Connection string should be 'Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;'");
             Assert.True(connparms.IsValid(), "Connection should be valid");
         }
 

@@ -51,6 +51,7 @@ namespace EzDbSchema.MsSql
                 throw;
             }
         }
+
         private SqlConnectionStringBuilder _builder = new SqlConnectionStringBuilder();
         public string Server { get => _builder.DataSource; set => _builder.DataSource= value; }
         public string Database { get=> _builder.InitialCatalog; set => _builder.InitialCatalog = value; }
@@ -60,6 +61,18 @@ namespace EzDbSchema.MsSql
         public string UserName { get => _builder.UserID; set => _builder.UserID = value; }
         public string Password { get => _builder.Password; set => _builder.Password = value; }
         public bool Trusted { get => _builder.IntegratedSecurity; set => _builder.IntegratedSecurity = value; }
-        public string ConnectionString { get => _builder.ConnectionString; set => _builder.ConnectionString = value; }
+        public string ConnectionString { get => CleanConnectionString(_builder.ConnectionString); set => _builder.ConnectionString = value; }
+
+        private string CleanConnectionString(string connectionStringToClean)
+        {
+            var LocalConnectionString = _builder.ConnectionString;
+            if (this.Trusted)
+            {
+                this.UserName = String.Empty;
+                this.Password = String.Empty;
+                LocalConnectionString = _builder.ConnectionString.Replace(";User ID=", ";").Replace(";Password=", ";").Replace(";;", ";");
+            }
+            return LocalConnectionString;
+        }
     }
 }
