@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = true;
-var NuGetReleaseNotes = new [] {"Added Auto Version to NuGet"};
+var NuGetReleaseNotes = new [] {"Added ConnectionParameters, ability to Test, Nuget 5.0.5"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
