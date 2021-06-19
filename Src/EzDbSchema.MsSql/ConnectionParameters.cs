@@ -52,8 +52,8 @@ namespace EzDbSchema.MsSql
             }
         }
         private SqlConnectionStringBuilder _builder = new SqlConnectionStringBuilder();
-        public string Database { get=> _builder.DataSource; set => _builder.DataSource=value; }
-        public string Server { get => _builder.InitialCatalog; set => _builder.InitialCatalog = value; }
+        public string Server { get => _builder.DataSource; set => _builder.DataSource= value; }
+        public string Database { get=> _builder.InitialCatalog; set => _builder.InitialCatalog = value; }
         /// <summary>
         /// If you pass a UserName of "TRUSTED" and a password of NULL, then this will assume a Trusted=true
         /// </summary>
