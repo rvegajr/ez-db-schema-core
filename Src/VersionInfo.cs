@@ -1,3 +1,3 @@
 using System.Reflection;
-[assembly: System.Reflection.AssemblyFileVersionAttribute("5.0.7.*")]
-[assembly: System.Reflection.AssemblyVersionAttribute("5.0.7.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("5.0.8.*")]
+[assembly: System.Reflection.AssemblyVersionAttribute("5.0.8.0")]

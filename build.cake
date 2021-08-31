@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = true;
-var NuGetReleaseNotes = new [] {"Ficxed trusted conn string bug", "Fixed bug Where Server and DB mixed", "Added ConnectionParameters, ability to Test", "Nuget 5.0.6"};
+var NuGetReleaseNotes = new [] {"Nuget Upgrade"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
