@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = true;
-var NuGetReleaseNotes = new [] {"Nuget Upgrade"};
+var NuGetReleaseNotes = new [] {"Proper Warning supress"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS

@@ -11,6 +11,7 @@ using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
 using EzDbSchema.Core.Extentions.Strings;
 using EzDbSchema.Core.Enums;
+using System.Diagnostics;
 
 namespace EzDbSchema.MsSql
 {
@@ -51,7 +52,7 @@ namespace EzDbSchema.MsSql
                                     //Temporal views are handled below
                                     if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE")))
                                     {
-                                        Console.WriteLine("Warning... no primary keys for " + schemaObjectName + ".. adding all as primary keys");
+                                        if (this.ShowWarnings) Debug.WriteLine("Warning... no primary keys for " + schemaObjectName + ".. adding all as primary keys");
                                         int order = 0;
                                         foreach (var prop in entityType.Properties.Values)
                                         {

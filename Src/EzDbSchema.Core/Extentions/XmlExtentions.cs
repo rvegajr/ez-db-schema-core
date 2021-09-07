@@ -215,7 +215,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                         }
                         catch (Exception ex)
                         {
-                            Console.Write(ex.Message);
+                            throw;
                         }
                     }
                 }

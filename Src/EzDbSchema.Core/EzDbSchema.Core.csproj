@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>5.0.8.0</Version>
+    <Version>5.0.9.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>EzDbSchema</PackageId>
     <Authors>EzDbSchema</Authors>
