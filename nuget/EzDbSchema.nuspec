@@ -2,49 +2,54 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EzDbSchema.Core</id>
-    <version>5.0.2</version>
+    <version>6.0.0</version>
     <authors>Ricardo Vega Jr</authors>
     <owners>Ricardo Vega Jr</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/rvegajr/ez-db-schema-core</projectUrl>
     <description>A class library that allows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.</description>
     <releaseNotes></releaseNotes>
-    <copyright>2018-2020</copyright>
+    <copyright>2018-2021</copyright>
     <tags></tags>
     <dependencies>
       <group targetFramework=".NETFramework4.6.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>	
       <group targetFramework=".NETFramework4.7">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETFramework4.7.2">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETFramework4.8">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETCoreApp3.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>	  
       <group targetFramework=".NETStandard2.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".net5.0">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.2" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
+      </group>	  
+      <group targetFramework=".net6.0">
+        <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
 		<dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers"/>		
       </group>	  
     </dependencies>
@@ -62,5 +67,7 @@
     <file src="..\EzDbSchema.Core\bin\Release\netstandard2.1\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\netstandard2.1\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\net5.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\net5.0\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\net5.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net5.0\EzDbSchema.Core.dll" />
+    <file src="..\EzDbSchema.MsSql\bin\Release\net6.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\net5.0\EzDbSchema.MsSql.dll" />
+    <file src="..\EzDbSchema.Core\bin\Release\net6.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net6.0\EzDbSchema.Core.dll" />
   </files>
 </package>

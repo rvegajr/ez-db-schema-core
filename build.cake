@@ -1,7 +1,7 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #tool "nuget:?package=vswhere"
 
-var IncrementMinorVersion = true;
+var IncrementMinorVersion = false;
 var NuGetReleaseNotes = new [] {"Proper Warning supress"};
 
 //////////////////////////////////////////////////////////////////////
@@ -137,8 +137,8 @@ Task("NuGet-Pack")
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
-        Copyright               = @"Noctusoft 2018-2020",
-        ReleaseNotes            = new [] {"Added net5.0", "Updated nuget libs"},
+        Copyright               = @"Noctusoft 2018-2021",
+        ReleaseNotes            = new [] {"Added net6.0", "Updated nuget libs"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -165,6 +165,8 @@ Task("NuGet-Pack")
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netstandard2.1/EzDbSchema.MsSql.dll", Target = "lib/netstandard2.1" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net5.0/EzDbSchema.Core.dll", Target = "lib/net5.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net5.0/EzDbSchema.MsSql.dll", Target = "lib/net5.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net6.0/EzDbSchema.Core.dll", Target = "lib/net6.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net6.0/EzDbSchema.MsSql.dll", Target = "lib/net6.0" },
 		},
 		ArgumentCustomization = args => args.Append("")		
     };
