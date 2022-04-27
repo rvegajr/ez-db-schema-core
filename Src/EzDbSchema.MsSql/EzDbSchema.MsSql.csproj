@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <ReleaseVersion>6.0.0</ReleaseVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
+    <Version>6.0.1</Version>
+    <ReleaseVersion>6.0.1</ReleaseVersion>
+    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <FileVersion>6.0.1.0</FileVersion>
     <PackageId>EzDbSchema.MsSql</PackageId>
-    <Version>6.0.0</Version>
     <Authors></Authors>
     <Company></Company>
     <Product></Product>

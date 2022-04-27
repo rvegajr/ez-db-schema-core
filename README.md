@@ -58,3 +58,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Many thanks to the following projects that have helped in this project
 * McMaster.Extensions.CommandLineUtils
 
+## Release Notes
+
+### V 6.0.1 - Added the ability to tell the generator to not auto create the primary keys if they are missing
+
+### V 6.0.0 - Migration to .net 6.0

@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = false;
-var NuGetReleaseNotes = new [] {"Proper Warning supress"};
+var NuGetReleaseNotes = new [] {"Added AutoAddPrimaryKeys Option"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -137,8 +137,8 @@ Task("NuGet-Pack")
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
-        Copyright               = @"Noctusoft 2018-2021",
-        ReleaseNotes            = new [] {"Added net6.0", "Updated nuget libs"},
+        Copyright               = @"Noctusoft 2018-2022",
+        ReleaseNotes            = new [] {"Added AutoAddPrimaryKeys Option"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,

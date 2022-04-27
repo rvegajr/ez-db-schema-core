@@ -3,7 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>6.0.1.0</Version>
+    <ReleaseVersion>6.0.1.0</ReleaseVersion>
+    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <FileVersion>6.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +32,7 @@
     <Compile Remove="CommandSchemaDump.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.1.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Json" Version="4.7.1" />
   </ItemGroup>

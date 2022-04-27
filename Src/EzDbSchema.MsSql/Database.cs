@@ -50,7 +50,7 @@ namespace EzDbSchema.MsSql
                                 if (currentSchemaObjectName.Length > 0)
                                 {
                                     //Temporal views are handled below
-                                    if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE")))
+                                    if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE") && (entityType.Parent.AutoAddPrimaryKeys)))
                                     {
                                         if (this.ShowWarnings) Debug.WriteLine("Warning... no primary keys for " + schemaObjectName + ".. adding all as primary keys");
                                         int order = 0;

@@ -164,8 +164,14 @@ namespace EzDbSchema.Core.Objects
 
         /// <summary></summary>
         public bool ShowWarnings { get; set; } = false;
-		/// <summary></summary>
-		public string Name { get; set; } = "";
+
+        /// <summary>If there are no primary keys for an entity,  database calls will have issues performing CRUD operations.  If an entity is rendered and has no primary key, 
+        /// if this is set to 'true', then the schema renderer will automatically add a key for each field (which is the only way we can guaruntee uniqueness. 
+        /// Default value is 'false'</summary>
+        public bool AutoAddPrimaryKeys { get; set; } = false;
+
+        /// <summary></summary>
+        public string Name { get; set; } = "";
 		/// <summary></summary>
 		public IDatabaseObjectUpdates LastUpdates { get; set; } = new DatabaseObjectUpdates();
 		/// <summary></summary>
