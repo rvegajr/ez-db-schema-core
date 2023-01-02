@@ -97,7 +97,7 @@ WITH REPLACE,RECOVERY,
                     command.CommandTimeout = 300;
                     await command.ExecuteNonQueryAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw;
                 }

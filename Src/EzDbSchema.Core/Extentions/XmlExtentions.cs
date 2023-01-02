@@ -213,7 +213,7 @@ namespace EzDbSchema.Core.Extentions.Xml
                                     ((IEzObject)item).SetRefId();
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             throw;
                         }

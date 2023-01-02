@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = false;
-var NuGetReleaseNotes = new [] {"Added AutoAddPrimaryKeys Option"};
+var NuGetReleaseNotes = new [] {"Updated all Nuget packages and added .net 7"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -137,8 +137,8 @@ Task("NuGet-Pack")
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
-        Copyright               = @"Noctusoft 2018-2022",
-        ReleaseNotes            = new [] {"Added AutoAddPrimaryKeys Option"},
+        Copyright               = @"Noctusoft 2018-2023",
+        ReleaseNotes            = new [] {"Updated all Nuget packages and added .net 7"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -167,6 +167,8 @@ Task("NuGet-Pack")
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net5.0/EzDbSchema.MsSql.dll", Target = "lib/net5.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net6.0/EzDbSchema.Core.dll", Target = "lib/net6.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net6.0/EzDbSchema.MsSql.dll", Target = "lib/net6.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net7.0/EzDbSchema.Core.dll", Target = "lib/net7.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net7.0/EzDbSchema.MsSql.dll", Target = "lib/net7.0" },			
 		},
 		ArgumentCustomization = args => args.Append("")		
     };

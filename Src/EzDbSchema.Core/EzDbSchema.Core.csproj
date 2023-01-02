@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp2.2;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>6.0.1.0</Version>
-    <ReleaseVersion>6.0.1</ReleaseVersion>
-    <AssemblyVersion>6.0.1.0</AssemblyVersion>
-    <FileVersion>6.0.1.0</FileVersion>
+    <Version>7.0.0.0</Version>
+    <ReleaseVersion>7.0.0.0</ReleaseVersion>
+    <AssemblyVersion>7.0.0.0</AssemblyVersion>
+    <FileVersion>7.0.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageId>EzDbSchema</PackageId>
     <Authors>EzDbSchema</Authors>
@@ -17,7 +17,7 @@
     <Folder Include="Objects\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Json" Version="4.7.1" />
   </ItemGroup>
 </Project>

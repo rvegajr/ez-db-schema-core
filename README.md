@@ -60,6 +60,8 @@ Many thanks to the following projects that have helped in this project
 
 ## Release Notes
 
+### V 7.0.0 - Nuget package upgrades,  updated to .net 7.0
+
 ### V 6.0.1 - Added the ability to tell the generator to not auto create the primary keys if they are missing
 
 ### V 6.0.0 - Migration to .net 6.0
