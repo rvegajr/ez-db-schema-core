@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using EzDbSchema.Core.Enums;
 using EzDbSchema.Internal;
@@ -38,7 +39,9 @@ namespace EzDbSchema.Cli
         
         static void LoadSettings()
         {
-            AppSettings.Instance.Version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            var ezDbSchemaCoreVersion = typeof(EzDbSchema.Core.Objects.Entity).Assembly.GetName().Version.ToString();
+            var ezDbSchemaMsSqlVersion = typeof(EzDbSchema.MsSql.Database).Assembly.GetName().Version.ToString();
+            AppSettings.Instance.Version = ezDbSchemaCoreVersion;
         }
     }
 }

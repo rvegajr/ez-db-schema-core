@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>8.0.0</Version>
-    <ReleaseVersion>8.0.0</ReleaseVersion>
-    <AssemblyVersion>8.0.0.0</AssemblyVersion>
-    <FileVersion>8.0.0.0</FileVersion>
+    <Version>8.0.1</Version>
+    <ReleaseVersion>8.0.1</ReleaseVersion>
+    <AssemblyVersion>8.0.1.0</AssemblyVersion>
+    <FileVersion>8.0.1.0</FileVersion>
     <PackageId>EzDbSchema.MsSql</PackageId>
     <Authors></Authors>
     <Company></Company>
@@ -20,16 +20,13 @@
     <PackageTags></PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
+	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>	
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DebugType>portable</DebugType>
 	  <DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
   </ItemGroup>
 </Project>
