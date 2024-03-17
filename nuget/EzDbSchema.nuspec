@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EzDbSchema.Core</id>
-    <version>7.0.0</version>
+    <version>8.0.0</version>
     <authors>Ricardo Vega Jr</authors>
     <owners>Ricardo Vega Jr</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,48 +14,53 @@
     <dependencies>
       <group targetFramework=".NETFramework4.6.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>	
       <group targetFramework=".NETFramework4.7">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETFramework4.7.2">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETFramework4.8">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".NETCoreApp3.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>	  
       <group targetFramework=".NETStandard2.1">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>
       <group targetFramework=".net5.0">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>	  
       <group targetFramework=".net6.0">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>	  
       <group targetFramework=".net7.0">
         <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
-        <dependency id="System.Data.SqlClient" version="4.8.5" exclude="Build,Analyzers" />
-		<dependency id="Newtonsoft.Json" version="13.0.2" exclude="Build,Analyzers"/>		
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
+      </group>		  
+      <group targetFramework=".net8.0">
+        <dependency id="System.Json" version="4.7.1" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.6" exclude="Build,Analyzers" />
+		<dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers"/>		
       </group>		  
     </dependencies>
   </metadata>
@@ -76,5 +81,7 @@
     <file src="..\EzDbSchema.Core\bin\Release\net6.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net6.0\EzDbSchema.Core.dll" />
     <file src="..\EzDbSchema.MsSql\bin\Release\net7.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\net7.0\EzDbSchema.MsSql.dll" />
     <file src="..\EzDbSchema.Core\bin\Release\net7.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net7.0\EzDbSchema.Core.dll" />	
+    <file src="..\EzDbSchema.MsSql\bin\Release\net8.0\EzDbSchema.MsSql.dll" target="..\EzDbSchema.MsSql\bin\Release\net8.0\EzDbSchema.MsSql.dll" />
+    <file src="..\EzDbSchema.Core\bin\Release\net8.0\EzDbSchema.Core.dll" target="..\EzDbSchema.Core\bin\Release\net8.0\EzDbSchema.Core.dll" />	
   </files>
 </package>

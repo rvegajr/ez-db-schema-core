@@ -61,7 +61,7 @@ namespace EzDbSchema.Tests
                 }
                 catch (Exception)
                 {
-                    Assert.True(false, "Fetch calls failed");
+                    Assert.Fail("Fetch calls failed");
                 }
 
                 break;

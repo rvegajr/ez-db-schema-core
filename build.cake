@@ -2,7 +2,7 @@
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = false;
-var NuGetReleaseNotes = new [] {"Updated all Nuget packages and added .net 7"};
+var NuGetReleaseNotes = new [] {"Updated all Nuget packages and added .net 8"};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -137,8 +137,8 @@ Task("NuGet-Pack")
         ProjectUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core"),
         //IconUrl                 = new Uri(""),
         LicenseUrl              = new Uri(@"https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE"),
-        Copyright               = @"Noctusoft 2018-2023",
-        ReleaseNotes            = new [] {"Updated all Nuget packages and added .net 7"},
+        Copyright               = @"Noctusoft 2018-2024",
+        ReleaseNotes            = new [] {"Updated all Nuget packages and added .net 8"},
         Tags                    = new [] {"Database", "Schema"},
         RequireLicenseAcceptance= false,
         Symbols                 = false,
@@ -155,8 +155,6 @@ Task("NuGet-Pack")
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net472/EzDbSchema.MsSql.dll", Target = "lib/net472" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net48/EzDbSchema.Core.dll", Target = "lib/net48" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net48/EzDbSchema.MsSql.dll", Target = "lib/net48" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp2.2/EzDbSchema.Core.dll", Target = "lib/netcoreapp2.2" },
-			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp2.2/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp2.2" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netcoreapp3.1/EzDbSchema.Core.dll", Target = "lib/netcoreapp3.1" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/netcoreapp3.1/EzDbSchema.MsSql.dll", Target = "lib/netcoreapp3.1" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/netstandard2.0/EzDbSchema.Core.dll", Target = "lib/netstandard2.0" },
@@ -169,6 +167,8 @@ Task("NuGet-Pack")
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net6.0/EzDbSchema.MsSql.dll", Target = "lib/net6.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net7.0/EzDbSchema.Core.dll", Target = "lib/net7.0" },
 			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net7.0/EzDbSchema.MsSql.dll", Target = "lib/net7.0" },			
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.Core/bin/Release/net8.0/EzDbSchema.Core.dll", Target = "lib/net8.0" },
+			new NuSpecContent { Source = thisDir + @"Src/EzDbSchema.MsSql/bin/Release/net8.0/EzDbSchema.MsSql.dll", Target = "lib/net8.0" },			
 		},
 		ArgumentCustomization = args => args.Append("")		
     };

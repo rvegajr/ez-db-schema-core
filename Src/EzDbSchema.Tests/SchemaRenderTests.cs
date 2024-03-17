@@ -34,7 +34,7 @@ namespace EzDbSchema.Tests
 			}
 			catch (Exception ex)
 			{
-				Assert.True(false, ex.ToString());
+				Assert.Fail(ex.ToString());
 			}
         }
 
@@ -65,7 +65,7 @@ namespace EzDbSchema.Tests
             }
             catch (Exception ex)
             {
-                Assert.True(false, ex.ToString());
+                Assert.Fail(ex.ToString());
             }
         }
 
