@@ -4,10 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
     <IsPackable>false</IsPackable>
-	<Version>8.0.1</Version>
-	<ReleaseVersion>8.0.1</ReleaseVersion>
-	<AssemblyVersion>8.0.1.0</AssemblyVersion>
-	<FileVersion>8.0.1.0</FileVersion>
+	<Version>8.0.2</Version>
+	<ReleaseVersion>8.0.2</ReleaseVersion>
+	<AssemblyVersion>8.0.2.0</AssemblyVersion>
+	<FileVersion>8.0.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

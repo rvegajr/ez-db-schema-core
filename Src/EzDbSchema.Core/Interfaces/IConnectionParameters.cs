@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
@@ -10,6 +11,8 @@ namespace EzDbSchema.Core.Interfaces
         string UserName { get; set; }
         string Password { get; set; }
         bool Trusted { get; set; }
+        bool TrustServerCertificate { get; set; }
+        ICollection Values { get; }
         string ConnectionString { get; set; }
         bool IsValid();
     }

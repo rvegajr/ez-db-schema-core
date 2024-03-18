@@ -31,6 +31,7 @@ namespace EzDbSchema.Tests
             connparms.UserName = "";
             connparms.Trusted = false;
             connparms.Trusted = true;
+            connparms.TrustServerCertificate = true;
             Assert.True(connparms.ConnectionString.Equals(@"Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;"), @"Connection string should be 'Data Source=(localdb)\EzDbSchemaTestDB;Initial Catalog=Northwind;Integrated Security=True;'");
             Assert.True(connparms.IsValid(), "Connection should be valid");
         }

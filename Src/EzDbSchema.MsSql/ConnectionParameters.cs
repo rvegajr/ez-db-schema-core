@@ -12,6 +12,7 @@ using EzDbSchema.Core.Extentions.Objects;
 using EzDbSchema.Core.Extentions.Strings;
 using EzDbSchema.Core.Enums;
 using System.Text;
+using System.Collections;
 
 namespace EzDbSchema.MsSql
 {
@@ -61,8 +62,9 @@ namespace EzDbSchema.MsSql
         public string UserName { get => _builder.UserID; set => _builder.UserID = value; }
         public string Password { get => _builder.Password; set => _builder.Password = value; }
         public bool Trusted { get => _builder.IntegratedSecurity; set => _builder.IntegratedSecurity = value; }
+        public bool TrustServerCertificate { get => _builder.TrustServerCertificate; set => _builder.TrustServerCertificate = value; }
+        public ICollection Values { get => _builder.Values; }
         public string ConnectionString { get => CleanConnectionString(_builder.ConnectionString); set => _builder.ConnectionString = value; }
-
         private string CleanConnectionString(string connectionStringToClean)
         {
             var LocalConnectionString = _builder.ConnectionString;

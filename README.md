@@ -60,7 +60,7 @@ Many thanks to the following projects that have helped in this project
 
 ## Release Notes
 
-### V 8.0.0 - Nuget package upgrades,  updated to .net 8.0
+### V 8.0.2 - Nuget package upgrades,  updated to .net 8.0; Update to Microsoft SqlClientm added Server Trust Cert setting;
 
 ### V 7.0.0 - Nuget package upgrades,  updated to .net 7.0
 
