@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
-using EzDbSchema.Core.Extentions.Xml;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes, IXmlRenderableInternal
+	public class CustomAttributes : Dictionary<string, object>, ICustomAttributes
     {
         internal static string ALIAS = "CustomAttributes";
 
@@ -17,28 +15,6 @@ namespace EzDbSchema.Core.Objects
             this._id = this.GetId();
         }
         public int _id { get; set; }
-        public XmlNode AsXml(XmlDocument doc)
-        {
-            return this.DictionaryAsXmlNode(doc, ALIAS);
-        }
-
-        public string AsXml()
-        {
-            return AsXml(new XmlDocument()).OuterXml;
-        }
-
-        public void FromXml(string Xml)
-        {
-            var doc = (new XmlDocument());
-            doc.LoadXml(Xml);
-            FromXml(doc.FirstChild);
-        }
-
-        public XmlNode FromXml(XmlNode node)
-        {
-            this.DictionaryFromXmlNodeList(node.ChildNodes, ALIAS);
-            return node;
-        }
     }
 
     [System.AttributeUsage(System.AttributeTargets.Interface |

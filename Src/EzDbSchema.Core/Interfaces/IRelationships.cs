@@ -4,11 +4,11 @@ using EzDbSchema.Core.Enums;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IRelationshipDictionary : IDictionary<string, IRelationship>, IEzObject, IXmlRenderable
+    public interface IRelationshipDictionary : IDictionary<string, IRelationship>, IEzObject
     {
     }
 
-    public interface IRelationshipList : IList<IRelationship>, IEzObject, IXmlRenderable
+    public interface IRelationshipList : IList<IRelationship>, IEzObject
     {
 		IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch);
 		int CountItems(string searchFor);
@@ -17,10 +17,10 @@ namespace EzDbSchema.Core.Interfaces
         IRelationshipList FindItems(RelationSearchField searchField, string searchFor);
 
     }
-    public interface IRelationshipReferenceList : IRelationshipList, IEzObject, IXmlRenderable
+    public interface IRelationshipReferenceList : IRelationshipList, IEzObject
     {
     }
-    public interface IRelationshipGroups : IDictionary<string, IRelationshipList>, IEzObject, IXmlRenderable
+    public interface IRelationshipGroups : IDictionary<string, IRelationshipList>, IEzObject
     {
     }
 

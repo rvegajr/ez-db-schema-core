@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
@@ -21,7 +21,7 @@ namespace EzDbSchema.Core.Objects
         CustomAttributes
     }
     /// <summary></summary>
-    public class EzObject : IEzObject
+    public abstract class EzObject : IEzObject
     {
         public EzObject()
         {
@@ -29,6 +29,7 @@ namespace EzDbSchema.Core.Objects
             this.IsEnabled = true;
         }
         public int _id { get; set; }
+        public virtual string DatabaseObjectName { get; }
         public bool IsEnabled { get; set; } = true;
         public ICustomAttributes CustomAttributes { get; set; }
 

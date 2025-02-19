@@ -3,15 +3,37 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Version>8.0.2.0</Version>
-    <ReleaseVersion>8.0.2.0</ReleaseVersion>
-	<AssemblyInformationalVersion>8.0.2.0</AssemblyInformationalVersion>
+    <LangVersion>latest</LangVersion>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>ezdb</ToolCommandName>
+    <Version>9.0.2</Version>
+    <ReleaseVersion>9.0.2</ReleaseVersion>
+    <AssemblyVersion>9.0.2</AssemblyVersion>
+    <FileVersion>9.0.2</FileVersion>
+    <PackageId>EzDbSchema.Cli</PackageId>
+    <Title>EzDbSchema CLI Tool</Title>
+    <Authors>Ricky Vega</Authors>
+    <Description>Command-line interface for EzDbSchema - Analyze database schemas, generate code, and export documentation</Description>
+    <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>database schema orm code-generation cli-tool</PackageTags>
+    <PackageReleaseNotes>Added comprehensive CLI tool for database schema analysis and code generation</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="MySchemaName.db.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
@@ -35,7 +57,7 @@
   <ItemGroup>
 	<PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Json" Version="4.7.1" />
+    <PackageReference Include="System.Json" Version="4.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />

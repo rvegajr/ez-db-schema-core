@@ -1,8 +1,7 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #tool "nuget:?package=vswhere"
 
 var IncrementMinorVersion = false;
-var NuGetReleaseNotes = new [] {"Updated all Nuget packages and added .net 8"};
+var NuGetReleaseNotes = new [] {"Removed XML file format in favor for JSON. Utilizing  Utilized EF Core for relationships resolution."};
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS

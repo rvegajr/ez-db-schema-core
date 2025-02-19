@@ -1,27 +1,27 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Text;
-using System.Xml;
+using System.Linq;
 using EzDbSchema.Core.Extentions;
-using EzDbSchema.Core.Extentions.Xml;
 using EzDbSchema.Core.Interfaces;
 
 namespace EzDbSchema.Core.Objects
 {
-	public class Entity : EzObject, IEntity, IXmlRenderableInternal
+	public class Entity : EzObject, IEntity
     {
         internal static string ALIAS = "Entity";
         public Entity() : base()
         {
 			this.PrimaryKeys = new PrimaryKeyProperties(this);
         }
-        public IDatabase Parent { get; set; }
-        public string Name { get; set; }
-        public string Alias { get; set; }
-        public string Schema { get; set; }
-        public string Type { get; set; }
+        public override string DatabaseObjectName { get => DatabaseSchema + "." + TableName; }
+        public IDatabase ParentDatabase { get; set; }
+        public string TableName { get; set; }
+        public string TableAlias { get; set; }
+        public string DatabaseSchema { get; set; }
+        public string EntityType { get; set; }
         public string TemporalType { get; set; }
-        public string ObjectState { get; set; }
+        public string EntityState { get; set; }
 
 		public IPropertyDictionary Properties { get; set; } = new PropertyDictionary();
 		public IRelationshipReferenceList Relationships { get; set; } = new RelationshipReferenceList();
@@ -31,33 +31,10 @@ namespace EzDbSchema.Core.Objects
 
         public bool IsTemporalView { get; set; }
 
-        public string AsXml()
-        {
-            return AsXml(new XmlDocument()).OuterXml;
-        }
-
-        public XmlNode AsXml(XmlDocument doc)
-        {
-            return this.AsXmlNode(doc, ALIAS);
-        }
-
-        public void FromXml(string Xml)
-        {
-            var doc = (new XmlDocument());
-            doc.LoadXml(Xml);
-            FromXml(doc.FirstChild);
-        }
-
-        public XmlNode FromXml(XmlNode node)
-        {
-            this.FromXmlNode(node, ALIAS);
-            return node;
-        }
-
         public bool HasPrimaryKeys()
         {
             foreach (var prop in Properties.Values)
-                if (prop.IsKey) return true;
+                if (prop.IsPrimaryKey) return true;
             return false;
         }
         public bool IsAuditable()
@@ -73,5 +50,32 @@ namespace EzDbSchema.Core.Objects
                 || (propertyNameToCheck.Equals("CreatedBy"))
                 || (propertyNameToCheck.Equals("Updated"))
                 || (propertyNameToCheck.Equals("UpdatedBy")));
-        }    }
+        }
+
+        // Database Features
+        public bool HasTriggers => Properties.Values.Any(p => p.IsComputed);
+        public bool HasCheckConstraints => Properties.Values.Any(p => !string.IsNullOrEmpty(p.ValidationRules));
+        public bool HasForeignKeyConstraints => Relationships.Count > 0;
+        public bool HasUniqueIndexes => Properties.Values.Any(p => p.IsUnique);
+
+        // Security Features
+        public bool RequiresAuthorization => Properties.Values.Any(p => p.RequiresAuthorization);
+        public bool HasRowLevelSecurity => Properties.Values.Any(p => p.RequiresAuthorization || p.RequiresEncryption);
+
+        // Performance Features
+        public bool IsFrequentlyAccessed => Properties.Values.Any(p => p.IsFrequentlyAccessed);
+        public bool RequiresCaching => Properties.Values.Any(p => p.RequiresCaching);
+        public string CacheStrategy => Properties.Values.Any(p => !string.IsNullOrEmpty(p.CacheStrategy)) 
+            ? Properties.Values.First(p => !string.IsNullOrEmpty(p.CacheStrategy)).CacheStrategy 
+            : null;
+
+        public bool IsLargeDataset => Properties.Values.Count > 20 || Properties.Values.Any(p => p.MaxLength > 1000);
+
+        // Advanced Features
+        public bool IsVersioned => Properties.ContainsKey("Version") || Properties.ContainsKey("RowVersion");
+        public bool GeneratesEvents => Properties.Values.Any(p => p.RequiresNotification || p.TrackChanges);
+        public bool RequiresNotification => Properties.Values.Any(p => p.RequiresNotification);
+        public bool HasExternalReferences => Properties.Values.Any(p => p.IsExternalReference);
+        public bool IsPartOfWorkflow => Properties.Values.Any(p => p.RequiresAuthorization || p.RequiresValidation);
+    }
 }

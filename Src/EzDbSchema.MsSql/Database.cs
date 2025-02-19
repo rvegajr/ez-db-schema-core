@@ -1,27 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Configuration;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
+using EzDbSchema.Core.Enums;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
 using EzDbSchema.Core.Extentions.Strings;
-using EzDbSchema.Core.Enums;
 using System.Diagnostics;
 
 namespace EzDbSchema.MsSql
 {
-	public class Database : EzDbSchema.Core.Objects.Database, IDatabase
+    public class Database : EzDbSchema.Core.Objects.Database, IDatabase
     {
-		public override IDatabase Render(string entityName, string ConnectionString)
+        public override IDatabase Render(string entityName, string ConnectionString)
         {
             string CurrentAction = string.Format("Entering Function using {0} and {1}", entityName, ConnectionString);
-			IDatabase schema = this;
-			schema.Name = entityName;
+            IDatabase schema = this;
+            Name = entityName;
 
             try
             {
@@ -50,57 +48,57 @@ namespace EzDbSchema.MsSql
                                 if (currentSchemaObjectName.Length > 0)
                                 {
                                     //Temporal views are handled below
-                                    if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE") && (entityType.Parent.AutoAddPrimaryKeys)))
+                                    if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE") && (entityType.ParentDatabase.AutoAddPrimaryKeys)))
                                     {
                                         if (this.ShowWarnings) Debug.WriteLine("Warning... no primary keys for " + schemaObjectName + ".. adding all as primary keys");
                                         int order = 0;
                                         foreach (var prop in entityType.Properties.Values)
                                         {
                                             order++;
-                                            prop.IsKey = true;
-                                            prop.KeyOrder = order;
+                                            prop.IsPrimaryKey = true;
+                                            prop.PrimaryKeyOrder = order;
                                             entityType.PrimaryKeys.Add(prop);
                                         }
                                     }
                                     schema.Add(currentSchemaObjectName, entityType);
                                 }
-								entityType = new Entity()
+                                entityType = new Entity()
                                 {
-                                    Name = row["TABLENAME"].ToString()
-                                    , Alias = schemaObjectName
-                                    , Type = row["OBJECT_TYPE"].ToString()
-                                    , Schema = row["SCHEMANAME"].ToString()
+                                    TableName = row["TABLENAME"].ToString()
+                                    , TableAlias = schemaObjectName
+                                    , EntityType = row["OBJECT_TYPE"].ToString()
+                                    , DatabaseSchema = row["SCHEMANAME"].ToString()
                                     , IsTemporalView = ((schemaObjectName.EndsWith("TemporalView", StringComparison.Ordinal)) && (row["OBJECT_TYPE"].ToString() == "VIEW"))
                                     , TemporalType = (row["TEMPORAL_TYPE_DESC"] == DBNull.Value ? "" : row["TEMPORAL_TYPE_DESC"].ToString())
-                                    , Parent = schema
+                                    , ParentDatabase = schema
                                 };
                                 primaryKeyList = new PrimaryKeyProperties(entityType);
                                 entityType.PrimaryKeys = primaryKeyList;
                                 currentSchemaObjectName = schemaObjectName;
                             }
                             Property property = new Property() { IsNullable = (bool)row["IS_NULLABLE"] };
-                            property.Name = (row["COLUMNNAME"] == DBNull.Value ? "" : row["COLUMNNAME"].ToString());
-                            property.Alias = property.Name + (property.Name.Equals(schemaObjectName) ? "_Text" : "");
+                            property.ColumnName = (row["COLUMNNAME"] == DBNull.Value ? "" : row["COLUMNNAME"].ToString());
+                            property.ColumnAlias = property.ColumnName + (property.ColumnName.Equals(schemaObjectName) ? "_Text" : "");
                             property.MaxLength = (int)(row["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : row["CHARACTER_MAXIMUM_LENGTH"]);
                             property.Precision = (int)(row["NUMERIC_PRECISION"] == DBNull.Value ? 0 : Convert.ToInt32(row["NUMERIC_PRECISION"]));
                             property.Scale = (int)(row["NUMERIC_SCALE"] == DBNull.Value ? 0 : Convert.ToInt32(row["NUMERIC_SCALE"]));
                             property.IsIdentity = (bool)(row["IS_IDENTITY"] == DBNull.Value ? false : row["IS_IDENTITY"]);
-                            property.IsKey = (bool)(row["PRIMARY_KEY_ORDER"] == DBNull.Value ? false : true);
-                            property.KeyOrder = (int)(row["PRIMARY_KEY_ORDER"] == DBNull.Value ? 0 : Convert.ToInt32(row["PRIMARY_KEY_ORDER"]));
-                            if ((entityType.IsTemporalView) && ((property.Name == "SysEndTime") || (property.Name == "SysStartTime")))
+                            property.IsPrimaryKey = (bool)(row["PRIMARY_KEY_ORDER"] == DBNull.Value ? false : true);
+                            property.PrimaryKeyOrder = (int)(row["PRIMARY_KEY_ORDER"] == DBNull.Value ? 0 : Convert.ToInt32(row["PRIMARY_KEY_ORDER"]));
+                            if ((entityType.IsTemporalView) && ((property.ColumnName == "SysEndTime") || (property.ColumnName == "SysStartTime")))
                             {
-                                property.IsKey = true;
-                                property.KeyOrder = ((property.Name == "SysStartTime") ? 1 : 2);
+                                property.IsPrimaryKey = true;
+                                property.PrimaryKeyOrder = ((property.ColumnName == "SysStartTime") ? 1 : 2);
                             }
-                            property.Type = (row["DATA_TYPE"] == DBNull.Value ? "" : row["DATA_TYPE"].ToString());
-                            if (property.IsKey) entityType.PrimaryKeys.Add(property);
-                            property.Parent = entityType;
-                            CurrentAction = string.Format("Adding Property '{0}' to entity '{1}'", property.Name, entityType.Name);
-                            entityType.Properties.Add(property.Name, property);
+                            property.DataType = (row["DATA_TYPE"] == DBNull.Value ? "" : row["DATA_TYPE"].ToString());
+                            if (property.IsPrimaryKey) entityType.PrimaryKeys.Add(property);
+                            property.ParentEntity = entityType;
+                            CurrentAction = string.Format("Adding Property '{0}' to entity '{1}'", property.ColumnName, entityType.TableName);
+                            entityType.Properties.Add(property.ColumnName, property);
                         }
                         if (currentSchemaObjectName.Length > 0)
                         {
-                            //Temporal views are handled abolve
+                            //Temporal views are handled above
                             if ((!entityType.HasPrimaryKeys() && (!entityType.IsTemporalView) && (entityType.TemporalType != "HISTORY_TABLE")))
                             {
                                 if (ShowWarnings) Console.WriteLine("Warning... no primary keys for " + currentSchemaObjectName + ".. adding all as primary keys");
@@ -108,8 +106,8 @@ namespace EzDbSchema.MsSql
                                 foreach (var prop in entityType.Properties.Values)
                                 {
                                     order++;
-                                    prop.IsKey = true;
-                                    prop.KeyOrder = order;
+                                    prop.IsPrimaryKey = true;
+                                    prop.PrimaryKeyOrder = order;
                                     entityType.PrimaryKeys.Add(prop);
                                 }
                             }
@@ -141,24 +139,24 @@ namespace EzDbSchema.MsSql
                             {
                                 var newRel = new Relationship()
                                 {
-                                    Name = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
+                                    ConstraintName = row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(),
                                     FromTableName = entityKey,
-                                    FromFieldName = fromEntityField,
+                                    FromPropertyName = fromEntityField,
                                     FromColumnName = fromEntityColumnName,
                                     FromEntity = schema[entityKey],
                                     FromProperty = schema[entityKey].Properties[fromEntityField],
-                                    ToFieldName = toEntityField,
+                                    ToPropertyName = toEntityField,
                                     ToTableName = relatedEntityKey,
                                     ToColumnName = toEntityColumnName,
                                     ToEntity = schema[toEntityKey],
                                     ToProperty = schema[toEntityKey].Properties[toEntityField],
-                                    Type = multiplicity,
+                                    RelationshipType = multiplicity,
                                     PrimaryTableName = primaryTableName,
-                                    FKOrdinalPosition = ordinalPosition,
-                                    Parent = schema[entityKey],
+                                    ForeignKeyOrdinalPosition = ordinalPosition,
+                                    ParentEntity = schema[entityKey],
                                     MultiplicityType = RelationshipMultiplicityType.Unknown
                                 };
-                                switch (newRel.Type.ToLower())
+                                switch (newRel.RelationshipType.ToLower())
                                 {
                                     case "one to one":
                                         newRel.MultiplicityType = RelationshipMultiplicityType.OneToOne;
@@ -182,19 +180,18 @@ namespace EzDbSchema.MsSql
                                         newRel.MultiplicityType = RelationshipMultiplicityType.ZeroOrOneToOne;
                                         break;
                                 }
-                                CurrentAction = string.Format("Adding Relationships {0} to entity {0}", currentSchemaObjectName, entityKey);
+                                CurrentAction = string.Format("Adding Relationships {0} to entity {1}", currentSchemaObjectName, entityKey);
                                 schema[entityKey].Relationships.Add(newRel);
-                                var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromFieldName : newRel.ToFieldName);
+                                var fieldToMarkRelation = (entityKey.Equals(newRel.FromTableName) ? newRel.FromPropertyName : newRel.ToPropertyName);
                                 if (schema[entityKey].Properties.ContainsKey(fieldToMarkRelation))
                                 {
                                     schema[entityKey].Properties[fieldToMarkRelation].RelatedTo.Add(newRel);
                                 }
-                                if (string.IsNullOrEmpty(newRel.Name)) throw new Exception("FK Namne is missing from the relationship");
+                                if (string.IsNullOrEmpty(newRel.ConstraintName)) throw new Exception("FK Name is missing from the relationship");
 
-                                if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.Name))
-                                    schema[entityKey].RelationshipGroups.Add(newRel.Name, new RelationshipList());
-                                schema[entityKey].RelationshipGroups[newRel.Name].Add(newRel);
-
+                                if (!schema[entityKey].RelationshipGroups.ContainsKey(newRel.ConstraintName))
+                                    schema[entityKey].RelationshipGroups.Add(newRel.ConstraintName, new RelationshipList());
+                                schema[entityKey].RelationshipGroups[newRel.ConstraintName].Add(newRel);
                             }
                             catch (Exception relEx)
                             {
@@ -202,7 +199,6 @@ namespace EzDbSchema.MsSql
                                     row["FK_Name"] == DBNull.Value ? "" : row["FK_Name"].ToString(), relEx.Message
                                 ), relEx);
                             }
-
                         }
 
                         var tableLastDateTime = ds.Tables[2];
@@ -213,7 +209,6 @@ namespace EzDbSchema.MsSql
                             schema.LastUpdates.LastItemCreated = row["LastItemCreated"].ToSafeString();
                             schema.LastUpdates.LastItemModified = row["LastItemUpdate"].ToSafeString();
                         }
-
                     }
 
                     var itemCount = schema.Keys.Count();
@@ -225,6 +220,7 @@ namespace EzDbSchema.MsSql
                 throw new Exception(string.Format("Error While trying to render the database schema. {0}  {1} ", CurrentAction, ex.Message), ex);
             }
         }
+
         private static string FKSQL = @"
 SET NOCOUNT ON
 IF OBJECT_ID('tempdb..#IDX') IS NOT NULL DROP TABLE #IDX; 

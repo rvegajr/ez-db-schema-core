@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using EzDbSchema.Core;
+using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
 using EzDbSchema.Internal;
 using EzDbSchema.MsSql;
@@ -49,7 +50,7 @@ namespace EzDbSchema.Tests
                 EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
                 dbschema.Render("TestSchemaName", this.fixture.ConnectionString);
                 dbschema.ToJsonFile(path + "db1.json");
-                EzDbSchema.MsSql.Database dbschema2 = Database.FromJsonFile<MsSql.Database>(path + "db1.json");
+                IDatabase dbschema2 = Database.FromJsonFile(path + "db1.json");
 
                 CompareLogic compareLogic = new CompareLogic();
                 compareLogic.Config.TypeNameHandling = TypeNameHandling.All;

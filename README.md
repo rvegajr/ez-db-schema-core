@@ -1,12 +1,76 @@
 # EZDBSchema - Easy Database Schema
 
-A class library that alllows you to point to a database and obtain a schema dump complete with columns, relationships (including fk names and multiplicity).  Some use cases require a schema of a database without the bulk of Entity power tools or Entity Framework.  
+A powerful .NET library that provides comprehensive database schema analysis and code generation capabilities. It allows you to extract complete database schemas including columns, relationships, and advanced features detection, making it perfect for code generation and database documentation tasks.
 
-Included in the project is a handy command line interface that can be used to dump the schema of the database to a json file.    
+## Key Features
 
-The idea is to obtain the database schema informtion as close to the source as possible. All of the schema definitions can be obtain from the database itself,  with a little sluething,  we can derive that information we need quickly and deliver it into a usable object heirarchy.  
+- **Complete Schema Analysis**: Extract tables, columns, relationships, and constraints
+- **Smart Feature Detection**: Automatically identifies common patterns like:
+  - Auditable entities (CreatedDate, ModifiedDate)
+  - Versioned entities (Version, RowVersion)
+  - Soft-deletable entities (IsDeleted, DeletedDate)
+  - Composite keys
+  - Circular references
+- **Dependency Graph Generation**: Analyze and visualize table dependencies
+- **Code Generation Support**: Generate boilerplate code for:
+  - ORM entities
+  - API controllers
+  - Database contexts
+  - Repository patterns
+- **Multi-Framework Support**: Compatible with .NET Standard 2.1, .NET 6.0, 7.0, 8.0, and 9.0
+- **Version**: 9.0.2
 
-One possible use of this is for code generation based on database objects. 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## AI Integration
+
+To facilitate AI-powered development and code generation, we provide a comprehensive [`AI-USAGE.md`](AI-USAGE.md) guide. This documentation is specifically designed to help AI models understand and work with the EzDbSchema library effectively.
+
+### AI Documentation Features
+
+- **Core Concepts**: Detailed schema structure and class hierarchies
+- **Multi-Language Support**: Integration details for C#, TypeScript, Python, Go, SQL, and Java
+- **ORM Templates**: Support for Entity Framework Core, TypeORM, SQLAlchemy, and more
+- **API Generation**: Templates for REST APIs, GraphQL schemas, and Swagger/OpenAPI
+- **Security Features**: Authorization, row-level security, and audit trails
+- **UI Metadata**: Display properties, validation rules, and form generation
+- **Advanced Features**: Temporal tables, relationships, and performance optimizations
+
+AI models can leverage this documentation to:
+- Generate accurate database-first code
+- Create type-safe entity models
+- Build complete API endpoints
+- Implement proper validation and security
+- Follow best practices for each supported language and framework
+
+## Use Cases
+
+1. **Rapid Application Development**
+   - Generate complete data access layers
+   - Create API endpoints from database schema
+   - Scaffold CRUD operations
+
+2. **Database Documentation**
+   - Generate comprehensive schema documentation
+   - Visualize table relationships
+   - Track schema changes
+
+3. **Database Migration**
+   - Analyze database dependencies
+   - Plan migration strategies
+   - Generate migration scripts
+
+4. **Code Generation**
+   - Create strongly-typed entity classes
+   - Generate data transfer objects (DTOs)
+   - Build repository interfaces and implementations
+
+5. **Architecture Analysis**
+   - Identify circular dependencies
+   - Analyze table relationships
+   - Detect common patterns
 
 ## Getting Started
 
@@ -17,17 +81,114 @@ You will need MSSQL with some database installed.  If you need a sample database
 
 ### Using this project:
 
-####  From NuGet
-1. Install-Package EzDbSchema.Core 
-2. Add the following line of code
-```cs
-var schema = new EzDbSchema.MsSql.Database().Render("MySchema", "Server=???;Database=???;user id=sa;password=sa");
-```
-3. Run the app
+### Installation
 
-####  As Cli
-1. Change EzDbSchema.Cli/appsettings.json ConnectionString to the proper database authentication credentials.  
-2. run the application.  A file called MySchemaName.db.json will be written to the EzDbSchema.Cli folder 
+```bash
+Install-Package EzDbSchema.Core
+```
+
+### Basic Usage
+
+```csharp
+// Connect to database and get schema
+var schema = new EzDbSchema.MsSql.Database().Render(
+    "MySchema",
+    "Server=myserver;Database=mydb;User Id=sa;Password=****;TrustServerCertificate=True"
+);
+
+// Generate code for entities
+var codeGen = new DatabaseCodeGenInfo(schema);
+
+// Get required features
+var features = codeGen.RequiredFrameworkFeatures;
+// Returns: ["Auditing", "Versioning", etc.]
+
+// Get dependency graph
+var dependencies = codeGen.DependencyGraph;
+// Returns: { "Order": ["Customer", "Product"], ... }
+```
+
+### Schema Dump for Handlebars Development
+
+```csharp
+// Get complete schema with all properties
+var schema = new EzDbSchema.MsSql.Database().Render("MySchema", connectionString);
+
+// Dump schema to JSON (useful for Handlebars template development)
+var schemaJson = Newtonsoft.Json.JsonConvert.SerializeObject(schema, Newtonsoft.Json.Formatting.Indented);
+File.WriteAllText("schema.json", schemaJson);
+
+// Available Schema Properties:
+/*
+{
+    "Name": "MySchema",
+    "Entities": {
+        "TableName": {
+            "TableName": "string",
+            "Properties": {
+                "ColumnName": {
+                    "ColumnName": "string",
+                    "PropertyName": "string",
+                    "IsNullable": "bool",
+                    "IsIdentity": "bool",
+                    "IsPrimaryKey": "bool",
+                    "DataType": "string",
+                    "MaxLength": "int",
+                    "Precision": "int",
+                    "Scale": "int",
+                    "HasValidationRules": "bool"
+                }
+            },
+            "Relationships": [
+                {
+                    "FromTableName": "string",
+                    "ToTableName": "string",
+                    "FromColumnName": "string",
+                    "ToColumnName": "string",
+                    "RelationshipName": "string",
+                    "Multiplicity": "string"
+                }
+            ],
+            "HasCompositePrimaryKey": "bool",
+            "IsAuditable": "bool",
+            "IsVersioned": "bool",
+            "IsSoftDeletable": "bool"
+        }
+    }
+}
+*/
+```
+
+### Advanced Features
+
+```csharp
+// Check for specific patterns
+var hasAuditableEntities = codeGen.HasAuditableEntities;
+var hasVersionedEntities = codeGen.HasVersionedEntities;
+var hasSoftDelete = codeGen.HasSoftDeletableEntities;
+
+// Generate API controllers
+var apiCode = codeGen.GenerateApiControllers();
+
+// Generate ORM entities
+var ormCode = codeGen.GenerateOrmEntities();
+```
+
+### CLI Usage
+
+1. Configure connection in `EzDbSchema.Cli/appsettings.json`:
+```json
+{
+    "ConnectionString": "Server=myserver;Database=mydb;User Id=sa;Password=****;TrustServerCertificate=True"
+}
+```
+
+2. Run the CLI:
+```bash
+dotnet EzDbSchema.Cli.dll --schema MySchema
+```
+
+This will generate `MySchema.db.json` with the complete schema analysis.
 
 ## Deployment
 
@@ -60,10 +221,23 @@ Many thanks to the following projects that have helped in this project
 
 ## Release Notes
 
-### V 8.0.2 - Nuget package upgrades,  updated to .net 8.0; Update to Microsoft SqlClientm added Server Trust Cert setting;
+### V 9.0.1 (2025-02-19)
+- Added comprehensive test coverage for DependencyGraph and RequiredFeatures
+- Implemented smart feature detection (Auditing, Versioning, SoftDelete)
+- Enhanced dependency graph generation with support for complex relationships
+- Improved null handling and error resilience
+- Added support for .NET 9.0
 
-### V 7.0.0 - Nuget package upgrades,  updated to .net 7.0
+### V 8.1.0
+- Nuget package upgrades, updated to .NET 8.0
+- Update to Microsoft SqlClient
+- Added Server Trust Cert setting
 
-### V 6.0.1 - Added the ability to tell the generator to not auto create the primary keys if they are missing
+### V 7.0.0
+- Nuget package upgrades, updated to .NET 7.0
 
-### V 6.0.0 - Migration to .net 6.0
+### V 6.0.1
+- Added the ability to tell the generator to not auto create the primary keys if they are missing
+
+### V 6.0.0
+- Migration to .NET 6.0

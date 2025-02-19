@@ -1,20 +1,23 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace EzDbSchema.Core.Interfaces
 {
-    public interface IDatabase : IEzObject, IXmlRenderable, IJsonRenderable
+    public interface IDatabase : IEzObject, IJsonRenderable, IDictionary<string, IEntity>
     {
-        IEntity this[string entityName] { get; set; }
-        IEntityDictionary Entities { get; set; }
-        void Add(string entityName, IEntity entity);
-        bool ContainsKey(string entityName);
-        bool ContainsValue(IEntity entity);
-		IDatabase Render(string entityName, string ConnectionString);
-		string Name { get; set; }
-		IDatabaseObjectUpdates LastUpdates { get; set; }
-        IEntityNameList Keys {get;}
-		bool ShowWarnings { get; set; }
+        // Database Properties
+        string Name { get; set; }
+        bool ShowWarnings { get; set; }
         bool AutoAddPrimaryKeys { get; set; }
+
+        // Entity Collection
+        IEntityDictionary Entities { get; set; }
+        bool ContainsValue(IEntity entity);
+        new IEntityNameList Keys { get; }
+        new IEnumerable<IEntity> Values { get; }
+
+        // Database Operations
+        IDatabase Render(string entityName, string ConnectionString);
+        IDatabaseObjectUpdates LastUpdates { get; set; }
     }
 }

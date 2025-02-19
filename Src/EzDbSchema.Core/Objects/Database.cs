@@ -1,23 +1,52 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Xml;
 using EzDbSchema.Core.Extentions;
 using EzDbSchema.Core.Extentions.Objects;
-using EzDbSchema.Core.Extentions.Xml;
 using EzDbSchema.Core.Interfaces;
 using Newtonsoft.Json;
 
 namespace EzDbSchema.Core.Objects
 {
 	/// <summary></summary>
-	public class Database : EzObject, IDatabase, IXmlRenderableInternal
+	public class Database : EzObject, IDatabase
     {
         internal static string ALIAS = "Schema";
-
+        public override string DatabaseObjectName { get => Name; }
         private IEntityDictionary _entities = new EntityDictionary();
+
+        // IDictionary implementation
+        public ICollection<IEntity> Values => _entities.Values;
+        public int Count => _entities.Count;
+        public bool IsReadOnly => _entities.IsReadOnly;
+
+        IEnumerable<IEntity> IDatabase.Values => _entities.Values;
+
+        public void Add(KeyValuePair<string, IEntity> item) => _entities.Add(item.Key, item.Value);
+        public void Clear() => _entities.Clear();
+        public bool Contains(KeyValuePair<string, IEntity> item) => _entities.ContainsKey(item.Key) && _entities[item.Key].Equals(item.Value);
+        public void CopyTo(KeyValuePair<string, IEntity>[] array, int arrayIndex)
+        {
+            int i = arrayIndex;
+            foreach (var kvp in _entities)
+            {
+                array[i++] = new KeyValuePair<string, IEntity>(kvp.Key, kvp.Value);
+            }
+        }
+        public bool Remove(KeyValuePair<string, IEntity> item)
+        {
+            if (Contains(item))
+            {
+                return _entities.Remove(item.Key);
+            }
+            return false;
+        }
+        public bool Remove(string key) => _entities.Remove(key);
+        public bool TryGetValue(string key, out IEntity value) => _entities.TryGetValue(key, out value);
+        public IEnumerator<KeyValuePair<string, IEntity>> GetEnumerator() => _entities.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _entities.GetEnumerator();
 
 		/// <summary></summary>
         public Database() : base()
@@ -67,96 +96,35 @@ namespace EzDbSchema.Core.Objects
 			throw new NotImplementedException();
 		}
 
-        public string AsXml()
-        {
-            var doc = new XmlDocument();
-            return doc.AppendChild(doc.CreateElement("xml").AppendChild(AsXml(doc))).OuterXml;
-        }
-
-        public XmlNode AsXml(XmlDocument doc)
-        {
-            return this.AsXmlNode(doc, ALIAS);
-        }
-
-        public void FromXml(string Xml)
-        {
-            var doc = (new XmlDocument());
-            doc.LoadXml(Xml);
-            FromXml(doc.FirstChild);
-        }
-
-        public XmlNode FromXml(XmlNode node)
-        {
-            ObjectExtensions.ClearRef();
-            this.FromXmlNode(node, ALIAS);
-            //restore referenced objects
-            foreach(IEntity e in this.Entities.Values)
-            {
-                foreach (var p in e.Properties.Values) {
-                    p.Parent = e;
-                    foreach (var r in p.RelatedTo)
-                        r.Parent = e;
-                }
-                var keys = new PrimaryKeyProperties();
-                foreach (var k in e.PrimaryKeys)
-                {
-                    if (ObjectExtensions.RefObjectXref.ContainsKey(k._id * -1))
-                    {
-                        keys.Add((IProperty)ObjectExtensions.RefObjectXref[k._id * -1]);
-                    }
-                }
-                e.PrimaryKeys = keys;
-                var rel = new RelationshipReferenceList();
-                foreach (var k in e.Relationships)
-                {
-                    if (ObjectExtensions.RefObjectXref.ContainsKey(k._id * -1))
-                    {
-                        rel.Add((IRelationship)ObjectExtensions.RefObjectXref[k._id * -1]);
-                    }
-                }
-                e.Relationships = rel;
-            }
-            return node;
-        }
-
         public string AsJson()
         {
-            return JsonConvert.SerializeObject(
-                this
-                , Newtonsoft.Json.Formatting.Indented
-                , new JsonSerializerSettings {
-                    PreserveReferencesHandling = PreserveReferencesHandling.All,
-                    TypeNameHandling = TypeNameHandling.All
-                });
+	        return JsonConvert.SerializeObject(
+		        this
+		        , Newtonsoft.Json.Formatting.Indented
+		        , new JsonSerializerSettings {
+			        PreserveReferencesHandling = PreserveReferencesHandling.All,
+			        TypeNameHandling = TypeNameHandling.All
+		        });
+        }
+        
+        public static IDatabase FromJson(string json, bool verbose = false)
+        {
+	        return JsonConvert.DeserializeObject<Database>(json, new JsonSerializerSettings {
+		        PreserveReferencesHandling = PreserveReferencesHandling.All,
+		        TypeNameHandling = TypeNameHandling.All
+	        }).RebuildAllRelationshipPointers(verbose);
         }
 
-        private static JsonSerializerSettings JsonSerializerSetting()
+        public static IDatabase FromJsonFile(string fileName, bool verbose = false)
         {
-            return new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
+	        var settings = new JsonSerializerSettings
+	        {
+		        PreserveReferencesHandling = PreserveReferencesHandling.All,
+		        TypeNameHandling = TypeNameHandling.All
+	        };
+	        return JsonConvert.DeserializeObject<IDatabase>(File.ReadAllText(fileName), settings).RebuildAllRelationshipPointers(verbose);
         }
-        public static IDatabase FromJson(string Json)
-        {
-            return JsonConvert.DeserializeObject<Database>(Json, JsonSerializerSetting());
-        }
-
-        public static IDatabase FromJsonFile(string FileName)
-        {
-            return JsonConvert.DeserializeObject<Database>(File.ReadAllText(FileName), JsonSerializerSetting());
-        }
-
-        public static T FromJson<T>(string Json)
-        {
-            return JsonConvert.DeserializeObject<T>(Json, JsonSerializerSetting());
-        }
-
-        public static T FromJsonFile<T>(string FileName)
-        {
-            return FromJson<T>(File.ReadAllText(FileName));
-        }
-
+        
         public void ToJsonFile(string FileName)
         {
             File.WriteAllText(FileName, this.AsJson());
@@ -175,12 +143,9 @@ namespace EzDbSchema.Core.Objects
 		/// <summary></summary>
 		public IDatabaseObjectUpdates LastUpdates { get; set; } = new DatabaseObjectUpdates();
 		/// <summary></summary>
-		public IEntityNameList Keys
-        {
-            get
-            {
-                return new EntityNameList(_entities.Keys);
-            }
-        }
+		ICollection<string> IDictionary<string, IEntity>.Keys => _entities.Keys;
+
+		/// <summary></summary>
+		public IEntityNameList Keys => new EntityNameList(_entities.Keys);
 	}
 }

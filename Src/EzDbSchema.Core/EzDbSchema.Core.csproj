@@ -1,25 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net461;net472;net48;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Version>8.0.2.0</Version>
-    <ReleaseVersion>8.0.2.0</ReleaseVersion>
-    <AssemblyVersion>8.0.2.0</AssemblyVersion>
-    <FileVersion>8.0.2.0</FileVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>9.0.2</Version>
+    <ReleaseVersion>9.0.2</ReleaseVersion>
+    <AssemblyVersion>9.0.2.0</AssemblyVersion>
+    <FileVersion>9.0.2.0</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>A powerful .NET library for database schema analysis and code generation. Extract complete database schemas, detect patterns, generate dependency graphs, and scaffold code.</Description>
+    <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core</RepositoryUrl>
+    <PackageTags>database;schema;code-generation;orm;api;dotnet;csharp</PackageTags>
+    <PackageReleaseNotes>Added smart feature detection, dependency graph generation, and improved schema analysis capabilities.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>EzDbSchema</PackageId>
     <Authors>EzDbSchema</Authors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DebugType>portable</DebugType>
 	  <DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Objects\" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Json" Version="4.7.1" />
+    <PackageReference Include="System.Json" Version="4.8.0" />
   </ItemGroup>
 </Project>
