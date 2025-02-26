@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Version>9.0.2</Version>
-    <ReleaseVersion>9.0.2</ReleaseVersion>
-    <AssemblyVersion>9.0.2.0</AssemblyVersion>
-    <FileVersion>9.0.2.0</FileVersion>
+    <Version>8.3.1</Version>
+    <ReleaseVersion>8.3.1</ReleaseVersion>
+    <AssemblyVersion>8.3.1.0</AssemblyVersion>
+    <FileVersion>8.3.1.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>A powerful .NET library for database schema analysis and code generation. Extract complete database schemas, detect patterns, generate dependency graphs, and scaffold code.</Description>
@@ -22,10 +22,10 @@
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <DebugType>portable</DebugType>
-	  <DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

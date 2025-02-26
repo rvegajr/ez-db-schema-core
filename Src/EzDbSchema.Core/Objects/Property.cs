@@ -12,6 +12,7 @@ namespace EzDbSchema.Core.Objects
         // Basic Properties
         public string PropertyName { get; set; }
         public string ColumnName { get; set; }
+        public string ColumnAlias { get; set; }
         public string DataType { get; set; }
         public bool IsNullable { get; set; }
         public string DefaultValue { get; set; }
@@ -99,13 +100,13 @@ namespace EzDbSchema.Core.Objects
         public string Placeholder { get; set; }
         public bool RequiresNotification { get; set; }
         // Additional Database Properties
-        public string ColumnAlias { get; set; }
         public bool IsPrimaryKey { get; set; }
         public int PrimaryKeyOrder { get; set; }
         public bool IsIdentity { get; set; }
 
         // Relationships
         [AsRef("_id")]
+        [JsonIgnore]
         public IEntity ParentEntity { get; set; }
 
         public override string DatabaseObjectName { get => ParentEntity.DatabaseSchema + "." + ParentEntity.TableName + "." + ColumnName; }

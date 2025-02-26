@@ -1,8 +1,8 @@
-﻿
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Data.SqlClient;
 using Xunit;
 using MartinCostello.SqlLocalDb;
@@ -11,14 +11,21 @@ namespace EzDbSchema.Tests
 {
     public class DatabaseFixture : IDisposable
     {
-
         private SqlLocalDbApi localDB;
         private ISqlLocalDbInstanceInfo instance;
         private ISqlLocalDbInstanceManager manager;
         public static string LOCALDB_NAME = "EzDbSchemaTestDB";
         public static string DATABASE_NAME = "Northwind";
+        public static bool IsWindowsPlatform => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        
         public DatabaseFixture()
         {
+            if (!IsWindowsPlatform)
+            {
+                // Skip initialization on non-Windows platforms
+                return;
+            }
+            
             this.localDB = new SqlLocalDbApi();
             instance = localDB.GetOrCreateInstance(DatabaseFixture.LOCALDB_NAME);
             manager = instance.Manage();
@@ -29,6 +36,11 @@ namespace EzDbSchema.Tests
 
         public void Dispose()
         {
+            if (!IsWindowsPlatform)
+            {
+                return;
+            }
+            
             manager.Stop();
         }
 
@@ -42,6 +54,11 @@ namespace EzDbSchema.Tests
         
         public async Task RestoreBackup()
         {
+            if (!IsWindowsPlatform)
+            {
+                return;
+            }
+            
             using (SqlConnection connection = new SqlConnection(instance.GetConnectionString()))
             {
                 try
@@ -115,4 +132,3 @@ WITH REPLACE,RECOVERY,
         // ICollectionFixture<> interfaces.
     }
 }
-

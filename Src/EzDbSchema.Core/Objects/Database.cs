@@ -140,6 +140,8 @@ namespace EzDbSchema.Core.Objects
 
         /// <summary></summary>
         public string Name { get; set; } = "";
+        /// <summary>Gets or sets the default schema for the database</summary>
+        public string DefaultSchema { get; set; } = "dbo";
 		/// <summary></summary>
 		public IDatabaseObjectUpdates LastUpdates { get; set; } = new DatabaseObjectUpdates();
 		/// <summary></summary>

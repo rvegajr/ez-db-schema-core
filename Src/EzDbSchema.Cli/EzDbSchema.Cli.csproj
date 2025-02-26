@@ -6,10 +6,10 @@
     <LangVersion>latest</LangVersion>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>ezdb</ToolCommandName>
-    <Version>9.0.2</Version>
-    <ReleaseVersion>9.0.2</ReleaseVersion>
-    <AssemblyVersion>9.0.2</AssemblyVersion>
-    <FileVersion>9.0.2</FileVersion>
+    <Version>8.3.1</Version>
+    <ReleaseVersion>8.3.1</ReleaseVersion>
+    <AssemblyVersion>8.3.1.0</AssemblyVersion>
+    <FileVersion>8.3.1.0</FileVersion>
     <PackageId>EzDbSchema.Cli</PackageId>
     <Title>EzDbSchema CLI Tool</Title>
     <Authors>Ricky Vega</Authors>

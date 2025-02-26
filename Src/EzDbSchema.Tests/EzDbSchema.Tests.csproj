@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>	
     <IsPackable>false</IsPackable>
-	<Version>8.1.0</Version>
-	<ReleaseVersion>8.1.0</ReleaseVersion>
-	<AssemblyVersion>8.2.0.0</AssemblyVersion>
-	<FileVersion>8.2.0.0</FileVersion>
+	<Version>8.3.1</Version>
+	<ReleaseVersion>8.3.1</ReleaseVersion>
+	<AssemblyVersion>8.3.1.0</AssemblyVersion>
+	<FileVersion>8.3.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
 
   <ItemGroup>
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	<PackageReference Include="System.Json" Version="4.7.1" />
+	<PackageReference Include="System.Json" Version="4.8.0" />
 	<PackageReference Include="Json.Comparer.Core" Version="0.6.9" />
     <PackageReference Include="MartinCostello.SqlLocalDb" Version="3.4.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />

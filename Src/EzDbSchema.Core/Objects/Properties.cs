@@ -19,6 +19,10 @@ namespace EzDbSchema.Core.Objects
         public int _id { get; set; }
         public bool IsEnabled { get; set; } = true;
         public ICustomAttributes CustomAttributes { get; set; }
+        /// <summary>
+        /// Gets or sets the entity that contains these properties.
+        /// </summary>
+        public IEntity Entity { get; set; }
     }
 
     public class PropertyList : List<IProperty>, IPropertyList

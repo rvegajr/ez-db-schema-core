@@ -45,6 +45,10 @@ namespace EzDbSchema.Core.Objects
         public int _id { get; set; }
         public bool IsEnabled { get; set; } = true;
         public ICustomAttributes CustomAttributes { get; set; }
+        /// <summary>
+        /// Gets or sets the database that contains these relationship groups.
+        /// </summary>
+        public IDatabase Database { get; set; }
     }
     public class RelationshipList : List<IRelationship>, IRelationshipList
     {
@@ -59,6 +63,7 @@ namespace EzDbSchema.Core.Objects
         }
         public int _id { get; set; }
         public bool IsEnabled { get; set; } = true;
+        public IDatabase Database { get; set; }
         public ICustomAttributes CustomAttributes { get; set; }
 
         public IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch)

@@ -16,6 +16,7 @@ namespace EzDbSchema.Core.Objects
         }
         public override string DatabaseObjectName { get => DatabaseSchema + "." + TableName; }
         public IDatabase ParentDatabase { get; set; }
+        public IDatabase Database => ParentDatabase;
         public string TableName { get; set; }
         public string TableAlias { get; set; }
         public string DatabaseSchema { get; set; }

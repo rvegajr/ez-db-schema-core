@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using EzDbSchema.Core;
@@ -27,6 +27,12 @@ namespace EzDbSchema.Tests
         [Fact]
         public void MsSqlSchemaRenderTests()
         {
+            if (!DatabaseFixture.IsWindowsPlatform)
+            {
+                // Skip test on non-Windows platforms
+                return;
+            }
+            
 			try
 			{
 				EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
@@ -43,6 +49,12 @@ namespace EzDbSchema.Tests
         [Fact]
         public void MsSqlSchemaSerializeDeserialzieTests()
         {
+            if (!DatabaseFixture.IsWindowsPlatform)
+            {
+                // Skip test on non-Windows platforms
+                return;
+            }
+            
             try
             {
                 string path = Path.GetTempPath();

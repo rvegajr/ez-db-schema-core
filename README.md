@@ -17,8 +17,8 @@ A powerful .NET library that provides comprehensive database schema analysis and
   - API controllers
   - Database contexts
   - Repository patterns
-- **Multi-Framework Support**: Compatible with .NET Standard 2.1, .NET 6.0, 7.0, 8.0, and 9.0
-- **Version**: 9.0.2
+- **Multi-Framework Support**: Compatible with .NET Standard 2.1, .NET 6.0, 7.0, and 8.0
+- **Version**: 8.3.1
 
 ## License
 
@@ -221,12 +221,10 @@ Many thanks to the following projects that have helped in this project
 
 ## Release Notes
 
-### V 9.0.1 (2025-02-19)
-- Added comprehensive test coverage for DependencyGraph and RequiredFeatures
-- Implemented smart feature detection (Auditing, Versioning, SoftDelete)
-- Enhanced dependency graph generation with support for complex relationships
-- Improved null handling and error resilience
-- Added support for .NET 9.0
+### V 8.3.1 (2025-02-26)
+- Updated to target .NET 8.0
+- Fixed RelationshipMultiplicityType enum ordering
+- Improved nullable reference type handling
 
 ### V 8.1.0
 - Nuget package upgrades, updated to .NET 8.0

@@ -54,6 +54,27 @@ namespace EzDbSchema.Core.Interfaces
         /// </summary>
         RelationshipMultiplicityType MultiplicityType { get; set; }
 
+        // Entity and Property References
+        /// <summary>
+        /// Gets or sets the entity that contains the foreign key.
+        /// </summary>
+        IEntity FromEntity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the property that contains the foreign key.
+        /// </summary>
+        IProperty FromProperty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the referenced entity.
+        /// </summary>
+        IEntity ToEntity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the referenced property.
+        /// </summary>
+        IProperty ToProperty { get; set; }
+
         // Advanced Relationship Features
         /// <summary>
         /// Gets or sets whether this relationship is optional (allows null foreign keys).

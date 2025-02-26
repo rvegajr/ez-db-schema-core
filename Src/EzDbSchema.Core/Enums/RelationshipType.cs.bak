@@ -1,0 +1,49 @@
+using System;
+namespace EzDbSchema.Core.Enums
+{
+    /// <summary>
+    /// Specifies the multiplicity type of a relationship
+    /// </summary>
+    public enum RelationshipMultiplicityType
+    {
+        /// <summary>
+        /// Unknown relationship type
+        /// </summary>
+        Unknown,
+        
+        /// <summary>
+        /// One-to-One relationship
+        /// </summary>
+        OneToOne,
+        
+        /// <summary>
+        /// One-to-Many relationship
+        /// </summary>
+        OneToMany,
+        
+        /// <summary>
+        /// Zero-or-One-to-Many relationship
+        /// </summary>
+        ZeroOrOneToMany,
+        
+        /// <summary>
+        /// Many-to-One relationship
+        /// </summary>
+        ManyToOne,
+        
+        /// <summary>
+        /// Many-to-Zero-or-One relationship
+        /// </summary>
+        ManyToZeroOrOne,
+        
+        /// <summary>
+        /// Zero-or-One-to-One relationship
+        /// </summary>
+        ZeroOrOneToOne,
+        
+        /// <summary>
+        /// One-to-Zero-or-One relationship
+        /// </summary>
+        OneToZeroOrOne
+    }
+}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using EzDbSchema.Core.Enums;
 
@@ -10,6 +10,11 @@ namespace EzDbSchema.Core.Interfaces
 
     public interface IRelationshipList : IList<IRelationship>, IEzObject
     {
+        /// <summary>
+        /// Gets or sets the database.
+        /// </summary>
+        IDatabase Database { get; set; }
+
 		IRelationshipList Fetch(RelationshipMultiplicityType TypeToFetch);
 		int CountItems(string searchFor);
 		int CountItems(RelationSearchField searchField, string searchFor);
@@ -22,6 +27,10 @@ namespace EzDbSchema.Core.Interfaces
     }
     public interface IRelationshipGroups : IDictionary<string, IRelationshipList>, IEzObject
     {
+        /// <summary>
+        /// Gets or sets the database that contains these relationship groups.
+        /// </summary>
+        IDatabase Database { get; set; }
     }
 
 }

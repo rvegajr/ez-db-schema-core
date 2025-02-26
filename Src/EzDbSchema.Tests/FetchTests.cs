@@ -24,6 +24,12 @@ namespace EzDbSchema.Tests
         [Fact]
         public void MsSqlConnectionStringParseTest()
         {
+            if (!DatabaseFixture.IsWindowsPlatform)
+            {
+                // Skip test on non-Windows platforms
+                return;
+            }
+            
             var connparms = new ConnectionParameters() { Database = DatabaseFixture.DATABASE_NAME, Server = $"(localdb)\\{DatabaseFixture.LOCALDB_NAME}", Trusted = true };
             connparms.ConnectionString = this.fixture.ConnectionString;
             connparms.UserName = "TRUSTED";
@@ -40,6 +46,12 @@ namespace EzDbSchema.Tests
         [Fact]
         public void MsSqlConnectionParameterTest()
         {
+            if (!DatabaseFixture.IsWindowsPlatform)
+            {
+                // Skip test on non-Windows platforms
+                return;
+            }
+            
             var connparms = new ConnectionParameters() { Database = DatabaseFixture.DATABASE_NAME, Server = $"(localdb)\\{DatabaseFixture.LOCALDB_NAME}", Trusted = true };
             Assert.True(connparms.IsValid(), "Connection should be valid");
         }
@@ -48,6 +60,12 @@ namespace EzDbSchema.Tests
         [Fact]
 		public void FetchTests()
 		{
+            if (!DatabaseFixture.IsWindowsPlatform)
+            {
+                // Skip test on non-Windows platforms
+                return;
+            }
+            
             EzDbSchema.MsSql.Database dbschema = new EzDbSchema.MsSql.Database();
             dbschema.Render("TestSchemaName", this.fixture.ConnectionString);
             foreach (var e in dbschema.Entities.Values)

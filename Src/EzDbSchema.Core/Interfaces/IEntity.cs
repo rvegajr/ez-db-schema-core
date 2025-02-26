@@ -11,6 +11,11 @@ namespace EzDbSchema.Core.Interfaces
         /// Gets or sets the parent database that contains this entity.
         /// </summary>
         IDatabase ParentDatabase { get; set; }
+        
+        /// <summary>
+        /// Gets the database that contains this entity.
+        /// </summary>
+        IDatabase Database { get => ParentDatabase; }
         /// <summary>
         /// Gets or sets the physical table name in the database.
         /// </summary>

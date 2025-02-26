@@ -28,7 +28,7 @@ namespace EzDbSchema.Core.Tests.CodeGen
             };
 
             _mockDatabase.Setup(d => d.Values).Returns(entities.Values);
-            _mockDatabase.Setup(d => d[It.IsAny<string>()]).Returns((string name) => entities.ContainsKey(name) ? entities[name] : null);
+            _mockDatabase.Setup(d => d[It.IsAny<string>()]).Returns((string name) => entities.ContainsKey(name) ? entities[name] : null!);
             _sut = new DatabaseCodeGenInfo(_mockDatabase.Object);
         }
 

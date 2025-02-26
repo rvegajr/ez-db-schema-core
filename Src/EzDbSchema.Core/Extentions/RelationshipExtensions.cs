@@ -1,125 +1,158 @@
-using System;
-using System.Linq;
-using System.Text;
+using EzDbSchema.Core.Enums;
 using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public static class RelationshipExtensions
+namespace EzDbSchema.Core.Extentions
 {
-    public static string RebuildObjectPointers(this Relationship relationship, IDatabase database, bool verbose)
+    /// <summary>
+    /// Extension methods for working with relationships
+    /// </summary>
+    public static class RelationshipExtensions2
     {
-        StringBuilder debug = new StringBuilder();
-        if (verbose)
+        /// <summary>
+        /// Starting from a relationship, function will figure out what the name of the object should be for a foreign key, taking into account the potential names 
+        /// </summary>
+        /// <param name="entity">Entity so we know the perspective of the relationship</param>
+        /// <param name="fkName">String that is the name of the foreign key we want to generate</param>
+        /// <param name="generatedFrom">Source from which to generate the object name</param>
+        /// <returns>The generated object name</returns>
+        public static string GenerateObjectName(this IEntity entity, string fkName, ObjectNameGeneratedFrom generatedFrom)
         {
-            debug.AppendLine($"Starting to rebuild pointers for relationship: {relationship.ConstraintName}");
+            var procName = $"RelationshipExtensions2.GenerateObjectName(entity='{entity?.TableName}', fkName='{fkName}')";
 
-            // Find FromEntity
-            debug.AppendLine($"Looking for FromEntity with key: {relationship.FromTableName}");
-        }
-        var fromEntityKey = relationship.FromTableName;
-        if (!database.Entities.TryGetValue(fromEntityKey, out var fromEntity))
-        {
-            debug.AppendLine($"Error: FromEntity not found for key {fromEntityKey}");
-            throw new Exception(debug.ToString());
-        }
-        relationship.FromEntity = fromEntity;
-        if (verbose) debug.AppendLine($"FromEntity found: {fromEntity.TableName}");
-
-        // Find ToEntity
-        if (verbose) debug.AppendLine($"Looking for ToEntity with key: {relationship.ToTableName}");
-        var toEntityKey = relationship.ToTableName;
-        if (!database.Entities.TryGetValue(toEntityKey, out var toEntity))
-        {
-            debug.AppendLine($"Error: ToEntity not found for key {toEntityKey}");
-            throw new Exception(debug.ToString());
-        }
-        relationship.ToEntity = toEntity;
-        if (verbose) debug.AppendLine($"ToEntity found: {toEntity.TableName}");
-
-        // Find FromProperty
-        if (verbose) debug.AppendLine($"Looking for FromProperty with name: {relationship.FromColumnName} in entity {fromEntityKey}");
-        var fromProperty = fromEntity.Properties.Values.FirstOrDefault(p => p.ColumnName == relationship.FromColumnName);
-        if (fromProperty == null)
-        {
-            debug.AppendLine($"Error: FromProperty not found for column {relationship.FromColumnName} in entity {fromEntityKey}");
-            if (verbose)
+            string fieldName = "";
+            try
             {
-                debug.AppendLine("Available properties:");
-                foreach (var prop in fromEntity.Properties.Values)
+                if (entity?.RelationshipGroups == null || !entity.RelationshipGroups.ContainsKey(fkName))
                 {
-                    debug.AppendLine($"- {prop.ColumnName}");
+                    return fieldName;
                 }
-            }
-            throw new Exception(debug.ToString());
-        }
-        relationship.FromProperty = fromProperty;
-        if (verbose) debug.AppendLine($"FromProperty found: {fromProperty.ColumnName}");
 
-        // Find ToProperty
-        if (verbose) debug.AppendLine($"Looking for ToProperty with name: {relationship.ToColumnName} in entity {toEntityKey}");
-        var toProperty = toEntity.Properties.Values.FirstOrDefault(p => p.ColumnName == relationship.ToColumnName);
-        if (toProperty == null)
-        {
-            debug.AppendLine($"Error: ToProperty not found for column {relationship.ToColumnName} in entity {toEntityKey}");
-            if (verbose)
-            {
-                debug.AppendLine("Available properties:");
-                foreach (var prop in toEntity.Properties.Values)
+                var relationship = entity.RelationshipGroups[fkName];
+                var relSummary = relationship.AsSummary();
+                var entityName = $"{entity.DatabaseSchema}.{entity.TableName}";
+
+                // Count how many relationships point to the same table
+                int sameTableCount = 0;
+                foreach (var rg in entity.RelationshipGroups.Values)
                 {
-                    debug.AppendLine($"- {prop.ColumnName}");
-                }
-            }
-            throw new Exception(debug.ToString());
-        }
-        relationship.ToProperty = toProperty;
-        if (verbose) debug.AppendLine($"ToProperty found: {toProperty.ColumnName}");
-
-        if (verbose) debug.AppendLine("Relationship pointers rebuilt successfully.");
-        return debug.ToString();
-    }
-
-    public static IDatabase RebuildAllRelationshipPointers(this Database database, bool verbose = false)
-    {
-        return ((IDatabase)database).RebuildAllRelationshipPointers(verbose);
-    }
-
-    public static IDatabase RebuildAllRelationshipPointers(this IDatabase database, bool verbose = false)
-    {
-        if (database == null) return null;
-        if (verbose) Console.WriteLine("Starting to rebuild all relationship pointers.");
-        else Console.WriteLine("Rebuilding relationships...");
-        
-        int totalRelationships = 0;
-        int successfulRebuilds = 0;
-        int failedRebuilds = 0;
-
-        foreach (var entity in database.Entities.Values)
-        {
-            if (verbose) Console.WriteLine($"Processing entity: {entity.TableName}");
-            foreach (var relationshipGroup in entity.RelationshipGroups.Values)
-            {
-                foreach (Relationship relationship in relationshipGroup)
-                {
-                    totalRelationships++;
-                    try
+                    var summary = rg.AsSummary();
+                    if (summary.ToTableName.Equals(relSummary.ToTableName))
                     {
-                        string debugInfo = relationship.RebuildObjectPointers(database, verbose);
-                        successfulRebuilds++;
-                        if (verbose) Console.WriteLine(debugInfo);
-                    }
-                    catch (Exception ex)
-                    {
-                        failedRebuilds++;
-                        if (verbose) Console.WriteLine($"Error rebuilding relationship: {ex.Message}");
+                        sameTableCount++;
                     }
                 }
+
+                string toTableNameSingular = relSummary.ToTableName.Replace($"{entity.DatabaseSchema}.", "").ToSingular();
+
+                var altName = toTableNameSingular;
+                if (relSummary.FromTableName.Equals(relSummary.ToTableName))
+                {
+                    generatedFrom = ObjectNameGeneratedFrom.ToUniqueColumnName;
+                }
+
+                switch (generatedFrom)
+                {
+                    case ObjectNameGeneratedFrom.JoinFromColumnName:
+                        altName = string.Join(",", relSummary.FromColumnName);
+                        break;
+                    case ObjectNameGeneratedFrom.ToUniqueColumnName:
+                        altName = relSummary.ToUniqueColumnName(false);
+                        break;
+                    case ObjectNameGeneratedFrom.JoinToColumnName:
+                        altName = string.Join(",", relSummary.ToColumnName);
+                        break;
+                    case ObjectNameGeneratedFrom.ToTableName:
+                        altName = relSummary.ToTableName.Replace($"{entity.DatabaseSchema}.", "").ToSingular();
+                        break;
+                    case ObjectNameGeneratedFrom.FromTableName:
+                        altName = relSummary.FromTableName.Replace($"{entity.DatabaseSchema}.", "").ToSingular();
+                        break;
+                }
+
+                fieldName = (entity.Properties.ContainsKey(toTableNameSingular) || 
+                            entityName == relSummary.ToTableName || 
+                            sameTableCount > 1) 
+                                ? altName 
+                                : toTableNameSingular;
             }
+            catch (Exception ex)
+            {
+                throw new Exception($"{procName}. {ex.Message}");
+            }
+            
+            return fieldName;
         }
 
-        Console.WriteLine($"Rebuild process completed.");
-        Console.WriteLine($"Total relationships processed: {totalRelationships}");
-        Console.WriteLine($"Successful rebuilds: {successfulRebuilds}");
-        Console.WriteLine($"Failed rebuilds: {failedRebuilds}");
-        return database;
+        /// <summary>
+        /// Determines if the relationship ends with a many multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship ends with many, otherwise false</returns>
+        public static bool EndsAsMany(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.OneToMany ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.ZeroOrOneToMany;
+        }
+
+        /// <summary>
+        /// Determines if the relationship begins with a many multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship begins with many, otherwise false</returns>
+        public static bool BeginsAsMany(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.ManyToOne ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.ManyToZeroOrOne;
+        }
+
+        /// <summary>
+        /// Determines if the relationship begins with a one multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship begins with one, otherwise false</returns>
+        public static bool BeginsAsOne(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.OneToMany ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.OneToOne ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.OneToZeroOrOne;
+        }
+
+        /// <summary>
+        /// Determines if the relationship begins with a zero-or-one multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship begins with zero-or-one, otherwise false</returns>
+        public static bool BeginsAsZeroOrOne(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.ZeroOrOneToMany ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.ZeroOrOneToOne;
+        }
+
+        /// <summary>
+        /// Determines if the relationship ends with a one multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship ends with one, otherwise false</returns>
+        public static bool EndsAsOne(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.ManyToOne ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.OneToOne ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.ZeroOrOneToOne;
+        }
+
+        /// <summary>
+        /// Determines if the relationship ends with a zero-or-one multiplicity
+        /// </summary>
+        /// <param name="relationship">The relationship to check</param>
+        /// <returns>True if the relationship ends with zero-or-one, otherwise false</returns>
+        public static bool EndsAsZeroOrOne(this IRelationship relationship)
+        {
+            return relationship.MultiplicityType == RelationshipMultiplicityType.ManyToZeroOrOne ||
+                   relationship.MultiplicityType == RelationshipMultiplicityType.OneToZeroOrOne;
+        }
     }
 }

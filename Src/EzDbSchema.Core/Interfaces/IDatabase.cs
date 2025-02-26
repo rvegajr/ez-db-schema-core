@@ -9,6 +9,7 @@ namespace EzDbSchema.Core.Interfaces
         string Name { get; set; }
         bool ShowWarnings { get; set; }
         bool AutoAddPrimaryKeys { get; set; }
+        string DefaultSchema { get; set; }
 
         // Entity Collection
         IEntityDictionary Entities { get; set; }
