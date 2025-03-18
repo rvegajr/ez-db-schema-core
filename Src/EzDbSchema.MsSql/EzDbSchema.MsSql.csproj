@@ -1,10 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Microsoft SQL Server provider for EzDbSchema.</Description>
+    <Description>Microsoft SQL Server provider for EzDbSchema, enabling schema analysis and code generation for SQL Server databases.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>EzDbSchema.MsSql</PackageId>
-    <OutputPath>..\..\bin\$(Configuration)</OutputPath>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <OutputPath>bin\$(Configuration)</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>True</Optimize>
@@ -17,8 +26,4 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
-  </ItemGroup>
 </Project>

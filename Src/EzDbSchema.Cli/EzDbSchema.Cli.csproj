@@ -13,7 +13,7 @@
     <PackageId>EzDbSchema.Cli</PackageId>
     <Title>EzDbSchema CLI Tool</Title>
     <Authors>Ricky Vega</Authors>
-    <Description>Command-line interface for EzDbSchema - Analyze database schemas, generate code, and export documentation</Description>
+    <Description>Command-line interface for EzDbSchema, providing database schema analysis and code generation capabilities from the command line.</Description>
     <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -22,10 +22,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <OutputPath>..\..\bin\$(Configuration)</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,9 +34,6 @@
     <None Remove="MySchemaName.db.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -53,13 +51,25 @@
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
   </ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <DebugType>portable</DebugType>
-	  <DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
     <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
 </Project>
