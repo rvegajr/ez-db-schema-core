@@ -64,3 +64,4 @@
     <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
   </ItemGroup>
 </Project>
+       

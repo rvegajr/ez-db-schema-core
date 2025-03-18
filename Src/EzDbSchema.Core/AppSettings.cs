@@ -1,11 +1,12 @@
-﻿using EzDbSchema.Core.Extentions.Json;
+using EzDbSchema.Core.Extentions.Json;
 using EzDbSchema.Core.Extentions.Strings;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Json;
-using JsonPair = System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>;
-using JsonPairEnumerable = System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, System.Json.JsonValue>>;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using JsonPair = System.Collections.Generic.KeyValuePair<string, System.Text.Json.Nodes.JsonNode>;
+using JsonPairEnumerable = System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, System.Text.Json.Nodes.JsonNode>>;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 [assembly: InternalsVisibleTo("EzDbSchema.Cli")]
@@ -35,25 +36,39 @@ namespace EzDbSchema.Internal
         {
             get
             {
-
                 if (instance == null)
                 {
                     var configFileName = "{ASSEMBLY_PATH}appsettings.json".ResolvePathVars();
                     try
                     {
-                        //Complete ghetto way to deal with working around a Newtonsoft JSON bug 
                         var appsettingsText = File.ReadAllText(configFileName);
-                        var items = JsonObject.Parse(appsettingsText);
+                        var jsonObject = JsonNode.Parse(appsettingsText)?.AsObject() 
+                            ?? throw new System.Text.Json.JsonException($"Failed to parse {configFileName} as JSON object");
+                        
                         instance = new AppSettings();
-                        foreach (JsonPair jp in items )
+                        foreach (var property in jsonObject)
                         {
-                            var p = instance.GetType().GetProperty(jp.Key);
-                            if (p != null) p.SetValue(instance, jp.Value.AsString());
+                            var propertyInfo = instance.GetType().GetProperty(property.Key);
+                            if (propertyInfo != null) 
+                            {
+                                var stringValue = property.Value?.GetValue<string>();
+                                if (propertyInfo.PropertyType == typeof(bool))
+                                {
+                                    if (bool.TryParse(stringValue, out bool boolValue))
+                                    {
+                                        propertyInfo.SetValue(instance, boolValue);
+                                    }
+                                }
+                                else
+                                {
+                                    propertyInfo.SetValue(instance, stringValue ?? "");
+                                }
+                            }
                         }
                     }
                     catch (System.Exception ex)
                     {
-                        throw new Exception(string.Format("Error while parsing {0}. {1}", configFileName, ex.Message), ex);
+                        throw new Exception($"Error while parsing {configFileName}. {ex.Message}", ex);
                     }
 				}
                 return instance;

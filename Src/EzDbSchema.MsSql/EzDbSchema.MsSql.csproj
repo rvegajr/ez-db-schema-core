@@ -1,35 +1,57 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>8.3.1</Version>
-    <ReleaseVersion>8.3.1</ReleaseVersion>
-    <AssemblyVersion>8.3.1.0</AssemblyVersion>
-    <FileVersion>8.3.1.0</FileVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>8.3.3</Version>
+    <ReleaseVersion>8.3.3</ReleaseVersion>
+    <AssemblyVersion>8.3.3.0</AssemblyVersion>
+    <FileVersion>8.3.3.0</FileVersion>
     <PackageId>EzDbSchema.MsSql</PackageId>
-    <Authors></Authors>
-    <Company></Company>
-    <Product></Product>
-    <Description></Description>
-    <Copyright></Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
-    <RepositoryType></RepositoryType>
-    <PackageTags></PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <Authors>EzDbSchema</Authors>
+    <Description>Microsoft SQL Server provider for EzDbSchema. Extract complete database schemas, detect patterns, and generate code from SQL Server databases.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core</RepositoryUrl>
+    <PackageTags>database;schema;sqlserver;code-generation;orm;api;dotnet;csharp</PackageTags>
+    <PackageReleaseNotes>Version 8.3.3 (2025-03-17):
+- Enhanced string extension methods for better .NET 8.0 compatibility
+- Improved handling of null inputs in string operations
+- Updated Microsoft.Extensions.* packages to 9.0.3
+- Updated Microsoft.Data.SqlClient to 6.0.1
+- Updated System.Text.Json to 9.0.3
+- Standardized on modern JSON libraries (System.Text.Json and Newtonsoft.Json)
+- Removed legacy .NET Framework dependencies
+- Security improvements through package updates</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>	
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <DebugType>portable</DebugType>
-	  <DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.3" />
+    <PackageReference Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
   </ItemGroup>

@@ -128,6 +128,17 @@ namespace EzDbSchema.Core.Interfaces
         bool TrackChanges { get; set; }
         bool AuditChanges { get; set; }
         string ChangeValidation { get; set; }
+
+        // Composite Key Support
+        /// <summary>
+        /// Gets or sets the collection of source properties for composite key relationships.
+        /// </summary>
+        IList<IProperty> FromProperties { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of target properties for composite key relationships.
+        /// </summary>
+        IList<IProperty> ToProperties { get; set; }
     }
 
 }

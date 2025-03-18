@@ -15,7 +15,8 @@ namespace EzDbSchema.Core.Objects
 
         public Relationship() : base()
         {
-
+            FromProperties = new List<IProperty>();
+            ToProperties = new List<IProperty>();
         }
         // Basic Properties
         public string ConstraintName { get; set; }
@@ -80,6 +81,10 @@ namespace EzDbSchema.Core.Objects
         public bool TrackChanges { get; set; }
         public bool AuditChanges { get; set; }
         public string ChangeValidation { get; set; }
+
+        // Composite Key Support
+        public IList<IProperty> FromProperties { get; set; }
+        public IList<IProperty> ToProperties { get; set; }
     }
 
 

@@ -61,6 +61,11 @@ namespace EzDbSchema.Core.Objects
         public string ConstraintName { get; set; } = "";
         
         /// <summary>
+        /// Gets or sets the foreign key name (alias for ConstraintName)
+        /// </summary>
+        public string ForeignKeyName => ConstraintName;
+        
+        /// <summary>
         /// Gets or sets the to table name
         /// </summary>
         public string ToTableName { get; set; } = "";
