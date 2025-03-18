@@ -5,6 +5,19 @@ All notable changes to EzDbSchema will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.4.1] - 2025-03-18
+
+### Changed
+- Simplified version management across the solution
+- Removed redundant version references from project files
+- Centralized package references in Directory.Build.props
+- Updated nuspec to use centralized version management
+- Removed legacy framework targets, focusing on .NET 8.0
+
+### Fixed
+- Fixed NuGet client version compatibility issues
+- Improved build configuration consistency
+
 ## [8.4.0] - 2025-03-17
 
 ### Changed

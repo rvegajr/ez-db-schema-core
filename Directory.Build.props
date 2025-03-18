@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <Version>8.4.0</Version>
-    <ReleaseVersion>8.4.0</ReleaseVersion>
-    <AssemblyVersion>8.4.0.0</AssemblyVersion>
-    <FileVersion>8.4.0.0</FileVersion>
-    <PackageVersion>8.4.0</PackageVersion>
-    <LangVersion>12.0</LangVersion>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Authors>EzDbSchema</Authors>
-    <Copyright>Copyright 2025 EzDbSchema</Copyright>
+    <Id>EzDbSchema</Id>
+    <Version>8.4.1</Version>
+    <MinClientVersion>6.11.1</MinClientVersion>
+    <Title>EzDbSchema - Easy Database Schema Reader</Title>
+    <Authors>Ricardo Vega Jr.</Authors>
+    <Owners>Ricardo Vega Jr.</Owners>
+    <PackageLicense>https://github.com/rvegajr/ez-db-schema-core/blob/master/LICENSE</PackageLicense>
     <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core</RepositoryUrl>
+    <Description>A class library that will read a database schema and return a simple object hierarchy.</Description>
+    <Tags>Database Schema SQL-Server</Tags>
+    <Summary>A class library that will read a database schema and return a simple object hierarchy.</Summary>
+    <Copyright>Noctusoft 2018-2025</Copyright>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>database schema code-generation sql-server</PackageTags>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PackageTags>database schema sql-server</PackageTags>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
+  <!-- Package Versions -->
   <PropertyGroup>
+    <!-- Core Dependencies -->
     <MicrosoftDataSqlClientVersion>6.0.1</MicrosoftDataSqlClientVersion>
     <MicrosoftExtensionsVersion>9.0.3</MicrosoftExtensionsVersion>
     <NewtonsoftJsonVersion>13.0.3</NewtonsoftJsonVersion>
     <SystemTextJsonVersion>9.0.3</SystemTextJsonVersion>
+
+    <!-- Test Dependencies -->
+    <MicrosoftNETTestSdkVersion>17.13.0</MicrosoftNETTestSdkVersion>
+    <XUnitVersion>2.9.3</XUnitVersion>
+    <XUnitAnalyzersVersion>1.10.0</XUnitAnalyzersVersion>
+    <XUnitRunnerVisualStudioVersion>3.0.2</XUnitRunnerVisualStudioVersion>
+    <CoverletCollectorVersion>6.0.4</CoverletCollectorVersion>
+    <MoqVersion>4.20.70</MoqVersion>
   </PropertyGroup>
 
+  <!-- Core Package References -->
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="$(MicrosoftDataSqlClientVersion)" />
+    <PackageReference Include="System.Text.Json" Version="$(SystemTextJsonVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" />
+  </ItemGroup>
+
+  <!-- Microsoft.Extensions.* Package References -->
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftExtensionsVersion)" />
@@ -44,7 +64,22 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="$(MicrosoftExtensionsVersion)" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="$(MicrosoftExtensionsVersion)" />
-    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" />
-    <PackageReference Include="System.Text.Json" Version="$(SystemTextJsonVersion)" />
+  </ItemGroup>
+
+  <!-- Test Package References -->
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(MicrosoftNETTestSdkVersion)" />
+    <PackageReference Include="xunit" Version="$(XUnitVersion)" />
+    <PackageReference Include="xunit.analyzers" Version="$(XUnitAnalyzersVersion)" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XUnitRunnerVisualStudioVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="$(CoverletCollectorVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="$(MoqVersion)" />
+    <Using Include="Xunit" />
   </ItemGroup>
 </Project>

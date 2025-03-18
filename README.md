@@ -18,13 +18,14 @@ A powerful .NET library that provides comprehensive database schema analysis and
   - Database contexts
   - Repository patterns
 - **Multi-Framework Support**: Compatible with .NET 8.0
-- **Version**: 8.4.0
+- **Version**: 8.4.1
 - **Optimized Package Management**: Centralized dependency management with Directory.Build.props
 - **Enhanced String Operations**: Improved string extension methods with better null handling
 - **Latest Dependencies**: 
-  - Microsoft.Extensions.* 9.0.3
   - Microsoft.Data.SqlClient 6.0.1
+  - Microsoft.Extensions.* 9.0.3
   - System.Text.Json 9.0.3
+  - Newtonsoft.Json 13.0.3
 
 ## License
 
@@ -205,6 +206,7 @@ This project is hosted and distributed via NuGet.org.
 * [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient/) - SQL Server data access
 * [Microsoft.Extensions.*](https://www.nuget.org/packages/Microsoft.Extensions.Configuration/) - Configuration and DI
 * [System.Text.Json](https://www.nuget.org/packages/System.Text.Json/) - JSON serialization
+* [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) - JSON serialization
 
 ## Contributing
 
@@ -228,6 +230,10 @@ Many thanks to the following projects that have helped in this project
 * McMaster.Extensions.CommandLineUtils
 
 ## Release Notes
+
+### V 8.4.1 (2025-02-27)
+- Updated version to 8.4.1
+- Aligned dependency list with current versions
 
 ### V 8.4.0 (2025-02-26)
 - Updated to target .NET 8.0
