@@ -1,12 +1,9 @@
-using EzDbSchema.Core.Extentions.Json;
 using EzDbSchema.Core.Extentions.Strings;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using JsonPair = System.Collections.Generic.KeyValuePair<string, System.Text.Json.Nodes.JsonNode>;
-using JsonPairEnumerable = System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, System.Text.Json.Nodes.JsonNode>>;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 [assembly: InternalsVisibleTo("EzDbSchema.Cli")]
@@ -14,64 +11,95 @@ using System.Runtime.CompilerServices;
 
 namespace EzDbSchema.Internal
 {
-	internal class AppSettings 
+    internal class AppSettings 
     {
-		/// <summary></summary>
-		public string ApplicationName { get; set; } = "";
-        /// <summary></summary>
-		public string ConnectionString { get; set; } = "";
-        /// <summary></summary>
-		public string SchemaName { get; set; } = "";
-        /// <summary></summary>
-		public string Version { get; set; } = "";
-		/// <summary></summary>
-		public bool VerboseMessages { get; set; } = false;
-        private static AppSettings instance;
-        
-		private AppSettings()
+        private static AppSettings _instance;
+        private readonly Dictionary<string, object> _settings;
+        private readonly string _settingsFile;
+
+        private AppSettings(string settingsFile)
         {
-			//_configuration = configuration;
+            _settingsFile = settingsFile;
+            _settings = new Dictionary<string, object>();
+            LoadSettings();
         }
+
         internal static AppSettings Instance
         {
             get
             {
-                if (instance == null)
+                var configFileName = "{ASSEMBLY_PATH}appsettings.json".ResolvePathVars();
+                return _instance ??= new AppSettings(configFileName);
+            }
+        }
+
+        public string ApplicationName { get; set; } = "";
+        public string ConnectionString { get; set; } = "";
+        public string SchemaName { get; set; } = "";
+        public string Version { get; set; } = "";
+        public bool VerboseMessages { get; set; } = false;
+
+        public T GetValue<T>(string key, T defaultValue = default)
+        {
+            if (_settings.TryGetValue(key, out var value))
+            {
+                if (value is JToken token)
                 {
-                    var configFileName = "{ASSEMBLY_PATH}appsettings.json".ResolvePathVars();
-                    try
+                    return token.ToObject<T>();
+                }
+                return (T)Convert.ChangeType(value, typeof(T));
+            }
+            return defaultValue;
+        }
+
+        public void SetValue<T>(string key, T value)
+        {
+            _settings[key] = value;
+            SaveSettings();
+        }
+
+        private void LoadSettings()
+        {
+            if (!File.Exists(_settingsFile)) return;
+
+            try
+            {
+                var json = File.ReadAllText(_settingsFile);
+                var settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                if (settings != null)
+                {
+                    foreach (var kvp in settings)
                     {
-                        var appsettingsText = File.ReadAllText(configFileName);
-                        var jsonObject = JsonNode.Parse(appsettingsText)?.AsObject() 
-                            ?? throw new System.Text.Json.JsonException($"Failed to parse {configFileName} as JSON object");
-                        
-                        instance = new AppSettings();
-                        foreach (var property in jsonObject)
-                        {
-                            var propertyInfo = instance.GetType().GetProperty(property.Key);
-                            if (propertyInfo != null) 
-                            {
-                                var stringValue = property.Value?.GetValue<string>();
-                                if (propertyInfo.PropertyType == typeof(bool))
-                                {
-                                    if (bool.TryParse(stringValue, out bool boolValue))
-                                    {
-                                        propertyInfo.SetValue(instance, boolValue);
-                                    }
-                                }
-                                else
-                                {
-                                    propertyInfo.SetValue(instance, stringValue ?? "");
-                                }
-                            }
-                        }
+                        _settings[kvp.Key] = kvp.Value;
                     }
-                    catch (System.Exception ex)
-                    {
-                        throw new Exception($"Error while parsing {configFileName}. {ex.Message}", ex);
-                    }
-				}
-                return instance;
+                    ApplicationName = GetValue<string>("ApplicationName");
+                    ConnectionString = GetValue<string>("ConnectionString");
+                    SchemaName = GetValue<string>("SchemaName");
+                    Version = GetValue<string>("Version");
+                    VerboseMessages = GetValue<bool>("VerboseMessages");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error while parsing {_settingsFile}. {ex.Message}", ex);
+            }
+        }
+
+        private void SaveSettings()
+        {
+            try
+            {
+                SetValue("ApplicationName", ApplicationName);
+                SetValue("ConnectionString", ConnectionString);
+                SetValue("SchemaName", SchemaName);
+                SetValue("Version", Version);
+                SetValue("VerboseMessages", VerboseMessages);
+                var json = JsonConvert.SerializeObject(_settings, Formatting.Indented);
+                File.WriteAllText(_settingsFile, json);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error while saving {_settingsFile}. {ex.Message}", ex);
             }
         }
     }

@@ -8,6 +8,7 @@
 	<ReleaseVersion>8.3.1</ReleaseVersion>
 	<AssemblyVersion>8.3.1.0</AssemblyVersion>
 	<FileVersion>8.3.1.0</FileVersion>
+    <Description>Tests for EzDbSchema core and providers.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,15 +23,18 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	<PackageReference Include="System.Json" Version="4.8.0" />
-	<PackageReference Include="Json.Comparer.Core" Version="0.6.9" />
-    <PackageReference Include="MartinCostello.SqlLocalDb" Version="3.4.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-    <PackageReference Include="xunit" Version="2.9.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
-      <PrivateAssets>all</PrivateAssets>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Json.Comparer.Core" Version="0.6.9" />
+    <PackageReference Include="MartinCostello.SqlLocalDb" Version="3.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="System.Json" Version="4.8.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 

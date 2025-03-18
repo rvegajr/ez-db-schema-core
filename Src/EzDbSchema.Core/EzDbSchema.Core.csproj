@@ -1,59 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <LangVersion>12.0</LangVersion>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Version>8.3.3</Version>
-    <ReleaseVersion>8.3.3</ReleaseVersion>
-    <AssemblyVersion>8.3.3.0</AssemblyVersion>
-    <FileVersion>8.3.3.0</FileVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>A powerful .NET library for database schema analysis and code generation. Extract complete database schemas, detect patterns, generate dependency graphs, and scaffold code.</Description>
-    <PackageProjectUrl>https://github.com/rvegajr/ez-db-schema-core</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rvegajr/ez-db-schema-core</RepositoryUrl>
-    <PackageTags>database;schema;code-generation;orm;api;dotnet;csharp</PackageTags>
-    <PackageReleaseNotes>Version 8.3.3 (2025-03-17):
-- Enhanced string extension methods for better .NET 8.0 compatibility
-- Improved handling of null inputs in string operations
-- Updated Microsoft.Extensions.* packages to 9.0.3
-- Updated Microsoft.Data.SqlClient to 6.0.1
-- Updated System.Text.Json to 9.0.3
-- Standardized on modern JSON libraries (System.Text.Json and Newtonsoft.Json)
-- Removed legacy .NET Framework dependencies
-- Security improvements through package updates</PackageReleaseNotes>
+    <Description>Core library for database schema management and code generation.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>EzDbSchema</PackageId>
-    <Authors>EzDbSchema</Authors>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <OutputPath>..\..\bin\$(Configuration)</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/" />
-  </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>
 </Project>

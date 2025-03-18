@@ -4,6 +4,7 @@ using System.IO;
 using EzDbSchema.Core;
 using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
+using EzDbSchema.Core.Extentions;
 using EzDbSchema.Internal;
 using EzDbSchema.MsSql;
 using Json.Comparer;
@@ -81,6 +82,5 @@ namespace EzDbSchema.Tests
                 Assert.Fail(ex.ToString());
             }
         }
-
     }
 }

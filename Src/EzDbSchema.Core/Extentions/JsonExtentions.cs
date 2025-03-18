@@ -1,27 +1,37 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
+using System;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 [assembly: InternalsVisibleTo("EzDbSchema.MsSql")]
 [assembly: InternalsVisibleTo("EzDbCodeGen.Core")]
 
 namespace EzDbSchema.Core.Extentions.Json
 {
-    internal static class JsonExtensions
+    public static class JsonExtensions
     {
-        private const string DOUBLE_QUOTE_SUB = @"_$$_";
-        private const string DOUBLE_QUOTE = @"""""";
-        private const string DOUBLE_SLASH = @"\\";
-
-        internal static string AsString(this JsonNode? node)
+        public static string AsString(this object obj)
         {
-            if (node == null) return string.Empty;
-            
-            var jsonString = node.ToJsonString();
-            return jsonString
-                .Replace(DOUBLE_QUOTE, DOUBLE_QUOTE_SUB)
-                .Replace("\"", "")
-                .Replace(DOUBLE_QUOTE_SUB, "\"")
-                .Replace(DOUBLE_SLASH, @"\");
+            if (obj == null) return string.Empty;
+            return JsonConvert.SerializeObject(obj, Formatting.Indented);
+        }
+
+        public static T FromJson<T>(this string json) where T : class
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public static JObject ToJObject(this string json)
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            return JObject.Parse(json);
+        }
+
+        public static JArray ToJArray(this string json)
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            return JArray.Parse(json);
         }
     }
 }

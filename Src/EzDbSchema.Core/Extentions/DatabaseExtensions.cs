@@ -1,8 +1,10 @@
 using EzDbSchema.Core.Interfaces;
 using EzDbSchema.Core.Objects;
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EzDbSchema.Core.Extentions
 {
@@ -11,6 +13,36 @@ namespace EzDbSchema.Core.Extentions
     /// </summary>
     public static class DatabaseExtensions
     {
+        /// <summary>
+        /// Saves the database to a JSON file.
+        /// </summary>
+        /// <param name="database">The database to save.</param>
+        /// <param name="fileName">The path to the output JSON file.</param>
+        /// <exception cref="ArgumentNullException">Thrown when database or fileName is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when fileName is empty or whitespace.</exception>
+        public static void ToJsonFile(this IDatabase database, string fileName)
+        {
+            if (database == null)
+            {
+                throw new ArgumentNullException(nameof(database));
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentException("File name cannot be null or whitespace.", nameof(fileName));
+            }
+
+            var settings = new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented
+            };
+
+            var json = JsonConvert.SerializeObject(database, settings);
+            File.WriteAllText(fileName, json);
+        }
+
         /// <summary>
         /// Rebuilds all relationship pointers in the database
         /// </summary>

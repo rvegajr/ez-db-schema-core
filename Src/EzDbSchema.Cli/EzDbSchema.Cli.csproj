@@ -21,6 +21,7 @@
     <PackageReleaseNotes>Added comprehensive CLI tool for database schema analysis and code generation</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,19 +50,16 @@
     <Compile Remove="CommandSample.cs" />
     <Compile Remove="CommandSchemaDump.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
+  </ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DebugType>portable</DebugType>
 	  <DebugSymbols>true</DebugSymbols>
 	</PropertyGroup>
   
   <ItemGroup>
-	<PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Json" Version="4.8.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\EzDbSchema.Core\EzDbSchema.Core.csproj" />
     <ProjectReference Include="..\EzDbSchema.MsSql\EzDbSchema.MsSql.csproj" />
   </ItemGroup>
 </Project>
-       

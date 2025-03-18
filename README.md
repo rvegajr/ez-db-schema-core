@@ -17,8 +17,14 @@ A powerful .NET library that provides comprehensive database schema analysis and
   - API controllers
   - Database contexts
   - Repository patterns
-- **Multi-Framework Support**: Compatible with .NET Standard 2.1, .NET 6.0, 7.0, and 8.0
-- **Version**: 8.3.1
+- **Multi-Framework Support**: Compatible with .NET 8.0
+- **Version**: 8.4.0
+- **Optimized Package Management**: Centralized dependency management with Directory.Build.props
+- **Enhanced String Operations**: Improved string extension methods with better null handling
+- **Latest Dependencies**: 
+  - Microsoft.Extensions.* 9.0.3
+  - Microsoft.Data.SqlClient 6.0.1
+  - System.Text.Json 9.0.3
 
 ## License
 
@@ -77,14 +83,13 @@ AI models can leverage this documentation to:
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.  
 
 ### Prerequisites
-You will need MSSQL with some database installed.  If you need a sample database,  feel free to look for the [World Wide Importers](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0) samples.
-
-### Using this project:
+You will need MSSQL with some database installed. If you need a sample database, feel free to look for the [World Wide Importers](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0) samples.
 
 ### Installation
 
 ```bash
 Install-Package EzDbSchema.Core
+Install-Package EzDbSchema.MsSql # For SQL Server support
 ```
 
 ### Basic Usage
@@ -115,7 +120,7 @@ var dependencies = codeGen.DependencyGraph;
 var schema = new EzDbSchema.MsSql.Database().Render("MySchema", connectionString);
 
 // Dump schema to JSON (useful for Handlebars template development)
-var schemaJson = Newtonsoft.Json.JsonConvert.SerializeObject(schema, Newtonsoft.Json.Formatting.Indented);
+var schemaJson = System.Text.Json.JsonSerializer.Serialize(schema, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
 File.WriteAllText("schema.json", schemaJson);
 
 // Available Schema Properties:
@@ -192,15 +197,18 @@ This will generate `MySchema.db.json` with the complete schema analysis.
 
 ## Deployment
 
-This project was design to be hosted and distributed with nuget.com.
+This project is hosted and distributed via NuGet.org.
 
 ## Built With
 
-* [.net core](https://www.microsoft.com/net/learn/get-started) - The framework used
+* [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0) - The framework used
+* [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient/) - SQL Server data access
+* [Microsoft.Extensions.*](https://www.nuget.org/packages/Microsoft.Extensions.Configuration/) - Configuration and DI
+* [System.Text.Json](https://www.nuget.org/packages/System.Text.Json/) - JSON serialization
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/rvegajr/651875c08acb76009e563db128f33e7e) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -221,10 +229,15 @@ Many thanks to the following projects that have helped in this project
 
 ## Release Notes
 
-### V 8.3.1 (2025-02-26)
+### V 8.4.0 (2025-02-26)
 - Updated to target .NET 8.0
 - Fixed RelationshipMultiplicityType enum ordering
 - Improved nullable reference type handling
+- Updated dependencies and versions
+- Improved package management section
+- Updated code examples to use System.Text.Json
+- Removed .NET Standard 2.1, .NET 6.0, and 7.0 references
+- Added specific package versions in Built With section
 
 ### V 8.1.0
 - Nuget package upgrades, updated to .NET 8.0
